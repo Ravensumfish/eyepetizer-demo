@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.utils"
+    namespace = "com.example.ui"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.utils"
+        applicationId = "com.example.ui"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -40,7 +40,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
-
-
-
 }
