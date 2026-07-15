@@ -13,9 +13,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 //传入数据类型，rv布局 R.layout.xxx
-abstract  class BaseRvAdapter<T>(
-    private val layoutResId : Int,
-    private val onItemClick : ((position : Int,item:View)-> Unit)? = null)
+abstract  class BaseRvAdapter<T>(private val layoutResId : Int)
     : RecyclerView.Adapter<BaseRvAdapter<T>.BaseRvViewHolder>(){
 
     private val data = mutableListOf<T>()
@@ -48,7 +46,7 @@ abstract  class BaseRvAdapter<T>(
         return data.size
     }
 
-
+    private val onItemClick : ((position : Int,item:View)-> Unit)? = null
     //子类去实现具体绑定逻辑
  open inner class BaseRvViewHolder(item: View): RecyclerView.ViewHolder(item){
 
