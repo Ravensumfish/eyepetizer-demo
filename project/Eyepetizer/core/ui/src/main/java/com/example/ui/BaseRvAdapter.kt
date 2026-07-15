@@ -40,10 +40,9 @@ abstract  class BaseRvAdapter<T>(
 
     //子类去实现具体绑定逻辑
     //如
+    //val item = data[position]
     //holder.content.text = item.content (对应控件id)
-    override fun onBindViewHolder(holder: BaseRvViewHolder, position: Int) {
-        val item = data[position]
-    }
+    abstract override fun onBindViewHolder(holder: BaseRvViewHolder, position: Int)
 
     override fun getItemCount(): Int {
         return data.size
