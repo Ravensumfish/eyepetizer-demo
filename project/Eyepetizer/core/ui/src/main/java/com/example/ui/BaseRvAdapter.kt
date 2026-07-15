@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 //传入数据类型，rv布局 R.layout.xxx
-open class BaseRvAdapter<T>(
+abstract  class BaseRvAdapter<T>(
     private val layoutResId : Int,
     private val onItemClick : ((position : Int,item:View)-> Unit)? = null)
     : RecyclerView.Adapter<BaseRvAdapter<T>.BaseRvViewHolder>(){
@@ -51,7 +51,7 @@ open class BaseRvAdapter<T>(
 
 
     //子类去实现具体绑定逻辑
- inner class BaseRvViewHolder(item: View): RecyclerView.ViewHolder(item){
+ open inner class BaseRvViewHolder(item: View): RecyclerView.ViewHolder(item){
 
         init {
             item.setOnClickListener {
