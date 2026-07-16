@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 abstract  class BaseRvAdapter<T>(private val layoutResId : Int)
     : RecyclerView.Adapter<BaseRvAdapter<T>.BaseRvViewHolder>(){
 
-    private val data = mutableListOf<T>()
+    protected val data = mutableListOf<T>()
 
     //用于提交更新后的rv列表
     //使用 submitList 传入数据列表才能刷新rv
@@ -40,13 +40,14 @@ abstract  class BaseRvAdapter<T>(private val layoutResId : Int)
     //如
     //val item = data[position]
     //holder.content.text = item.content (对应控件id)
+    //使用holder时需要强转为子类holder类，如 holder as SearchLabelViewHolder
     abstract override fun onBindViewHolder(holder: BaseRvViewHolder, position: Int)
 
     override fun getItemCount(): Int {
         return data.size
     }
 
-    private val onItemClick : ((position : Int,item:View)-> Unit)? = null
+    protected val onItemClick : ((position : Int,item:View)-> Unit)? = null
     //子类去实现具体绑定逻辑
     open inner class BaseRvViewHolder(item: View): RecyclerView.ViewHolder(item){
 
