@@ -111,7 +111,7 @@ projectBase = [
     "android-lifecycle-process",
 
     "glide",
-    "gsy-video-player ",
+    "gsy-video-player",
 
 
 ]
