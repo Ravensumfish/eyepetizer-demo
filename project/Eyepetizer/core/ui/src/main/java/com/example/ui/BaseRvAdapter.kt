@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 //传入数据类型，rv布局 R.layout.xxx
-abstract  class BaseRvAdapter<T>(private val layoutResId : Int)
+abstract  class BaseRvAdapter<T>()
     : RecyclerView.Adapter<BaseRvAdapter<T>.BaseRvViewHolder>(){
 
     protected val data = mutableListOf<T>()
@@ -26,21 +26,17 @@ abstract  class BaseRvAdapter<T>(private val layoutResId : Int)
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(
+    //这里子类设置布局文件
+    abstract override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseRvViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(layoutResId,parent,false)
-        return BaseRvViewHolder(view)
-
-    }
+    ): BaseRvViewHolder
 
     //子类去实现具体绑定逻辑
     //如
     //val item = data[position]
     //holder.content.text = item.content (对应控件id)
-    //使用holder时需要强转为子类holder类，如 holder as SearchLabelViewHolder
+
     abstract override fun onBindViewHolder(holder: BaseRvViewHolder, position: Int)
 
     override fun getItemCount(): Int {

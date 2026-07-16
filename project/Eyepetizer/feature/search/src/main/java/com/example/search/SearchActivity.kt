@@ -12,6 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.search.adapter.SearchLabelRvAdapter
 import com.example.search.databinding.ActivitySearchBinding
 import com.example.search.ui.theme.EyepetizerTheme
 
@@ -19,6 +21,10 @@ import com.example.search.ui.theme.EyepetizerTheme
 class SearchActivity : ComponentActivity() {
 
     lateinit var binding: ActivitySearchBinding
+
+    private  val recordAdapter : SearchLabelRvAdapter = SearchLabelRvAdapter()
+    private  val recommendAdapter : SearchLabelRvAdapter = SearchLabelRvAdapter()
+    //private val lbAdapter : SearchLabelRvAdapter =
 
 
 
@@ -31,8 +37,28 @@ class SearchActivity : ComponentActivity() {
 
     }
 
+    fun initRv(){
+        binding.rvRecord.layoutManager = GridLayoutManager(this,3)
+        binding.rvRecommend.layoutManager = GridLayoutManager(this,3)
+        binding.rvRecord.adapter = recordAdapter
+        binding.rvRecommend.adapter = recommendAdapter
+
+    }
+
+    fun initData(){
+        val data = mutableListOf<String>().apply {
+            repeat(10){
+                add("test-> item$it")
+            }
+        }
+
+        recordAdapter.submitList(data)
+    }
 
     fun init(){
+        initRv()
+        initData()
+
 
     }
 }
