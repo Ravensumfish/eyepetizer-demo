@@ -48,7 +48,7 @@ abstract  class BaseRvAdapter<T>(private val layoutResId : Int)
 
     private val onItemClick : ((position : Int,item:View)-> Unit)? = null
     //子类去实现具体绑定逻辑
- open inner class BaseRvViewHolder(item: View): RecyclerView.ViewHolder(item){
+    open inner class BaseRvViewHolder(item: View): RecyclerView.ViewHolder(item){
 
         init {
             item.setOnClickListener {

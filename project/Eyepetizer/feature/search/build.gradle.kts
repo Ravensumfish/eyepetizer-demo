@@ -34,10 +34,17 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 }
 
+val isBuildModule = true
+
 dependencies {
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

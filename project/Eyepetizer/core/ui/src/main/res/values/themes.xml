@@ -4,9 +4,14 @@
     <style name="Theme.Eyepetizer" parent="android:Theme.Material.Light.NoActionBar" />
 
     <style name="SearchViewStyle"
-        parent="Widget.AppCompat.SearchView"
-        >
+        parent="Widget.AppCompat.SearchView">
         <item name="android:textColorHint">@color/gray</item>
+
+    </style>
+
+    <style name="EditViewStyle"
+        parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">@color/black</item>
 
     </style>
 </resources>
