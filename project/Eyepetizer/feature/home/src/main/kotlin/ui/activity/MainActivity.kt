@@ -28,7 +28,7 @@ class MainActivity :  AppCompatActivity() {
 
         navController = findNavController(R.id.nav_host_fragment)
 
-        val bottomBar = binding.includeBottomBar.bottomNavBar
+        val bottomBar = binding.bottomBar
         bottomBar.setDefaultPage()
         bottomBar.setSelectListener { pos ->
             navController.navigate(navIds[pos])

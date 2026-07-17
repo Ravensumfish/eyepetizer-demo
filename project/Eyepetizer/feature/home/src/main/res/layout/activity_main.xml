@@ -17,11 +17,13 @@
 
 
 
-    <include
-        android:id="@+id/includeBottomBar"
-        layout="@layout/view_bottom_navigationbar">
+    <ui.widget.BottomNavigationBarView
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </include>
+
 
 
 </LinearLayout>

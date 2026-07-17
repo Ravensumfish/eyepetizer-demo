@@ -7,7 +7,12 @@ import android.view.View
 import android.widget.LinearLayout
 import com.example.home.databinding.ViewBottomNavigationbarBinding
 
-class BottomNavigationBarView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+class BottomNavigationBarView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
+
     private val binding: ViewBottomNavigationbarBinding
 
     var onSelectListener: OnSelectListener? = null
@@ -76,8 +81,12 @@ class BottomNavigationBarView(context: Context?, attrs: AttributeSet?) : LinearL
         fun onSelected(pos: Int)
     }
 
-    fun setSelectListener(onSelectListener: OnSelectListener) {
-        this.onSelectListener = onSelectListener
+    fun setSelectListener(block: (Int) -> Unit) {
+        this.onSelectListener = object : OnSelectListener {
+            override fun onSelected(pos: Int) {
+                block(pos)
+            }
+        }
     }
 
 
