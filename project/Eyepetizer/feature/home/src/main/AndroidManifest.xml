@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".MainActivity"
             android:launchMode="singleTask"
             android:exported="true"
             tools:ignore="MissingClass" />

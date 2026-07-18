@@ -1,4 +1,4 @@
-package ui.widget
+package com.example.home
 
 import android.content.Context
 import android.util.AttributeSet
@@ -32,24 +32,24 @@ class BottomNavigationBarView @JvmOverloads constructor(
 
             when (clickedFl) {
                 binding.flHome -> {
-                    binding.ivHome.visibility = View.VISIBLE
-                    binding.tvHome.visibility = View.GONE
+                    binding.ivHome.visibility = VISIBLE
+                    binding.tvHome.visibility = GONE
                     onSelectListener?.onSelected(0)
                 }
                 binding.flDaily -> {
-                    binding.ivDaily.visibility = View.VISIBLE
-                    binding.tvDaily.visibility = View.GONE
+                    binding.ivDaily.visibility = VISIBLE
+                    binding.tvDaily.visibility = GONE
                     onSelectListener?.onSelected(1)
                 }
 
                 binding.flFind -> {
-                    binding.ivFind.visibility = View.VISIBLE
-                    binding.tvFind.visibility = View.GONE
+                    binding.ivFind.visibility = VISIBLE
+                    binding.tvFind.visibility = GONE
                     onSelectListener?.onSelected(2)
                 }
                 binding.flMine -> {
-                    binding.ivMine.visibility = View.VISIBLE
-                    binding.tvMine.visibility = View.GONE
+                    binding.ivMine.visibility = VISIBLE
+                    binding.tvMine.visibility = GONE
                     onSelectListener?.onSelected(3)
                 }
             }
@@ -58,14 +58,14 @@ class BottomNavigationBarView @JvmOverloads constructor(
 
     //重置所有按钮选中状态
     private fun resetBtnState() {
-        binding.ivHome.visibility = View.GONE
-        binding.tvHome.visibility = View.VISIBLE
-        binding.ivDaily.visibility =  View.GONE
-        binding.tvDaily.visibility = View.VISIBLE
-        binding.ivFind.visibility =  View.GONE
-        binding.tvFind.visibility = View.VISIBLE
-        binding.ivMine.visibility =  View.GONE
-        binding.tvMine.visibility = View.VISIBLE
+        binding.ivHome.visibility = GONE
+        binding.tvHome.visibility = VISIBLE
+        binding.ivDaily.visibility = GONE
+        binding.tvDaily.visibility = VISIBLE
+        binding.ivFind.visibility = GONE
+        binding.tvFind.visibility = VISIBLE
+        binding.ivMine.visibility = GONE
+        binding.tvMine.visibility = VISIBLE
     }
 
     //默认选中首页
