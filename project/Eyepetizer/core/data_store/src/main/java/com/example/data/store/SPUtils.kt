@@ -16,6 +16,9 @@ object SPUtils {
             SP_NAME, Context.MODE_PRIVATE
         )
     }
+    fun getSPContext() : Context?{
+        return appContext
+    }
 
     fun init(context: Context) {
         appContext = context.applicationContext
