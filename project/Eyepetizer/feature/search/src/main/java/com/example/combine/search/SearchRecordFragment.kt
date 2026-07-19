@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.data.store.SPUtils
 import com.example.combine.search.adapter.SearchLabelRvAdapter
 import com.example.combine.ranking.adapter.RankRvAdapter
+import com.example.combine.search.adapter.RankPreviewAdapter
 import com.example.search.databinding.FragmentSearchRecordBinding
 
 class SearchRecordFragment: Fragment() {
@@ -19,7 +20,7 @@ class SearchRecordFragment: Fragment() {
     lateinit var binding: FragmentSearchRecordBinding
     private  val recordAdapter : SearchLabelRvAdapter = SearchLabelRvAdapter()
     private  val recommendAdapter : SearchLabelRvAdapter = SearchLabelRvAdapter()
-    private val rankAdapter : RankRvAdapter = RankRvAdapter()
+    private val rankAdapter : RankPreviewAdapter = RankPreviewAdapter()
     private val viewModel : SearchViewModel by activityViewModels()
 
     private var labelClickCallBack : LabelClickCallBack? =null
@@ -54,6 +55,7 @@ class SearchRecordFragment: Fragment() {
 
     fun initEvent(){
         clickItem()
+        clickRankPreview()
         clickDeleteRecord()
     }
 
@@ -132,5 +134,10 @@ class SearchRecordFragment: Fragment() {
         }
     }
 
+    fun clickRankPreview(){
+        binding.cdSearchRk.setOnClickListener {
+            rankClickCallBack?.rankPreviewClick()
+        }
+    }
 
 }

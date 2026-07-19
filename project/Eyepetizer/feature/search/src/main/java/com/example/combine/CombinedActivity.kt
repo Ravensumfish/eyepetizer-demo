@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.combine.ranking.RankListFragment
+import com.example.combine.ranking.RankViewModel
 import com.example.data.store.SPUtils
 import com.example.combine.search.LabelClickCallBack
 import com.example.combine.search.RankClickCallBack
@@ -29,7 +30,8 @@ import com.example.search.databinding.ActivityCombinedBinding
 class CombinedActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityCombinedBinding
-    private val viewModel: SearchViewModel by viewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
+    private val rankViewModel: RankViewModel by viewModels()
 
     lateinit var recordFragment: SearchRecordFragment
     lateinit var resultFragment: SearchResultFragment
@@ -85,7 +87,7 @@ class CombinedActivity : AppCompatActivity() {
 
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (p0!=null) {
-                    viewModel.setQuery(p0)
+                    searchViewModel.setQuery(p0)
                     showFragment(resultFragment)
                     addRecord(p0)
                 }
@@ -98,6 +100,7 @@ class CombinedActivity : AppCompatActivity() {
     fun toRanking(){
        recordFragment.setRankClickCallBack(object : RankClickCallBack {
            override fun rankPreviewClick() {
+               Log.d("TAG", "rankPreviewClick: 点击了周排行预览！")
                binding.searchView.visibility = View.GONE
                showFragment(rankFragment)
            }
@@ -109,7 +112,7 @@ class CombinedActivity : AppCompatActivity() {
         recordList = set.toMutableList()
         recordList.add(s)
         SPUtils.putStringSet("record",recordList)
-        viewModel.loadRecord()
+        searchViewModel.loadRecord()
     }
 
     fun getQueryFromFragment(){
@@ -119,9 +122,6 @@ class CombinedActivity : AppCompatActivity() {
             }
         })
     }
-
-
-
 
 
 }
