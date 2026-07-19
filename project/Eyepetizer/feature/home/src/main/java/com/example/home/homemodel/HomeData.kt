@@ -1,4 +1,10 @@
-package com.example.home.model
+package com.example.home.homemodel
+
+/**
+ * @Desc : 首页视频数据类
+ * @Author : zjl
+ * @Date : 2026/7/18 11:19
+ */
 
 data class HomeData(
     val adExist: Boolean,
@@ -58,11 +64,11 @@ data class Data(
     val recallSource: String,
     val recall_source: String,
     val releaseTime: Long,
-    val remark: String,
+    val remark: Any,
     val resourceType: String,
     val searchWeight: Int,
     val shareAdTrack: Any,
-    val slogan: String,
+    val slogan: Any,
     val src: Int,
     val subTitle: Any,
     val subtitles: List<Any?>,

@@ -1,16 +1,20 @@
-package com.example.home.model
+package com.example.home.viewmodel
+
+/**
+ * @Desc : 首页的ViewModel
+ * @Author : zjl
+ * @Date : 2026/7/18 15:00
+ */
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
-
+import com.example.home.homemodel.Data
+import com.example.home.homemodel.HomeData
 import com.example.home.repository.NetRepository
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
-import com.example.home.model.HomeData
 
 class HomeViewModel : ViewModel() {
     private val repository = NetRepository()
@@ -35,7 +39,7 @@ class HomeViewModel : ViewModel() {
     val isLoadMore: LiveData<Boolean>
         get() = _isLoadMore
 
-    var nextUrlPager = ""
+    var nextPageUrl = ""
 
     fun getHomeVideos() {
         _isRefreshing.value = true
@@ -50,9 +54,13 @@ class HomeViewModel : ViewModel() {
                 override fun onComplete() {}
 
                 override fun onNext(t: HomeData) {
-                    _moreVideos.postValue(t)
-                    _videoTotalList.postValue(t.itemList.map { it.data }.toMutableList())
-                    nextUrlPager = t.nextPageUrl
+                    _homeVideos.postValue(t)
+                    _videoTotalList.postValue(t.itemList
+                        .map { it.data }
+                        .filter { it.dataType=="VideoBeanForClient" }
+                        .toMutableList())
+                    nextPageUrl = t.nextPageUrl
+                    Log.d("HomeViewModel","网络请求成功")
                     _isRefreshing.value = false
                 }
             })
@@ -65,7 +73,7 @@ class HomeViewModel : ViewModel() {
                 override fun onSubscribe(d: Disposable) {}
 
                 override fun onError(e: Throwable) {
-                    Log.d("MainViewModel", "错误：${e.message}")
+                    Log.d("HomeViewModel", "错误：${e.message}")
                 }
 
                 override fun onComplete() {}
@@ -75,14 +83,15 @@ class HomeViewModel : ViewModel() {
 
                     //合并列表
                     val currentList = _videoTotalList.value?.toMutableList() ?: mutableListOf()
-                    currentList.addAll(t.itemList.map { it.data })
+                    currentList.addAll(t.itemList
+                        .map { it.data }
+                        .filter { it.dataType=="VideoBeanForClient" })
                     _videoTotalList.postValue(currentList)
-                    nextUrlPager=t.nextPageUrl
+                    nextPageUrl=t.nextPageUrl
                     _isLoadMore.value = false
                 }
             })
     }
-
 
     //下拉刷新
     fun refresh() {
@@ -92,16 +101,17 @@ class HomeViewModel : ViewModel() {
 
     //加载更多
     fun loadMore() {
+        Log.e("分页地址",nextPageUrl)
         if (_isLoadMore.value == true) return
         _isLoadMore.value = true
 
-        val lastDate = _videoTotalList.value?.lastOrNull()?.actionUrl
-        if (lastDate.isNullOrBlank()) {
+        val nextUrl = _videoTotalList.value?.lastOrNull()?.actionUrl
+        if (nextUrl.isNullOrBlank()) {
             _isLoadMore
                 .value = false
             return
         }
-        getMoreVideos(nextUrlPager)
+        getMoreVideos(nextUrl)
 
     }
 }

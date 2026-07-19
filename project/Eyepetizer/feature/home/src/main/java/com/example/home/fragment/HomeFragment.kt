@@ -1,12 +1,10 @@
 package com.example.home.fragment
 
 import androidx.fragment.app.Fragment
-import com.example.home.model.HomeViewModel
+import com.example.home.viewmodel.HomeViewModel
 import com.example.home.adapter.HomeVideoAdapter
-import com.example.home.model.HomeData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.home.databinding.FragmentHomeBinding
 
 import android.os.Bundle
@@ -41,6 +39,7 @@ class HomeFragment : Fragment() {
         binding.rvHome.layoutManager = LinearLayoutManager(context)
         binding.rvHome.adapter = adapter
 
+
         // 下拉刷新
         binding.swipeRefresh.setOnRefreshListener {
             vm.refresh()
@@ -60,6 +59,7 @@ class HomeFragment : Fragment() {
         vm.isRefreshing.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it
         }
+        vm.getHomeVideos()
     }
 
     override fun onDestroyView() {

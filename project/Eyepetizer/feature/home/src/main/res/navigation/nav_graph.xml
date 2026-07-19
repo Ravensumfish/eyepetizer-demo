@@ -6,19 +6,19 @@
 
     <fragment
         android:id="@+id/fragment_home"
-        android:name="ui.fragment.HomeFragment"/>
+        android:name="com.example.home.fragment.HomeFragment"/>
 
     <fragment
         android:id="@+id/fragment_daily"
-        android:name="ui.fragment.DailyFragment"/>
+        android:name="com.example.home.fragment.DailyFragment"/>
 
     <fragment
         android:id="@+id/fragment_find"
-        android:name="ui.fragment.FindFragment"/>
+        android:name="com.example.home.fragment.FindFragment"/>
 
     <fragment
         android:id="@+id/fragment_mine"
-        android:name="ui.fragment.MineFragment"/>
+        android:name="com.example.home.fragment.MineFragment"/>
 
 
 </navigation>

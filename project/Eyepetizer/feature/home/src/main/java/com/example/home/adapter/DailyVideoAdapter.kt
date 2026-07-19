@@ -1,11 +1,5 @@
 package com.example.home.adapter
 
-/**
- * @Desc : 首页视频列表的adapter
- * @Author : zjl
- * @Date : 2026/7/18 15:26
- */
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -13,10 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.home.databinding.ItemVideoBinding
-import com.example.home.homemodel.Data
+import com.example.home.dailymodel.Data
 
 
-class HomeVideoAdapter : ListAdapter<Data, HomeVideoAdapter.VideoViewHolder>(VideoDiffCallback()) {
+class DailyVideoAdapter : ListAdapter<Data, DailyVideoAdapter.VideoViewHolder>(VideoDiffCallback()) {
 
     var onLoadMore:(()-> Unit)?=null
     var onVideoClick: ((Data) -> Unit)? = null
@@ -99,4 +93,3 @@ class HomeVideoAdapter : ListAdapter<Data, HomeVideoAdapter.VideoViewHolder>(Vid
         }
     }
 }
-
