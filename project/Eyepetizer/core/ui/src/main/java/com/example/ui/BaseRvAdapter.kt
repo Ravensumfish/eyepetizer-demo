@@ -7,6 +7,7 @@
 
 package com.example.ui
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +51,8 @@ abstract  class BaseRvAdapter<T>()
         init {
             item.setOnClickListener {
                 val pos = adapterPosition
-                if (pos != RecyclerView.NO_POSITION){
+                Log.d("TAG", "baseAdapter:点击事件，pos=$pos")
+                if (pos != RecyclerView.NO_POSITION && data[pos]!= null){
                     onItemClick?.invoke(pos, data[pos])
                 }
             }
