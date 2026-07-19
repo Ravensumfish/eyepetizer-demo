@@ -4,22 +4,37 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:orientation="horizontal"
     android:layout_marginBottom="15dp"
+    android:clickable="true"
+    android:descendantFocusability="blocksDescendants"
+    android:focusable="true"
+    android:orientation="horizontal"
     android:padding="5dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="330dp"
         android:layout_height="110dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:elevation="8dp"
+                android:src="@drawable/baseline_arrow_right_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/img_search_result_video"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/img_search_result_video" />
 
             <ImageView
                 android:id="@+id/img_search_result_video"
                 android:layout_width="170dp"
                 android:layout_height="match_parent"
                 android:src="@color/gray"
+                android:alpha="0.8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -30,12 +45,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
-                android:maxLines="2"
                 android:lineSpacingMultiplier="1.2"
+                android:maxLines="2"
                 android:text="title"
+                android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.35"
                 app:layout_constraintStart_toEndOf="@+id/img_search_result_video"
@@ -45,6 +60,9 @@
                 android:id="@+id/btn_search_result_duration"
                 android:layout_width="40dp"
                 android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="5dp"
+                android:backgroundTint="@color/gray1"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:paddingStart="0dp"
@@ -52,12 +70,9 @@
                 android:paddingEnd="0dp"
                 android:paddingBottom="0dp"
                 android:text="00:00"
+                android:textColor="@color/black"
                 android:textSize="10sp"
                 app:cornerRadius="20dp"
-                android:backgroundTint="@color/gray1"
-                android:textColor="@color/black"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

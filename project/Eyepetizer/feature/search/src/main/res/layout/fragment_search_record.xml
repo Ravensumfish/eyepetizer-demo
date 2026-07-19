@@ -94,6 +94,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cd_search_rk"
+                android:clickable="true"
+                android:focusable="true"
                 android:padding="5dp"
                 android:layout_marginTop="25dp"
                 android:layout_width="wrap_content"
