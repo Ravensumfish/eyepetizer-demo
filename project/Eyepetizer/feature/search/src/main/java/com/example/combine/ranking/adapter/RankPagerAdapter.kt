@@ -13,12 +13,6 @@ import com.example.combine.ranking.vp2page.RankListPage
 
 
 class RankPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    private val fragments = arrayOf(
-        //创建fragment实例作为item
-        RankListPage.newInstance(0),
-        RankListPage.newInstance(1),
-        RankListPage.newInstance(2)
-    )
 
     private val tabTitles = arrayOf(
         "周排行",
@@ -28,14 +22,13 @@ class RankPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
 
     override fun createFragment(position: Int): Fragment {
-        return fragments[position]
+        return RankListPage.newInstance(position)
     }
 
-    override fun getItemCount(): Int {
-        return fragments.size
-    }
+    override fun getItemCount(): Int = 3
 
     fun getTabTitles(pos:Int):String{
         return tabTitles[pos]
     }
+
 }

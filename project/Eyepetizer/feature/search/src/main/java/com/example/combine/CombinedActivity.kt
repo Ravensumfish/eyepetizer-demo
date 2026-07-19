@@ -8,6 +8,7 @@
 package com.example.combine
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.SearchView
@@ -15,6 +16,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
+import com.example.combine.ranking.BackClickCallBack
 import com.example.combine.ranking.RankListFragment
 import com.example.combine.ranking.RankViewModel
 import com.example.data.store.SPUtils
@@ -55,6 +58,8 @@ class CombinedActivity : AppCompatActivity() {
     fun initEvent(){
         toSearch()
         toRanking()
+        backToRecord()
+        quit()
 
     }
 
@@ -63,7 +68,7 @@ class CombinedActivity : AppCompatActivity() {
         resultFragment = SearchResultFragment()
         rankFragment = RankListFragment()
         fragmentManager = supportFragmentManager
-        showFragment(recordFragment)
+        showFragment(recordFragment,"record")
 
     }
 
@@ -72,23 +77,27 @@ class CombinedActivity : AppCompatActivity() {
         initFm()
     }
 
-    fun showFragment(f: Fragment){
-        fragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_view,f)
-            .commit()
+    fun showFragment(f: Fragment,name:String){
+        fragmentManager.commit {
+            //跳转前将目标同名页面一并跳出
+            fragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            setReorderingAllowed(true)
+            replace(R.id.fragment_container_view,f)
+            addToBackStack(name)
+        }
     }
 
     fun toSearch(){
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextChange(p0: String?): Boolean {
-                showFragment(recordFragment)
+                showFragment(recordFragment,"record")
                 return false
             }
 
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (p0!=null) {
                     searchViewModel.setQuery(p0)
-                    showFragment(resultFragment)
+                    showFragment(resultFragment,"result")
                     addRecord(p0)
                 }
                 return false
@@ -101,10 +110,19 @@ class CombinedActivity : AppCompatActivity() {
        recordFragment.setRankClickCallBack(object : RankClickCallBack {
            override fun rankPreviewClick() {
                Log.d("TAG", "rankPreviewClick: 点击了周排行预览！")
-               binding.searchView.visibility = View.GONE
-               showFragment(rankFragment)
+               binding.searchBar.visibility = View.GONE
+               showFragment(rankFragment,"ranking")
            }
        })
+    }
+
+    fun backToRecord(){
+        rankFragment.setBackClickCallBack(object : BackClickCallBack {
+            override fun clickArrowBack() {
+                binding.searchBar.visibility = View.VISIBLE
+                showFragment(recordFragment,"record")
+            }
+        })
     }
 
     fun addRecord(s :String){
@@ -123,5 +141,10 @@ class CombinedActivity : AppCompatActivity() {
         })
     }
 
+    fun quit(){
+        binding.tvSearchQuit.setOnClickListener {
+            finish()
+        }
+    }
 
 }
