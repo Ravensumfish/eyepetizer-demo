@@ -1,6 +1,5 @@
-package com.example.search.ui.theme
+package com.example.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
