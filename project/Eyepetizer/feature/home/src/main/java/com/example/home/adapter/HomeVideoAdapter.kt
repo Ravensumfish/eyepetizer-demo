@@ -6,32 +6,38 @@ package com.example.home.adapter
  * @Date : 2026/7/18 15:26
  */
 
+import com.example.ui.BaseRvAdapter
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.home.databinding.ItemVideoBinding
 import com.example.home.homemodel.Data
+import androidx.recyclerview.widget.RecyclerView
 
+class HomeVideoAdapter : BaseRvAdapter<Data>() {
 
-class HomeVideoAdapter : ListAdapter<Data, HomeVideoAdapter.VideoViewHolder>(VideoDiffCallback()) {
-
-    var onLoadMore:(()-> Unit)?=null
+    var onLoadMore: (() -> Unit)? = null
     var onVideoClick: ((Data) -> Unit)? = null
-    var isLoading=false
+    var isLoading = false
+    var onShareClick: ((Data) -> Unit)? = null
 
-    inner class VideoViewHolder(
-        private val binding: ItemVideoBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
+
+    // ViewHolder 类
+    inner class VideoViewHolder(itemView: View) : BaseRvViewHolder(itemView) {
+        private val binding = ItemVideoBinding.bind(itemView)
 
         init {
-            // 封面区域点击，跳转到播放页
             binding.flCover.setOnClickListener {
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     onVideoClick?.invoke(getItem(position))
+                }
+            }
+            binding.ivShare.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onShareClick?.invoke(getItem(position))
                 }
             }
         }
@@ -39,7 +45,7 @@ class HomeVideoAdapter : ListAdapter<Data, HomeVideoAdapter.VideoViewHolder>(Vid
         fun bind(videoData: Data) {
             // 1. 加载封面
             Glide.with(binding.root.context)
-                .load(videoData.cover.feed)
+                .load(videoData.cover?.feed)
                 .into(binding.ivCover)
 
             // 2. 视频标题
@@ -47,12 +53,12 @@ class HomeVideoAdapter : ListAdapter<Data, HomeVideoAdapter.VideoViewHolder>(Vid
 
             // 3. 作者头像
             Glide.with(binding.root.context)
-                .load(videoData.author.icon)
+                .load(videoData.author?.icon)
                 .circleCrop()
                 .into(binding.ivAuthor)
 
             // 4. 作者名称
-            binding.tvAuthorName.text = videoData.author.name
+            binding.tvAuthorName.text = videoData.author?.name
 
             // 5. 标签
             binding.tvTag.text = "#${videoData.category}"
@@ -61,21 +67,34 @@ class HomeVideoAdapter : ListAdapter<Data, HomeVideoAdapter.VideoViewHolder>(Vid
             val durationStr = formatDuration(videoData.duration)
             binding.tvDuration.text = durationStr
             binding.tvInfoDuration.text = durationStr
-
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
+    // 重置加载状态
+    fun setLoadingMore(loading: Boolean) {
+        isLoading = loading
+    }
+
+    // 获取指定位置的数据
+    fun getItem(position: Int): Data {
+        return data[position]
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRvViewHolder {
         val binding = ItemVideoBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return VideoViewHolder(binding)
+        return VideoViewHolder(binding.root)
     }
 
-    override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
-        holder.bind(getItem(position))
-        if (!isLoading && position==itemCount-2)
-        {
+    override fun onBindViewHolder(holder: BaseRvViewHolder, position: Int) {
+        // 安全类型转换
+        if (holder is VideoViewHolder) {
+            holder.bind(data[position])
+        }
+
+        // 触发加载更多：当滚动到倒数第二个 item 时
+        if (!isLoading && position >= itemCount - 2) {
             isLoading = true
             onLoadMore?.invoke()
         }
@@ -86,17 +105,6 @@ class HomeVideoAdapter : ListAdapter<Data, HomeVideoAdapter.VideoViewHolder>(Vid
         val minutes = seconds / 60
         val secs = seconds % 60
         return String.format("%02d:%02d", minutes, secs)
-    }
-
-    // DiffUtil 差分刷新，优化列表性能
-    class VideoDiffCallback : DiffUtil.ItemCallback<Data>() {
-        override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
-            return oldItem == newItem
-        }
     }
 }
 

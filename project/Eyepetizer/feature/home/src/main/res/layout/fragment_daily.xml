@@ -29,7 +29,7 @@
             android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="24dp"
-            android:text="Our Eyepetizer"
+            android:text="Eyepetizer"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"

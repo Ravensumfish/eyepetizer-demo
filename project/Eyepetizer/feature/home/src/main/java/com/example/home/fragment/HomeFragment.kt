@@ -1,13 +1,16 @@
 package com.example.home.fragment
 
+import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.example.home.viewmodel.HomeViewModel
 import com.example.home.adapter.HomeVideoAdapter
+import com.example.home.homemodel.Data
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.home.databinding.FragmentHomeBinding
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
@@ -50,20 +53,43 @@ class HomeFragment : Fragment() {
             vm.loadMore()
         }
 
-        // 监听总数据列表
-        vm.videoTotalList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+        adapter.onShareClick = { Data ->
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    "${Data.playUrl}"
+                )
+            }
+            startActivity(
+                Intent.createChooser(
+                    intent,
+                    "分享到"
+                )
+            )
         }
 
-        // 监听刷新状态
-        vm.isRefreshing.observe(viewLifecycleOwner) {
-            binding.swipeRefresh.isRefreshing = it
-        }
-        vm.getHomeVideos()
-    }
+            // 监听总数据列表
+            vm.videoTotalList.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
+            }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+            // 监听刷新状态
+            vm.isRefreshing.observe(viewLifecycleOwner) {
+                binding.swipeRefresh.isRefreshing = it
+            }
+
+            vm.getHomeVideos()
+
+            vm.isLoadMore.observe(viewLifecycleOwner) { isLoading ->
+                if (!isLoading) {
+                    adapter.setLoadingMore(false)
+                }
+            }
+        }
+
+        override fun onDestroyView() {
+            super.onDestroyView()
+            _binding = null
+        }
     }
-}

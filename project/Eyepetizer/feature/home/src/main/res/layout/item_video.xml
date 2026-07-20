@@ -21,11 +21,10 @@
         <!-- 播放按钮 -->
         <ImageView
             android:id="@+id/iv_play"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_play_triangle"
-            android:background="#80000000"
+            android:src="@drawable/stop"
             android:padding="12dp"/>
 
         <!-- 时长标签 -->
@@ -107,6 +106,15 @@
                     android:layout_marginStart="8dp"/>
             </LinearLayout>
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:id="@+id/iv_share"
+            android:src="@drawable/share"
+            android:clickable="true"
+            android:focusable="true"/>
     </LinearLayout>
 
     <!-- 分割线 -->

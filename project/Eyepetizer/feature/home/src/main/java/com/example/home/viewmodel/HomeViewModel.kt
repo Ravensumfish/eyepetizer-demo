@@ -57,16 +57,20 @@ class HomeViewModel : ViewModel() {
                     _homeVideos.postValue(t)
                     _videoTotalList.postValue(t.itemList
                         .map { it.data }
-                        .filter { it.dataType=="VideoBeanForClient" }
+                        .filter { val isVideo = it.dataType == "VideoBeanForClient"
+                            Log.d("jia", "过滤: dataType=${it.dataType}, 是否保留=$isVideo")
+                            isVideo
+                        }
                         .toMutableList())
                     nextPageUrl = t.nextPageUrl
-                    Log.d("HomeViewModel","网络请求成功")
+                    Log.d("HomeViewModel","$nextPageUrl")
                     _isRefreshing.value = false
                 }
             })
     }
 
     fun getMoreVideos(url: String) {
+        Log.e("HomeViewModel","请求时使用的url:$url")
 
         repository.getMoreVideos(url)
             .subscribe(object : Observer<HomeData> {
@@ -80,6 +84,15 @@ class HomeViewModel : ViewModel() {
 
                 override fun onNext(t: HomeData) {
                     _moreVideos.postValue(t)
+                    val rawNextUrl=t.nextPageUrl
+                    Log.d("HomeViewModel","接口返回的，$rawNextUrl")
+                    if(rawNextUrl==url)
+                    {
+                        Log.d("HomeViewModel","错误")}
+                    else{
+                        Log.d("HomeViewModel","正确")}
+                    nextPageUrl=rawNextUrl
+                    Log.d("HomeViewModel","加载更多成功，$nextPageUrl")
 
                     //合并列表
                     val currentList = _videoTotalList.value?.toMutableList() ?: mutableListOf()
@@ -87,7 +100,7 @@ class HomeViewModel : ViewModel() {
                         .map { it.data }
                         .filter { it.dataType=="VideoBeanForClient" })
                     _videoTotalList.postValue(currentList)
-                    nextPageUrl=t.nextPageUrl
+
                     _isLoadMore.value = false
                 }
             })
@@ -101,17 +114,13 @@ class HomeViewModel : ViewModel() {
 
     //加载更多
     fun loadMore() {
-        Log.e("分页地址",nextPageUrl)
+        Log.e("分页地址", nextPageUrl)
         if (_isLoadMore.value == true) return
-        _isLoadMore.value = true
-
-        val nextUrl = _videoTotalList.value?.lastOrNull()?.actionUrl
-        if (nextUrl.isNullOrBlank()) {
-            _isLoadMore
-                .value = false
+        if (nextPageUrl.isNullOrBlank()) {
+            Log.e("loadMore", "没有更多数据了")
             return
         }
-        getMoreVideos(nextUrl)
-
+        _isLoadMore.value = true
+        getMoreVideos(nextPageUrl)
     }
 }

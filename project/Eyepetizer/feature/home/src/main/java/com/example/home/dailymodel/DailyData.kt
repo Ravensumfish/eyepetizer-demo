@@ -1,6 +1,5 @@
 package com.example.home.dailymodel
 
-
 /**
  * @Desc : 日报视频数据类
  * @Author : zjl
@@ -35,11 +34,6 @@ data class Data(
     val subTitle: Any,
     val text: String,
     val type: String,
-    val cover: Cover,
-    val author: Author,
-    val category: String,
-    val title: String,
-    val duration: Int,
 )
 
 data class Content(

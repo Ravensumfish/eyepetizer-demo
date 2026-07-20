@@ -56,7 +56,7 @@
             android:layout_width="38dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
-            android:background="@drawable/daily"
+            android:src="@drawable/daily"
             android:visibility="gone" />
 
         <TextView
@@ -88,7 +88,7 @@
             android:layout_width="38dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
-            android:background="@drawable/search"
+            android:src="@drawable/search"
             android:visibility="gone" />
 
         <TextView
@@ -120,7 +120,7 @@
             android:layout_width="38dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
-            android:background="@drawable/user"
+            android:src="@drawable/user"
             android:visibility="gone" />
 
         <TextView
