@@ -9,6 +9,7 @@ package com.example.net.utils
 
 object HttpConfig {
     const val BASE_URL = " http://baobab.kaiyanapp.com/api/"
+    const val BASE_URL_EYEPETIZER = "https://api.eyepetizer.net/"
 
     //设置请求超时时间
     const val TIMEOUT = 15L

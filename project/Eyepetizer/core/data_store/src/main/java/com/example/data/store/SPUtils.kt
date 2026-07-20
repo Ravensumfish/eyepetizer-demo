@@ -30,8 +30,8 @@ object SPUtils {
         }
     }
 
-    fun getString(key : String) : String{
-        val df = "null"
+    fun getString(key : String) : String?{
+        val df = null
         return sp.getString(key,df)?:df
     }
 
