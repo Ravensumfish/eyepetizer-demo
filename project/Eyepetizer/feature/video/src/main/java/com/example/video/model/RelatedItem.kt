@@ -1,12 +1,19 @@
 package com.example.video.model
 
+import android.os.Parcelable
+
 data class RelatedItem(
     val title: String,
     val dataType: String,
     val id: Int,
-    val author: Author,
+    var author: Author?,
     val duration: Int,
-    val cover:Cover
+    val cover:Cover,
+
+    val description :String?,
+    val playUrl :String,
+    val consumption:Consumption,
+    val tags: List<Tag>?
 )
 
 data class Cover(
@@ -29,19 +36,9 @@ data class RelatedData(
 )
 
 //brief
-data class BriefItem(
-    val id: Int,
-    val title :String,
-    val description :String,
-    val author: Author,
-    val duration: Int,
-    val playUrl :String,
-    val consumption:Consumption,
-    val tags: List<Tag>
-)
 
 data class Tag(
-    val title:String
+    val title:String?
 )
 
 

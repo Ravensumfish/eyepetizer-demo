@@ -8,6 +8,7 @@
 
     <!-- 联动滚动 -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_video_brief"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
@@ -179,6 +180,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="The End"
+                android:textStyle="bold|italic"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="50dp"/>
 
         </LinearLayout>
 

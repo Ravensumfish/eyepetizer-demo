@@ -7,17 +7,11 @@ import androidx.lifecycle.ViewModel
 import com.example.net.utils.RetrofitClient
 import com.example.video.api.APIService
 import com.example.video.api.Repository
-import com.example.video.model.Author
-import com.example.video.model.BriefItem
 import com.example.video.model.CommentItem
-import com.example.video.model.CommentResponse
-import com.example.video.model.Consumption
 import com.example.video.model.RelatedItem
-import com.example.video.model.Tag
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import retrofit2.Retrofit
 
 class VideoViewModel: ViewModel() {
     private val api = RetrofitClient.create(APIService::class.java)
@@ -30,9 +24,13 @@ class VideoViewModel: ViewModel() {
     private val _commentList = MutableLiveData<List<CommentItem>>()
     val commentList : LiveData<List<CommentItem>> = _commentList
 
-    private val _brief = MutableLiveData<BriefItem>()
-    val brief : LiveData<BriefItem> = _brief
+    private val _currentBrief = MutableLiveData<RelatedItem?>()
+    val currentBrief : LiveData<RelatedItem?> = _currentBrief
     private var id : String = "0"
+
+    fun init(brief: RelatedItem){
+        _currentBrief.value = brief
+    }
 
     fun setVideoId(i:Int){
         id = i.toString()
@@ -67,31 +65,43 @@ class VideoViewModel: ViewModel() {
         disposable.add(cl)
     }
 
-    fun loadBrief(): BriefItem{
-        val a = Author(
-        304573213,
-        "http://ali-img.kaiyanapp.com/577bc334615d3f913cf6620dc52717aa.png?image_process=image/auto-orient,1/resize,w_360/format,png/interlace,1/quality,q_80",
-          "尼康 nikon 广告精选"
-        )
-        val c= Consumption(
-            1,
-            1,
-            1,
-        )
-
-        val t = listOf(
-            Tag("#广告")
-        )
-        val b = BriefItem(
-            277859,
-            "2021 年 5 月尼康广告：日常摄影",
-            "这是来自尼康的广告，尼克尔变焦镜头打造，非常适合日常摄影，从人像到旅行。",
-            a,
-            104,
-            "http://static.thefair.net.cn/eyepetizer/pgc_video/video_summary/277859.mp4",
-            c,
-            t
-        )
-        return b
+    fun toVideo(vid:Int){
+        val item = relatedList.value?.find { it.id == vid }?:
+        throw IllegalArgumentException("toVideo$vid: 无brief")
+        _currentBrief.value = item
+        id = vid.toString()
+        //清除旧的无用订阅，防止积累过多出错
+        disposable.clear()
+        loadRelated()
+        loadComments()
+        Log.d("TAG", "toVideo: 跳转到video:$id")
     }
+
+
+
+    //mock
+  //  val a = Author(
+//        304573213,
+//        "http://ali-img.kaiyanapp.com/577bc334615d3f913cf6620dc52717aa.png?image_process=image/auto-orient,1/resize,w_360/format,png/interlace,1/quality,q_80",
+//          "尼康 nikon 广告精选"
+//        )
+//        val c= Consumption(
+//            1,
+//            1,
+//            1,
+//        )
+//
+//        val t = listOf(
+//            Tag("#广告")
+//        )
+//        val b = BriefItem(
+//            277859,
+//            "2021 年 5 月尼康广告：日常摄影",
+//            "这是来自尼康的广告，尼克尔变焦镜头打造，非常适合日常摄影，从人像到旅行。",
+//            a,
+//            104,
+//            "http://static.thefair.net.cn/eyepetizer/pgc_video/video_summary/277859.mp4",
+//            c,
+//            t
+//        )
 }

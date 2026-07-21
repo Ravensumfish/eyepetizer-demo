@@ -1,5 +1,6 @@
 package com.example.video
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +16,7 @@ class VideoBriefFragment : Fragment(){
     lateinit var binding : FragmentVideoBriefBinding
     private var adapter = BriefRvAdapter()
     private val viewModel : VideoViewModel by activityViewModels()
-    private val videoClickCallBack : VideoClickCallBack? = null
+    private var videoClickCallBack : VideoClickCallBack? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +35,6 @@ class VideoBriefFragment : Fragment(){
     fun init(){
         initRv()
         initData()
-        initEvent()
     }
 
     fun initData(){
@@ -43,13 +43,18 @@ class VideoBriefFragment : Fragment(){
     }
 
     fun briefData(){
-        val b = viewModel.loadBrief()
-        binding.tvVideoTitle.text = b.title
-        binding.tvVideoDescription.text = b.description
-        binding.tvVideoGoodCount.text = b.consumption.collectionCount.toString()
-        binding.tvVideoShareCount.text = b.consumption.shareCount.toString()
-        binding.tvVideoCommentCount.text = b.consumption.replyCount.toString()
-        binding.tvVideoTags.text = b.tags.joinToString(separator = " "){it.title}
+        viewModel.currentBrief.observe(viewLifecycleOwner){
+            b->
+            b?.let {
+                binding.tvVideoTitle.text = b.title
+                binding.tvVideoDescription.text = b.description
+                binding.tvVideoGoodCount.text = b.consumption.collectionCount.toString()
+                binding.tvVideoShareCount.text = b.consumption.shareCount.toString()
+                binding.tvVideoCommentCount.text = b.consumption.replyCount.toString()
+                binding.tvVideoTags.text = b.tags?.joinToString(separator = " "){it.title?:""}
+            }
+        }
+
 
     }
 
@@ -57,23 +62,42 @@ class VideoBriefFragment : Fragment(){
         viewModel.relatedList.observe(viewLifecycleOwner){
                 l->
             adapter.submitList(l)
+            binding.nestedVideoBrief.scrollTo(0,0)
+
         }
         viewModel.loadRelated()
     }
 
     fun initRv(){
+        openVideoDetail()
         binding.rvVideoRelated.adapter = adapter
         binding.rvVideoRelated.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    fun initEvent(){
-        openVideoDetail()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        videoClickCallBack = context as VideoClickCallBack
+        Log.d("TAG", "onAttach: $context")
+        Log.d("TAG", "onAttach:callback set: $videoClickCallBack")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        videoClickCallBack = null
     }
 
     fun openVideoDetail(){
         adapter.onItemClick = onItemClick@{ pos,item ->
+            Log.d("TAG", "clickItem: 点击video${item.id}")
+            videoClickCallBack?.onVideoClick(item.id)
 
-            Log.d("TAG", "clickItem: 点击video$item.id")
         }
     }
+
+    interface VideoClickCallBack {
+        fun onVideoClick(videoId:Int)
+    }
+
+
 }

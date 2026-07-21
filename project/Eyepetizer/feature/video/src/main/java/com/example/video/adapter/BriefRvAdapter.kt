@@ -31,10 +31,10 @@ class BriefRvAdapter: BaseRvAdapter<RelatedItem>() {
         Log.d("videoId", "视频相关列表item:$position,id: ${item.id}")
         holder.title.text = item.title
         holder.duration.text = TimeUtils.formatDuration(item.duration)
-        holder.author.text = item.author.name
+        holder.author.text = item.author?.name ?:"未知作者"
 
         Glide.with(holder.itemView.context)
-            .load(item.author.icon)
+            .load(item.author?.icon)
             .placeholder(R.mipmap.ic_launcher)
             .into(holder.avatar)
 
