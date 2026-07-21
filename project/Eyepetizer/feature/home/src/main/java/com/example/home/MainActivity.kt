@@ -20,7 +20,7 @@ class MainActivity :  AppCompatActivity() {
     private var navIds=intArrayOf(
         R.id.fragment_home,
         R.id.fragment_daily,
-        R.id.fragment_find,
+        R.id.fragment_discovery,
         R.id.fragment_mine
     )
 

@@ -10,14 +10,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.home.dailymodel.Cover
 import com.example.home.dailymodel.Data
 import com.example.home.dailymodel.DailyData
 import com.example.home.repository.NetRepository
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
-import com.example.home.dailymodel.Author
-import com.example.home.dailymodel.DataX
 
 class DailyViewModel : ViewModel() {
     private val repository = NetRepository()
@@ -44,24 +41,6 @@ class DailyViewModel : ViewModel() {
 
     var nextPageUrl = ""
 
-    val Data.videoTitle: String
-        get() = content?.data?.title ?: ""
-
-    val Data.videoAuthor: Author?
-        get() = content?.data?.author
-
-    val Data.videoCategory: String
-        get() = content?.data?.category ?: ""
-
-    val Data.videoDuration: Int
-        get() = content?.data?.duration ?: 0
-
-    val Data.videoCover: Cover?
-        get() = content?.data?.cover
-
-    val Data.videoplayUrl: String?
-        get() = content?.data?.playUrl
-
     fun getDailyVideos() {
         _isRefreshing.value = true
         repository.getDailyVideos()
@@ -75,8 +54,6 @@ class DailyViewModel : ViewModel() {
                 override fun onComplete() {}
 
                 override fun onNext(t: DailyData) {
-                    Log.d("日志","$t")
-                    Log.d("日志","${t.itemList.size}")
                     _dailyVideos.postValue(t)
                     val videoList = t.itemList
                         .mapNotNull { it.data }
@@ -85,20 +62,6 @@ class DailyViewModel : ViewModel() {
                             val isVideo = targetType == "VideoBeanForClient"
                             Log.d("日志", "过滤: dataType=$targetType, 是否保留=$isVideo")
                             isVideo
-                        }
-                        .onEach { data ->
-                            // 封面
-                            val cover=data.videoCover
-                            // 作者信息
-                            val author=data.videoAuthor
-                            // 播放时长
-                            val duration=data.videoDuration
-                            // 播放地址
-                            val playUrl=data.videoplayUrl
-                            // 标题
-                            val title=data.videoTitle
-                            // 播放量/点赞等
-                            val category=data.videoCategory
                         }
                         .toMutableList()
                     _videoTotalList.postValue(videoList)
@@ -133,7 +96,6 @@ class DailyViewModel : ViewModel() {
                             val isVideo = targetType == "VideoBeanForClient"
                             isVideo
                         })
-                    Log.e("Zhang","列表合并了")
                     _videoTotalList.postValue(currentList)
                     nextPageUrl=t.nextPageUrl
                     _isLoadMore.value = false

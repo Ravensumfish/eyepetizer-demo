@@ -53,6 +53,8 @@ class DailyFragment : Fragment() {
         adapter.onLoadMore = {
             vm.loadMore()
         }
+
+        //分享功能
         adapter.onShareClick = { Data ->
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"

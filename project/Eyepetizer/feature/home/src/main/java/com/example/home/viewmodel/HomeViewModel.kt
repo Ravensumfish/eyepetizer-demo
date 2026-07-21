@@ -58,7 +58,6 @@ class HomeViewModel : ViewModel() {
                     _videoTotalList.postValue(t.itemList
                         .map { it.data }
                         .filter { val isVideo = it.dataType == "VideoBeanForClient"
-                            Log.d("jia", "过滤: dataType=${it.dataType}, 是否保留=$isVideo")
                             isVideo
                         }
                         .toMutableList())

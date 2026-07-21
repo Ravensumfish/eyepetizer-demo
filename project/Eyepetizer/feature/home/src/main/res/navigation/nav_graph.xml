@@ -13,12 +13,28 @@
         android:name="com.example.home.fragment.DailyFragment"/>
 
     <fragment
-        android:id="@+id/fragment_find"
-        android:name="com.example.home.fragment.FindFragment"/>
+        android:id="@+id/fragment_discovery"
+        android:name="com.example.home.fragment.DiscoveryFragment"/>
 
     <fragment
         android:id="@+id/fragment_mine"
         android:name="com.example.home.fragment.MineFragment"/>
+
+    <fragment
+        android:id="@+id/categoryDetailFragment"
+        android:name="com.example.home.fragment.CategoryDetailFragment"
+        android:label="分类详情">
+        <!-- 定义传参 -->
+        <argument
+            android:name="cid"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="img"
+            app:argType="string" />
+    </fragment>
 
 
 </navigation>

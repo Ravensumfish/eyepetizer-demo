@@ -25,7 +25,7 @@ class BottomNavigationBarView @JvmOverloads constructor(
         setOnClickListener(
             binding.flHome,
             binding.flDaily,
-            binding.flFind,
+            binding.flDiscovery,
             binding.flMine
         ) { clickedFl ->
             resetBtnState()
@@ -42,9 +42,9 @@ class BottomNavigationBarView @JvmOverloads constructor(
                     onSelectListener?.onSelected(1)
                 }
 
-                binding.flFind -> {
-                    binding.ivFind.visibility = VISIBLE
-                    binding.tvFind.visibility = GONE
+                binding.flDiscovery -> {
+                    binding.ivDiscovery.visibility = VISIBLE
+                    binding.tvDiscovery.visibility = GONE
                     onSelectListener?.onSelected(2)
                 }
                 binding.flMine -> {
@@ -62,8 +62,8 @@ class BottomNavigationBarView @JvmOverloads constructor(
         binding.tvHome.visibility = VISIBLE
         binding.ivDaily.visibility = GONE
         binding.tvDaily.visibility = VISIBLE
-        binding.ivFind.visibility = GONE
-        binding.tvFind.visibility = VISIBLE
+        binding.ivDiscovery.visibility = GONE
+        binding.tvDiscovery.visibility = VISIBLE
         binding.ivMine.visibility = GONE
         binding.tvMine.visibility = VISIBLE
     }

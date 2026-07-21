@@ -43,7 +43,7 @@ abstract  class BaseRvAdapter<T>()
         return data.size
     }
 
-    protected val onItemClick : ((position : Int,item:View)-> Unit)? = null
+    protected var onItemClick : ((position : Int,item:View)-> Unit)? = null
     //子类去实现具体绑定逻辑
     open inner class BaseRvViewHolder(item: View): RecyclerView.ViewHolder(item){
 

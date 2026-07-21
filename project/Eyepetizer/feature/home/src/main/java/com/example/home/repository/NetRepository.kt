@@ -14,9 +14,15 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import com.example.net.utils.RetrofitClient
 import com.example.home.homemodel.HomeData
 import com.example.home.dailymodel.DailyData
+import com.example.home.discoverymodel.DiscoveryCategoryDataItem
+import com.example.home.api.DiscoveryApi
+import com.example.home.discoverymodel.CategoryData
+
 class NetRepository {
     private val homeApi: HomeApi= RetrofitClient.create(HomeApi::class.java)
     private val dailyApi: DailyApi= RetrofitClient.create(DailyApi::class.java)
+
+    private val discoveryApi: DiscoveryApi= RetrofitClient.create(DiscoveryApi::class.java)
 
     fun getHomeVideos(): Observable<HomeData> {
         return homeApi.getHomeVideos()
@@ -37,6 +43,24 @@ class NetRepository {
     }
 
     fun getMoreDailyVideos(nextPageUrl: String): Observable<DailyData>{
+        return dailyApi.getMoreDailyVideos(nextPageUrl)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getDiscoveryCategories(): Observable<MutableList<DiscoveryCategoryDataItem>>{
+        return  discoveryApi.getDiscoveryCategories()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getCategoryDetailVideos(nextPageUrl: String): Observable<CategoryData>{
+        return discoveryApi.getCategoryDetailVideos(nextPageUrl)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getMoreCategoryVideos(nextPageUrl: String): Observable<DailyData>{
         return dailyApi.getMoreDailyVideos(nextPageUrl)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
