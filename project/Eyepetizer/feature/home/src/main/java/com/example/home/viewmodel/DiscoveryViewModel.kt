@@ -12,10 +12,6 @@ import io.reactivex.rxjava3.disposables.Disposable
 class DiscoveryViewModel: ViewModel() {
     private val repository = NetRepository()
 
-    private val _categoryData = MutableLiveData<DiscoveryCategoryDataItem>()
-    val dailyVideos: LiveData<DiscoveryCategoryDataItem>
-        get() = _categoryData
-
     private val _categoryList = MutableLiveData<MutableList<DiscoveryCategoryDataItem>>(mutableListOf())
     val categoryList: LiveData<MutableList<DiscoveryCategoryDataItem>>
         get() = _categoryList
@@ -27,6 +23,11 @@ class DiscoveryViewModel: ViewModel() {
     fun refresh() {
         _isRefreshing.value = true
         getDiscoveryCategories()
+    }
+
+    fun getTopMessage(){
+        _isRefreshing.value = true
+        repository.getDiscoveryCategories()
     }
 
     fun getDiscoveryCategories() {
@@ -47,5 +48,7 @@ class DiscoveryViewModel: ViewModel() {
                 }
             })
     }
+
+
 
 }

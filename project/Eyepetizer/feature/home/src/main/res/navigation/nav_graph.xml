@@ -24,9 +24,8 @@
         android:id="@+id/categoryDetailFragment"
         android:name="com.example.home.fragment.CategoryDetailFragment"
         android:label="分类详情">
-        <!-- 定义传参 -->
         <argument
-            android:name="cid"
+            android:name="id"
             app:argType="integer" />
         <argument
             android:name="title"
@@ -34,6 +33,9 @@
         <argument
             android:name="img"
             app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string"/>
     </fragment>
 
 

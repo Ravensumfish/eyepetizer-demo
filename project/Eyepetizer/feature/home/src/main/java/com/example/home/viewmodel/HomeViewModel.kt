@@ -54,7 +54,6 @@ class HomeViewModel : ViewModel() {
                 override fun onComplete() {}
 
                 override fun onNext(t: HomeData) {
-                    _homeVideos.postValue(t)
                     _videoTotalList.postValue(t.itemList
                         .map { it.data }
                         .filter { val isVideo = it.dataType == "VideoBeanForClient"

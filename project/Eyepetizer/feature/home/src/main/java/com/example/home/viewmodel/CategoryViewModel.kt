@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.home.discoverymodel.CategoryData
 import com.example.home.discoverymodel.Data
+import com.example.home.discoverymodel.DiscoveryCategoryDataItem
 import com.example.home.repository.NetRepository
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -14,6 +15,9 @@ class CategoryViewModel : ViewModel() {
     private val repository = NetRepository()
     val BASE_URL = " http://baobab.kaiyanapp.com/api/"
 
+    private val _topMessage = MutableLiveData<MutableList<DiscoveryCategoryDataItem>>(mutableListOf())
+    val topMessage: LiveData<MutableList<DiscoveryCategoryDataItem>>
+        get() = _topMessage
     private val _categoryVideos = MutableLiveData<CategoryData>()
     val categoryVideos: LiveData<CategoryData>
         get() = _categoryVideos
@@ -69,10 +73,29 @@ class CategoryViewModel : ViewModel() {
             })
     }
 
-    //下拉刷新
+    fun getTopMessage(id: Int){
+        _isRefreshing.value = true
+        repository.getDiscoveryCategories()
+            .subscribe(object : Observer<MutableList<DiscoveryCategoryDataItem>> {
+            override fun onSubscribe(d: Disposable) {}
+
+            override fun onError(e: Throwable) {
+                Log.d("MainViewModel", "错误：${e.message}")
+            }
+
+            override fun onComplete() {}
+
+            override fun onNext(dataList: MutableList<DiscoveryCategoryDataItem>) {
+                _topMessage.postValue(dataList)
+                _isRefreshing.value = false
+            }
+        })
+    }
+
+
     fun refresh() {
         _isRefreshing.value = true
-        getCategoryVideos(Int)
+        getCategoryVideos(1)
     }
 
     //加载更多

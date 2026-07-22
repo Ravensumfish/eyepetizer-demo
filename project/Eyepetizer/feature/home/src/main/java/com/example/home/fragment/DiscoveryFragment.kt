@@ -14,6 +14,7 @@ import androidx.core.os.bundleOf
 import com.example.home.R
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.home.databinding.FragmentDiscoveryBinding
 
 class DiscoveryFragment : Fragment() {
@@ -42,18 +43,16 @@ class DiscoveryFragment : Fragment() {
         vm.categoryList.observe(viewLifecycleOwner){
             categoryAdapter.submitList(it)
         }
-
-
         // 绑定RecyclerView
-        binding.rvCategory.layoutManager = GridLayoutManager(context,3)
+        binding.rvCategory.layoutManager = object :GridLayoutManager(context,4){
+            override fun canScrollVertically(): Boolean = false
+            override fun canScrollHorizontally(): Boolean = false
+        }
         binding.rvCategory.adapter = categoryAdapter
-
-
         // 下拉刷新
         binding.swipeRefresh.setOnRefreshListener {
             vm.refresh()
         }
-
 
         // 监听刷新状态
         vm.isRefreshing.observe(viewLifecycleOwner) {
@@ -73,9 +72,6 @@ class DiscoveryFragment : Fragment() {
 
             findNavController().navigate(R.id.categoryDetailFragment,bundle)
         }
-
-
-
     }
 
     override fun onDestroyView() {

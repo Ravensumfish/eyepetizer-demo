@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.example.home.viewmodel.HomeViewModel
 import com.example.home.adapter.HomeVideoAdapter
-import com.example.home.homemodel.Data
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.home.databinding.FragmentHomeBinding

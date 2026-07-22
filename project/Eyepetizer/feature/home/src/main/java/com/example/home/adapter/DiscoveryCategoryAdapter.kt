@@ -1,11 +1,11 @@
 package com.example.home.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.home.databinding.ItemCategoryBinding
 import com.example.ui.BaseRvAdapter
-import com.bumptech.glide.Glide
 import com.example.home.discoverymodel.DiscoveryCategoryDataItem
 
 class DiscoveryCategoryAdapter : BaseRvAdapter<DiscoveryCategoryDataItem>() {
@@ -14,16 +14,10 @@ class DiscoveryCategoryAdapter : BaseRvAdapter<DiscoveryCategoryDataItem>() {
 
         private val binding = ItemCategoryBinding.bind(itemView)
 
-
-        /**fun bind(categoryData:DiscoveryCategoryDataItem){
-        Glide.with(binding.root.context)
-        .load(categoryData.headerImage)
-        .into(binding.)
-        }
-         */
         fun bind(categoryData: DiscoveryCategoryDataItem) {
             binding.categoryBtnLabel.text = categoryData.name
-        }}
+        }
+    }
 
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRvViewHolder {
@@ -34,14 +28,12 @@ class DiscoveryCategoryAdapter : BaseRvAdapter<DiscoveryCategoryDataItem>() {
         }
 
 
-        override fun onBindViewHolder(holder: BaseRvViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BaseRvViewHolder, position: Int) {
+        if (holder is CategoryViewHolder) {
+            holder.bind(data[position])
 
-
-            if (holder is CategoryViewHolder) {
-                holder.bind(data[position])
-            }
         }
-
+    }
 
         var itemClick: ((Int, DiscoveryCategoryDataItem) -> Unit)? = null
 
