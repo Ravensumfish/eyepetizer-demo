@@ -18,7 +18,7 @@ class DailyVideoAdapter : BaseRvAdapter<Data>() {
     var isLoading = false
     var onShareClick: ((Data) -> Unit)? = null
 
-    // 扩展属性：方便获取视频数据
+    // 扩展属性：为了适配数据类字段混乱的问题
     val Data.videoTitle: String
         get() = content?.data?.title ?: ""
 
@@ -35,7 +35,6 @@ class DailyVideoAdapter : BaseRvAdapter<Data>() {
         get() = content?.data?.cover
 
 
-    // ViewHolder 类
     inner class VideoViewHolder(itemView: View) : BaseRvViewHolder(itemView) {
         private val binding = ItemVideoBinding.bind(itemView)
 

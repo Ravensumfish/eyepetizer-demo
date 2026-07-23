@@ -86,7 +86,7 @@ class CategoryDetailAdapter : BaseRvAdapter<Data>() {
             holder.bind(data[position])
         }
 
-        // 触发加载更多：当滚动到倒数第二个 item 时
+        val itemCount=itemCount
         if (!isLoading && position >= itemCount - 2) {
             isLoading = true
             onLoadMore?.invoke()

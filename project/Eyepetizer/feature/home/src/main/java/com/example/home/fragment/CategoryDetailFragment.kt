@@ -2,8 +2,8 @@ package com.example.home.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.home.adapter.CategoryDetailAdapter
 import com.example.home.databinding.FragmentCategorydetailBinding
 import com.example.home.viewmodel.CategoryViewModel
-import com.example.home.discoverymodel.Data
 import com.bumptech.glide.Glide
-import com.example.home.discoverymodel.DiscoveryCategoryDataItem
 
 
 class CategoryDetailFragment: Fragment() {
@@ -43,6 +41,9 @@ class CategoryDetailFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            Log.e("CrashHandler","崩溃",throwable)
+        }
         binding.ivPicture
         binding.tvDescription
         binding.tvSecondcategory
@@ -60,20 +61,23 @@ class CategoryDetailFragment: Fragment() {
         }
         vm = ViewModelProvider(this)[CategoryViewModel::class.java]
 
-        vm.getCategoryVideos(mId)
-        vm.getTopMessage(mId)
+        vm.setCategoryId(mId)
 
-        // 拿到首页头部数据
-        fun setTopInfo(topData: DiscoveryCategoryDataItem) {
-            // 顶部背景图
-            Glide.with(this)
-                .load(topData.headerImage)
-                .into(binding.ivPicture)
-            // 分类名
-            binding.tvSecondcategory.text = topData.name
-            // 简介
-            binding.tvDescription.text = topData.description
+        vm.loadCategoryVideos(mId)
+        vm.getTopMessage(mId)
+        vm.topMessage.observe(viewLifecycleOwner){
+            categoryList ->
+            val targetData=categoryList.firstOrNull{item -> item.id==mId
+            }
+            targetData?.let {
+                Glide.with(requireContext())
+                    .load(it.bgPicture)
+                    .into(binding.ivPicture)
+                binding.tvSecondcategory.text=it.name
+                binding.tvDescription.text=it.description
+            }
         }
+
 
         // 下拉刷新
         binding.swipeRefresh.setOnRefreshListener {
@@ -103,7 +107,8 @@ class CategoryDetailFragment: Fragment() {
 
         // 监听总数据列表
         vm.videoTotalList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+                adapter.submitList(it)
+
         }
 
         // 监听刷新状态

@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 
 class CategoryViewModel : ViewModel() {
     private val repository = NetRepository()
-    val BASE_URL = " http://baobab.kaiyanapp.com/api/"
+    val BASE_URL = "http://baobab.kaiyanapp.com/api/"
 
     private val _topMessage = MutableLiveData<MutableList<DiscoveryCategoryDataItem>>(mutableListOf())
     val topMessage: LiveData<MutableList<DiscoveryCategoryDataItem>>
@@ -41,53 +41,91 @@ class CategoryViewModel : ViewModel() {
     var nextPageUrl = ""
     private val URL_END = "&udid=d2807c895f0348a180148c9dfa6f2feeac0781b5&deviceModel=Android"
 
-    fun getCategoryVideos(id: Int) {
-        val url: String = if (id != -1) {
-            "${BASE_URL}v4/categories/videoList?id=${id}${URL_END}"
-        } else {
-            "${nextPageUrl}${URL_END}"
-        }
+    private var categoryId: Int=0
+    fun setCategoryId(id: Int){
+        this.categoryId=id
+    }
+
+    fun loadCategoryVideos(categoryId: Int) {
         _isRefreshing.value = true
+        val url = "${BASE_URL}v4/categories/videoList?id=${categoryId}${URL_END}"
+
         repository.getCategoryDetailVideos(url)
             .subscribe(object : Observer<CategoryData> {
                 override fun onSubscribe(d: Disposable) {}
 
                 override fun onError(e: Throwable) {
-                    Log.d("MainViewModel", "错误：${e.message}")
+                    Log.e("CategoryViewModel", "首次加载失败", e)
+                    _isRefreshing.value = false
+                    _isLoadMore.value = false
                 }
-
                 override fun onComplete() {}
 
                 override fun onNext(t: CategoryData) {
                     _videoTotalList.postValue(t.itemList
-                        .map { it.data }
-                        .filter { val isVideo = it.dataType == "VideoBeanForClient"
-                            Log.d("jia", "过滤: dataType=${it.dataType}, 是否保留=$isVideo")
-                            isVideo
-                        }
-                        .toMutableList())
-                    nextPageUrl = t.nextPageUrl
-                    Log.d("HomeViewModel","$nextPageUrl")
+                            .map { it.data }
+                            .filter {  val isVideo = it.dataType == "VideoBeanForClient"
+                                isVideo }
+                            .toMutableList()
+                    )
+                    nextPageUrl = t.nextPageUrl ?: ""
+                    Log.d("CategoryViewModel", "首次加载成功，nextPageUrl=$nextPageUrl")
                     _isRefreshing.value = false
                 }
             })
     }
 
+    fun loadMoreVideos() {
+        if (_isLoadMore.value == true) {
+            Log.e("LoadMore", "正在加载中，跳过")
+            return
+        }
+        if (nextPageUrl.isNullOrBlank()) {
+            Log.e("LoadMore", "没有更多数据了")
+            return
+        }
+
+        _isLoadMore.value = true
+        val url = "${nextPageUrl}${URL_END}"
+        Log.e("LoadMore", "请求加载更多: $url")
+
+        repository.getCategoryDetailVideos(url)
+            .subscribe(object : Observer<CategoryData> {
+                override fun onError(e: Throwable) {
+                    Log.e("CategoryViewModel", "加载更多失败", e)
+                    _isLoadMore.value = false
+                    _isRefreshing.value = false
+                }
+                override fun onComplete() {}
+                override fun onSubscribe(d: Disposable) {}
+
+                override fun onNext(t: CategoryData) {
+                    val currentList = _videoTotalList.value?.toMutableList() ?: mutableListOf()
+                    val newItems = t.itemList
+                        .map { it.data }
+                        .filter { it.dataType == "VideoBeanForClient" }
+                    currentList.addAll(newItems)
+                    _videoTotalList.postValue(currentList)
+                    nextPageUrl = t.nextPageUrl ?: ""
+                    Log.d("CategoryViewModel", "加载更多成功，nextPageUrl=$nextPageUrl")
+                    _isLoadMore.value = false
+                }
+            })
+    }
+
     fun getTopMessage(id: Int){
-        _isRefreshing.value = true
         repository.getDiscoveryCategories()
             .subscribe(object : Observer<MutableList<DiscoveryCategoryDataItem>> {
             override fun onSubscribe(d: Disposable) {}
 
             override fun onError(e: Throwable) {
-                Log.d("MainViewModel", "错误：${e.message}")
+                Log.d("ViewModel", "错误：${e.message}")
             }
 
             override fun onComplete() {}
 
             override fun onNext(dataList: MutableList<DiscoveryCategoryDataItem>) {
                 _topMessage.postValue(dataList)
-                _isRefreshing.value = false
             }
         })
     }
@@ -95,7 +133,7 @@ class CategoryViewModel : ViewModel() {
 
     fun refresh() {
         _isRefreshing.value = true
-        getCategoryVideos(1)
+        loadCategoryVideos(categoryId)
     }
 
     //加载更多
@@ -107,6 +145,6 @@ class CategoryViewModel : ViewModel() {
             return
         }
         _isLoadMore.value = true
-        getCategoryVideos(-1)
+        loadMoreVideos()
     }
 }

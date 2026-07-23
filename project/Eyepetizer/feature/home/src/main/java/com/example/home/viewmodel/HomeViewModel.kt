@@ -112,7 +112,6 @@ class HomeViewModel : ViewModel() {
 
     //加载更多
     fun loadMore() {
-        Log.e("分页地址", nextPageUrl)
         if (_isLoadMore.value == true) return
         if (nextPageUrl.isNullOrBlank()) {
             Log.e("loadMore", "没有更多数据了")

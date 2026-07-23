@@ -82,11 +82,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_picture"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:id="@+id/tv_secondcategory"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_secondcategory"
         android:id="@+id/tv_description"/>

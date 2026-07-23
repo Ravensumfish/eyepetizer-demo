@@ -25,10 +25,6 @@ class DiscoveryViewModel: ViewModel() {
         getDiscoveryCategories()
     }
 
-    fun getTopMessage(){
-        _isRefreshing.value = true
-        repository.getDiscoveryCategories()
-    }
 
     fun getDiscoveryCategories() {
         _isRefreshing.value = true
