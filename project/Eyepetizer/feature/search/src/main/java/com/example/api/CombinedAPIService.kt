@@ -9,6 +9,7 @@ package com.example.api
 
 import com.example.combine.ranking.model.RankResponse
 import com.example.combine.search.model.SearchResponse
+import com.example.combine.search.model.SearchResultResponse
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -20,12 +21,16 @@ interface CombinedAPIService {
     @GET("v3/queries/hot")
     fun getQueryHot(): Observable<List<String>>
 
-    @GET("v3/search")//自动构建v3/search?query=keyword
-    fun getSearchResult(@Query("query")keyword:String)
-    : Observable<SearchResponse>
+    @GET("v1/search/search/get_search_result_v2")
+    fun getSearchResult(
+        @Query("query") query :String,
+        @Query("num") num:Int,
+        @Query("type") type: String,
+        //设备唯一标识码，不加请求不到数据
+        @Query("udid") udid: String
+    )
+    : Observable<SearchResultResponse>
 
-    @GET("v5/index/tab/feed")
-    fun getFeed(): Observable<SearchResponse>
 
     //排行榜
     @GET("v4/rankList/videos?strategy=weekly")

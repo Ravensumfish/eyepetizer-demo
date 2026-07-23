@@ -8,7 +8,6 @@
 package com.example.combine
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.SearchView
@@ -19,12 +18,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.example.combine.ranking.BackClickCallBack
 import com.example.combine.ranking.RankListFragment
-import com.example.combine.ranking.RankViewModel
 import com.example.data.store.SPUtils
 import com.example.combine.search.LabelClickCallBack
 import com.example.combine.search.RankClickCallBack
 import com.example.search.R
 import com.example.combine.search.SearchRecordFragment
+import com.example.combine.search.ResultVideoPage
 import com.example.combine.search.SearchResultFragment
 import com.example.combine.search.SearchViewModel
 import com.example.search.databinding.ActivityCombinedBinding
@@ -34,8 +33,6 @@ class CombinedActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityCombinedBinding
     private val searchViewModel: SearchViewModel by viewModels()
-    private val rankViewModel: RankViewModel by viewModels()
-
     lateinit var recordFragment: SearchRecordFragment
     lateinit var resultFragment: SearchResultFragment
     lateinit var rankFragment : RankListFragment

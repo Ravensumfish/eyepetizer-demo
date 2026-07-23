@@ -33,7 +33,6 @@ class RankPreviewAdapter : BaseRvAdapter<RankListItem>() {
         Log.d("TAG", "RankAdapter:imgUrl=${item.cover.feed} ")
         Glide.with(holder.itemView.context)
             .load(item.cover.feed)
-            .placeholder(R.mipmap.ic_launcher)
             .centerCrop()
             .into(holder.feed)
 

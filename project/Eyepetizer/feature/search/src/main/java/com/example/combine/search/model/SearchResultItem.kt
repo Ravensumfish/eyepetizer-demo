@@ -20,3 +20,5 @@ data class SearchData(val data:SearchContent?)
 
 //最外层
 data class SearchResponse(val itemList : List<SearchData>?)
+
+

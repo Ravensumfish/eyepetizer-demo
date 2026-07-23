@@ -6,15 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.combine.search.adapter.SearchResultRvAdapter
+import com.example.combine.search.adapter.ResultVp2Adapter
 import com.example.search.databinding.FragmentSearchResultBinding
+import com.example.search.databinding.PageSearchResultBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
-class SearchResultFragment : Fragment() {
+class SearchResultFragment : Fragment(){
+
+    lateinit var pageAdapter : ResultVp2Adapter
     lateinit var binding : FragmentSearchResultBinding
-    private var resultAdapter = SearchResultRvAdapter()
-    private val viewModel : SearchViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,28 +22,28 @@ class SearchResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchResultBinding.inflate(inflater,container,false)
-       return binding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-        initData()
     }
 
     fun init(){
-        binding.rvSearchResult.adapter = resultAdapter
-        binding.rvSearchResult.layoutManager = LinearLayoutManager(requireContext())
-
-    }
-
-    fun initData(){
-        viewModel.resultList.observe(viewLifecycleOwner){l->
-            resultAdapter.submitList(l)
-        }
-
-        Log.d("TAG", "initData:加载result列表 ")
-        viewModel.loadFeed()
-
+        binding.vp2SearchResult.isSaveEnabled = false
+        pageAdapter = ResultVp2Adapter(this)
+        binding.vp2SearchResult.adapter = pageAdapter
+        TabLayoutMediator(binding.tabResult,binding.vp2SearchResult){
+                tab,pos->
+            tab.text = when(pos){
+                0->"视频"
+                1->"作者"
+                2->"图文"
+                3->"话题"
+                4->"用户"
+                else -> ""
+            }
+        }.attach()
     }
 }

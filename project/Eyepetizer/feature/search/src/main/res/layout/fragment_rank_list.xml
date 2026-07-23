@@ -25,9 +25,6 @@
             android:layout_height="20dp"
             android:src="@drawable/eyepetizer_icon"/>
 
-
-
-
     </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
@@ -35,7 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         app:tabTextColor="@color/gray"
-        app:tabSelectedTextColor="@color/black"/>
+        app:tabSelectedTextColor="@color/black"
+        app:tabIndicatorColor="@color/black"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp2_rank"

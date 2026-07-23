@@ -6,42 +6,41 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.example.combine.search.model.ImageItem
 import com.example.search.R
-import com.example.combine.search.model.SearchResultItem
 import com.example.ui.BaseRvAdapter
-import com.example.utils.TimeUtils
-import com.google.android.material.button.MaterialButton
 
-class SearchResultRvAdapter : BaseRvAdapter<SearchResultItem>() {
+class ResultImageAdapter  : BaseRvAdapter<ImageItem>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): SearchResultViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_search_result,parent,false)
+            .inflate(R.layout.item_result_image,parent,false)
         return SearchResultViewHolder(view)
     }
 
     override fun onBindViewHolder(
-        holder: BaseRvAdapter<SearchResultItem>.BaseRvViewHolder,
+        holder: BaseRvAdapter<ImageItem>.BaseRvViewHolder,
         position: Int
     ) {
-       holder as SearchResultViewHolder
+        holder as SearchResultViewHolder
         var item = data[position]
         holder.title.text = item.title
-        holder.duration.text = TimeUtils.formatDuration(item.duration)
+        holder.likes.text = item.consumption.like_count.toString()
+        holder.stars.text = item.consumption.collection_count.toString()
 
         Glide.with(holder.itemView.context)
-            .load(item.cover.feed)
-            .placeholder(R.mipmap.ic_launcher)
+            .load(item.cover.url)
             .centerCrop()
             .into(holder.img)
     }
 
     inner class SearchResultViewHolder(item: View) : BaseRvViewHolder(item){
-        var img : ImageView = item.findViewById(R.id.img_search_result_video)
-        var title : TextView = item.findViewById(R.id.tv_search_result_title)
-        var duration : MaterialButton = item.findViewById(R.id.btn_search_result_duration)
+        var img : ImageView = item.findViewById(R.id.img_result_topic_cover)
+        var likes : TextView = item.findViewById(R.id.tv_result_image_likes)
+        var stars : TextView = item.findViewById(R.id.tv_result_image_stars)
+        val title : TextView = item.findViewById(R.id.tv_result_image_title)
     }
 }
