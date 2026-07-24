@@ -37,10 +37,14 @@ object RetrofitClient {
         .client(okHttpClient)
         .build()
 
+
+
         //创建接口实例
         //如： private val api: SearchAPIService= RetrofitClient.create(SearchAPIService::class.java)
         fun<T> create(clazz: Class<T>):T{
             //retrofit动态代理，根据传入的接口与接口注解自动生成实现该接口的实例
             return retrofit.create(clazz)
         }
+
+
 }

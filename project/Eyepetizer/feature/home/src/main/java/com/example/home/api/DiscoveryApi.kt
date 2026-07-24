@@ -1,15 +1,15 @@
 package com.example.home.api
 
 /**
- * @Desc : 首页视频接口
+ * @Desc : 发现接口
  * @Author : zjl
- * @Date : 2026/7/21 16:42
+ * @Date : 2026/7/24 14:10
  */
 
 import com.example.home.discoverymodel.CategoryData
 import com.example.home.discoverymodel.DiscoveryCategoryDataItem
 import com.example.home.homemodel.HomeData
-import com.example.home.playlistmodel.TopicData
+import com.example.home.playlistmodel.TopicItemData
 import com.example.home.playlistmodel.TopicDetailData
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
@@ -26,7 +26,7 @@ interface DiscoveryApi {
     fun getCategoryDetailVideos(@Url url: String): Observable<CategoryData>
 
     @GET("v3/specialTopics")
-    fun getTopicList(): Observable<MutableList<TopicData>>
+    fun getTopicList(): Observable<MutableList<TopicItemData>>
 
 
     @GET("v3/lightTopics/internal/{id}")
