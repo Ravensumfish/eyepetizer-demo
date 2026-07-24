@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.bumptech.glide.Glide
 import com.example.video.adapter.VideoVp2Adapter
 import com.example.video.databinding.ActivityVideoLayoutBinding
@@ -15,6 +16,7 @@ import com.example.video.model.Tag
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 
+@Route(path = "/feature/video/VideoActivity")
 class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack {
     lateinit var binding: ActivityVideoLayoutBinding
     lateinit var pageAdapter : VideoVp2Adapter

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.combine.ranking.BackClickCallBack
 import com.example.combine.ranking.RankListFragment
 import com.example.data.store.SPUtils
@@ -28,7 +29,7 @@ import com.example.combine.search.SearchResultFragment
 import com.example.combine.search.SearchViewModel
 import com.example.search.databinding.ActivityCombinedBinding
 
-
+@Route(path = "/feature/search/CombinedActivity")
 class CombinedActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityCombinedBinding

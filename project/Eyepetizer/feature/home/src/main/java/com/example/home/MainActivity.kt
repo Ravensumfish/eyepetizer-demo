@@ -12,8 +12,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import com.example.home.BottomNavigationBarView
 import androidx.core.view.WindowInsetsCompat
+import com.alibaba.android.arouter.facade.annotation.Route
 
-
+@Route(path = "/feature/home/MainActivity")
 class MainActivity :  AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController

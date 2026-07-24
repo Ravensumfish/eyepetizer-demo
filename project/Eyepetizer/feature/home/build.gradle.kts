@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -11,6 +12,10 @@ android {
         viewBinding{
             enable = true
         }
+    }
+
+    ksp {
+        arg("AROUTER_MODULE_NAME", project.name)
     }
 
     defaultConfig {
@@ -37,6 +42,9 @@ android {
 }
 
     dependencies {
+        implementation("com.alibaba:arouter-api:1.5.2")
+        ksp("com.alibaba:arouter-compiler:1.5.2")
+
         implementation(libs.androidx.appcompat)
         implementation(libs.androidx.core.ktx)
         implementation(libs.material)

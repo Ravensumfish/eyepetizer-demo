@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -10,6 +11,11 @@ android {
             minorApiLevel = 1
         }
     }
+
+    ksp {
+        arg("AROUTER_MODULE_NAME", project.name)
+    }
+
 
     defaultConfig {
         applicationId = "com.example.eyepetizer"
@@ -38,6 +44,10 @@ android {
 }
 
 dependencies {
+    implementation("com.alibaba:arouter-api:1.5.2")
+    implementation(libs.appcompat)
+    ksp("com.alibaba:arouter-compiler:1.5.2")
+
     implementation(project(":core:ui"))
     implementation(project(":core:data_store"))
 
