@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
+import com.alibaba.android.arouter.launcher.ARouter
 
 class HomeFragment : Fragment() {
 
@@ -50,6 +51,22 @@ class HomeFragment : Fragment() {
         // 上拉加载
         adapter.onLoadMore = {
             vm.loadMore()
+        }
+
+        adapter.onVideoClick={ Data->
+            ARouter.getInstance()
+                .build("/feature/video/VideoActivity")
+                .withInt("id",Data.id)
+                .withString("title",Data.title)
+                .withString("name",Data.author.name)
+                .withString("icon",Data.author.icon)
+                .withString("category",Data.category)
+                .withString("description",Data.description)
+                .withString("playUrl",Data.playUrl)
+                .withInt("collectionCount",Data.consumption.collectionCount)
+                .withInt("shareCount",Data.consumption.shareCount)
+                .withInt("replyCount",Data.consumption.replyCount)
+                .navigation()
         }
 
         adapter.onShareClick = { Data ->
