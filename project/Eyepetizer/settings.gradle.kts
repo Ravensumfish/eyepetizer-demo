@@ -41,3 +41,4 @@ include(":feature:notify")
 
 include(":build-logic")
 
+include(":app",":feature",":feature:home")
