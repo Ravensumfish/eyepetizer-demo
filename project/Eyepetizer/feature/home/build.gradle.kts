@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -14,9 +14,7 @@ android {
         }
     }
 
-    ksp {
-        arg("AROUTER_MODULE_NAME", project.name)
-    }
+
 
     defaultConfig {
         applicationId = "com.example.home"
@@ -26,6 +24,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions{
+            annotationProcessorOptions{
+                arguments["AROUTER_MODULE_NAME"]= project.name
+            }
+        }
     }
 
     buildTypes {
@@ -41,9 +44,11 @@ android {
     }
 }
 
+
     dependencies {
         implementation("com.alibaba:arouter-api:1.5.2")
-        ksp("com.alibaba:arouter-compiler:1.5.2")
+        annotationProcessor("com.alibaba:arouter-compiler:1.5.2")
+
 
         implementation(libs.androidx.appcompat)
         implementation(libs.androidx.core.ktx)

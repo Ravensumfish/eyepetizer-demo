@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -10,10 +10,6 @@ android {
         version = release(36) {
             minorApiLevel = 1
         }
-    }
-
-    ksp {
-        arg("AROUTER_MODULE_NAME", project.name)
     }
 
 
@@ -25,6 +21,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions{
+            annotationProcessorOptions{
+                arguments["AROUTER_MODULE_NAME"]= project.name
+            }
+        }
     }
 
     buildTypes {
@@ -32,6 +34,9 @@ android {
             optimization {
                 enable = false
             }
+        }
+        debug{
+
         }
     }
     compileOptions {
@@ -43,13 +48,20 @@ android {
     }
 }
 
+
+
 dependencies {
     implementation("com.alibaba:arouter-api:1.5.2")
     implementation(libs.appcompat)
-    ksp("com.alibaba:arouter-compiler:1.5.2")
+    annotationProcessor("com.alibaba:arouter-compiler:1.5.2")
 
     implementation(project(":core:ui"))
     implementation(project(":core:data_store"))
+    implementation(project(":feature"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:video"))
+    implementation(project(":feature:search"))
+
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
@@ -59,7 +71,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(project(":feature"))
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

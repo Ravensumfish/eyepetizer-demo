@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -12,9 +11,7 @@ android {
         }
     }
 
-    ksp {
-        arg("AROUTER_MODULE_NAME", project.name)
-    }
+
 
     defaultConfig {
         applicationId = "com.example.notify"
@@ -42,9 +39,8 @@ android {
     }
 }
 
+
 dependencies {
-    implementation("com.alibaba:arouter-api:1.5.2")
-    ksp("com.alibaba:arouter-compiler:1.5.2")
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
