@@ -45,3 +45,4 @@ include(":core:router") //路由
 
 include(":app",":feature",":feature:home")
 }
+include(":feature:login")
