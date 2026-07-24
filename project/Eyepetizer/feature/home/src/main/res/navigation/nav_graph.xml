@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragment_home">
+
+    <fragment
+        android:id="@+id/fragment_home"
+        android:name="com.example.home.fragment.HomeFragment"/>
+
+    <fragment
+        android:id="@+id/fragment_daily"
+        android:name="com.example.home.fragment.DailyFragment"/>
+
+    <fragment
+        android:id="@+id/fragment_discovery"
+        android:name="com.example.home.fragment.DiscoveryFragment"/>
+
+    <fragment
+        android:id="@+id/fragment_mine"
+        android:name="com.example.home.fragment.MineFragment"/>
+
+    <fragment
+        android:id="@+id/categoryDetailFragment"
+        android:name="com.example.home.fragment.CategoryDetailFragment"
+        android:label="分类详情">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="img"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string"/>
+    </fragment>
+
+
+</navigation>

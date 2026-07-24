@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_nav_bar"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/white">
+
+    <!-- 首页 -->
+    <FrameLayout
+        android:id="@+id/fl_home"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/fl_daily"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/iv_home"
+            android:layout_width="38dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/home"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_home"
+            android:layout_width="38dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:text="首页"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <!-- 日报 -->
+    <FrameLayout
+        android:id="@+id/fl_daily"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/fl_home"
+        app:layout_constraintRight_toLeftOf="@id/fl_discovery"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/iv_daily"
+            android:layout_width="38dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/daily"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_daily"
+            android:layout_width="38dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:text="日报"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <!-- 发现 -->
+    <FrameLayout
+        android:id="@+id/fl_discovery"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/fl_daily"
+        app:layout_constraintRight_toLeftOf="@id/fl_mine"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/iv_discovery"
+            android:layout_width="38dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/search"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_discovery"
+            android:layout_width="38dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:text="发现"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <!-- 我的 -->
+    <FrameLayout
+        android:id="@+id/fl_mine"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/fl_discovery"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/iv_mine"
+            android:layout_width="38dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/user"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_mine"
+            android:layout_width="38dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:text="我的"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:visibility="visible" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
