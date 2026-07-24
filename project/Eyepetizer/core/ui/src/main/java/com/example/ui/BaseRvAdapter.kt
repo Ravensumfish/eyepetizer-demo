@@ -7,6 +7,7 @@
 
 package com.example.ui
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,15 +44,16 @@ abstract  class BaseRvAdapter<T>()
         return data.size
     }
 
-    protected var onItemClick : ((position : Int,item:View)-> Unit)? = null
+    var onItemClick : ((position : Int, item:T)-> Unit)? = null
     //子类去实现具体绑定逻辑
     open inner class BaseRvViewHolder(item: View): RecyclerView.ViewHolder(item){
 
         init {
             item.setOnClickListener {
                 val pos = adapterPosition
-                if (pos != RecyclerView.NO_POSITION){
-                    onItemClick?.invoke(pos, item)
+                Log.d("TAG", "baseAdapter:点击事件，pos=$pos")
+                if (pos != RecyclerView.NO_POSITION && data[pos]!= null){
+                    onItemClick?.invoke(pos, data[pos])
                 }
             }
         }
