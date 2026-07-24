@@ -7,6 +7,7 @@ espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 kotlin = "2.2.10"
+ksp = "2.2.10-2.0.2"
 composeBom = "2026.02.01"
 appcompat = "1.6.1"
 material = "1.10.0"
@@ -31,6 +32,7 @@ rxjava = "3.1.9"
 rxjava-android = "3.0.2"
 
 leakcanaryAndroid = "2.14"
+appcompatVersion = "1.7.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -81,11 +83,13 @@ gsy-video-player = { module = "com.shuyu:GSYVideoPlayer", version.ref = "gsyVide
 
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [bundles]

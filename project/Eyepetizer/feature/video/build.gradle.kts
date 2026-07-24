@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
+
 }
 
 android {
@@ -20,6 +21,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions{
+            annotationProcessorOptions{
+                arguments["AROUTER_MODULE_NAME"]= project.name
+            }
+        }
     }
 
     buildTypes {
@@ -39,7 +45,15 @@ android {
     }
 }
 
+
+
+
+
 dependencies {
+    implementation("com.alibaba:arouter-api:1.5.2")
+    annotationProcessor("com.alibaba:arouter-compiler:1.5.2")
+
+
     implementation("io.github.carguo:gsyvideoplayer-java:13.1.0")
     implementation("io.github.carguo:gsyvideoplayer:13.1.0")
 

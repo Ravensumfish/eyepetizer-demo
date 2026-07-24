@@ -1,5 +1,7 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
+    //alias(libs.plugins.ksp)
+    //id("com.android.legacy-kapt")
 }
 
 android {
@@ -11,13 +13,14 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.feature"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions{
+            annotationProcessorOptions{
+                arguments["AROUTER_MODULE_NAME"]= project.name
+            }
+        }
     }
 
     buildTypes {
@@ -26,15 +29,24 @@ android {
                 enable = false
             }
         }
+        debug{
+
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+//ksp {
+//    arg("AROUTER_MODULE_NAME", project.name)
+//}
+
+
 
 dependencies {
-
+    implementation("com.alibaba:arouter-api:1.5.2")
+    annotationProcessor("com.alibaba:arouter-compiler:1.5.2")
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

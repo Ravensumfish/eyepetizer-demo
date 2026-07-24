@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+
 }
 
 android {
@@ -11,6 +12,8 @@ android {
         }
     }
 
+
+
     defaultConfig {
         applicationId = "com.example.search"
         minSdk = 24
@@ -19,6 +22,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions{
+            annotationProcessorOptions{
+                arguments["AROUTER_MODULE_NAME"]= project.name
+            }
+        }
     }
 
     buildTypes {
@@ -39,7 +47,12 @@ android {
 }
 
 
+
 dependencies {
+    implementation("com.alibaba:arouter-api:1.5.2")
+    annotationProcessor("com.alibaba:arouter-compiler:1.5.2")
+
+
     implementation(project(":core:ui"))
     implementation(project(":core:data_store"))
     implementation(project(":core:net"))

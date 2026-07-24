@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -13,6 +14,8 @@ android {
         }
     }
 
+
+
     defaultConfig {
         applicationId = "com.example.home"
         minSdk = 24
@@ -21,6 +24,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions{
+            annotationProcessorOptions{
+                arguments["AROUTER_MODULE_NAME"]= project.name
+            }
+        }
     }
 
     buildTypes {
@@ -36,7 +44,12 @@ android {
     }
 }
 
+
     dependencies {
+        implementation("com.alibaba:arouter-api:1.5.2")
+        annotationProcessor("com.alibaba:arouter-compiler:1.5.2")
+
+
         implementation(libs.androidx.appcompat)
         implementation(libs.androidx.core.ktx)
         implementation(libs.material)
