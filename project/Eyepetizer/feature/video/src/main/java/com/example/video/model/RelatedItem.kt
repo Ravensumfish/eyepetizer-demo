@@ -1,6 +1,5 @@
 package com.example.video.model
 
-import android.os.Parcelable
 
 data class RelatedItem(
     val title: String,
