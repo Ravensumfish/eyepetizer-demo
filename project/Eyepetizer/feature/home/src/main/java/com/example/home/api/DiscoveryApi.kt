@@ -26,13 +26,11 @@ interface DiscoveryApi {
     fun getCategoryDetailVideos(@Url url: String): Observable<CategoryData>
 
     @GET("v3/specialTopics")
-    fun getTopicList(): Observable<TopicData>
+    fun getTopicList(): Observable<MutableList<TopicData>>
 
-    @GET
-    fun getTopicList(@Url url: String): Observable<MutableList<TopicData>>
 
     @GET("v3/lightTopics/internal/{id}")
-    fun getTopicDetail(@Path("id") id: Int): Observable <TopicDetailData>
+    fun getTopicDetail(@Path("id") id: Int): Observable<TopicDetailData>
 
 
 }
