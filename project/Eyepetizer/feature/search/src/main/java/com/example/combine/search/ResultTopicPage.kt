@@ -1,3 +1,10 @@
+/**
+ * description: 搜索话题页面
+ * author:Manticore
+ * email:3100776336@qq.com
+ * date:2026/7/23
+ */
+
 package com.example.combine.search
 
 import android.os.Bundle

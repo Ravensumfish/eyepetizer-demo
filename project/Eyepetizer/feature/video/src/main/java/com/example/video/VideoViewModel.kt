@@ -1,5 +1,6 @@
 package com.example.video
 
+import android.text.BoringLayout
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -30,6 +31,15 @@ class VideoViewModel: ViewModel() {
 
     fun init(brief: RelatedItem){
         _currentBrief.value = brief
+    }
+
+    fun sortBy(hot: Boolean){
+       val l = if (hot){
+            _commentList.value?.sortedByDescending { it.likeCount }?:return
+        }else{
+            _commentList.value?.sortedByDescending{ it.createTime }?:return
+        }
+        _commentList.value = l
     }
 
     fun setVideoId(i:Int){
@@ -77,4 +87,31 @@ class VideoViewModel: ViewModel() {
         Log.d("TAG", "toVideo: 跳转到video:$id")
     }
 
+
+
+    //mock
+  //  val a = Author(
+//        304573213,
+//        "http://ali-img.kaiyanapp.com/577bc334615d3f913cf6620dc52717aa.png?image_process=image/auto-orient,1/resize,w_360/format,png/interlace,1/quality,q_80",
+//          "尼康 nikon 广告精选"
+//        )
+//        val c= Consumption(
+//            1,
+//            1,
+//            1,
+//        )
+//
+//        val t = listOf(
+//            Tag("#广告")
+//        )
+//        val b = BriefItem(
+//            277859,
+//            "2021 年 5 月尼康广告：日常摄影",
+//            "这是来自尼康的广告，尼克尔变焦镜头打造，非常适合日常摄影，从人像到旅行。",
+//            a,
+//            104,
+//            "http://static.thefair.net.cn/eyepetizer/pgc_video/video_summary/277859.mp4",
+//            c,
+//            t
+//        )
 }

@@ -11,6 +11,7 @@ package com.example.api
 import android.util.Log
 import com.example.combine.ranking.model.RankListItem
 import com.example.combine.search.model.AuthorItem
+import com.example.combine.search.model.DebugInfo
 import com.example.combine.search.model.ImageItem
 import com.example.combine.search.model.SRItem
 import com.example.combine.search.model.TopicItem
@@ -18,12 +19,24 @@ import com.example.combine.search.model.UserItem
 import com.example.combine.search.model.VideoItem
 import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Observable
+import retrofit2.http.Query
 
 class CombinedRepository(
     private val api : CombinedAPIService
 ) {
     fun getQueryHot(): Observable<List<String>> {
         return api.getQueryHot()
+    }
+
+    fun getResultPage(query :String, type: String, page:Int, udid: String): Observable<DebugInfo>{
+        return api.getResultPage(query,type,page,udid)
+            .doOnError { e->
+                Log.d("TAG", "getPage:错误:${e.message} ")
+            }
+            .map { response->
+                response.debug
+            }
+
     }
 
     //返回数据过于复杂(层层嵌套)，在api中得到resultResponse之后，使用map解包更为清晰明了且简洁

@@ -1,3 +1,10 @@
+/**
+ * description: 搜索图文rv适配器
+ * author:Manticore
+ * email:3100776336@qq.com
+ * date:2026/7/23
+ */
+
 package com.example.combine.search.adapter
 
 import android.view.LayoutInflater

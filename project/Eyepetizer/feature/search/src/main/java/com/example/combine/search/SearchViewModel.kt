@@ -1,3 +1,10 @@
+/**
+ * description: 管理数据
+ * author:Manticore
+ * email:3100776336@qq.com
+ * date:2026/7/17
+ */
+
 package com.example.combine.search
 
 import android.adservices.topics.Topic
@@ -20,12 +27,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-/**
- * description: 管理数据
- * author:Manticore
- * email:3100776336@qq.com
- * date:2026/7/17
- */
+
 class SearchViewModel : ViewModel() {
 
     private val api: CombinedAPIService = RetrofitClient.create(CombinedAPIService::class.java)
@@ -63,6 +65,18 @@ class SearchViewModel : ViewModel() {
     val weeklyRankList : LiveData<List<RankListItem>> = _weeklyRankList
 
     private var query : String?= null
+    private var isRefresh = false
+    private var videoPage = 1
+    private var authorPage = 1
+//    private var videoPage = 1
+//    private var videoPage = 1
+//    private var videoPage = 1
+    private var totalPage = 1
+
+
+    fun refresh(){
+
+    }
 
 
     fun loadRecord(){

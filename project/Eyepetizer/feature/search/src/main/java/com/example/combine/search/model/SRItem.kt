@@ -2,7 +2,8 @@ package com.example.combine.search.model
 
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
-
+//深层嵌套需多个数据类对应
+//最内层所需的字段
 open class SRItem
 
 data class VideoItem(
@@ -11,7 +12,12 @@ data class VideoItem(
     val title:String,
     val cover : Cover,
     val duration: Duration,
-    val tags : List<Tag>
+    val tags : List<Tag>,
+    val playUrl:String,
+    val author:Author,
+    val collection_count:Int,
+    val share_count:Int,
+    val text: String
 ): SRItem()
 
 data class AuthorItem(
@@ -71,7 +77,14 @@ data class Cover(
 
 //最外层
 data class SearchResultResponse(
-    val result : ItemList
+    val result : ItemList,
+    val debug:DebugInfo
+)
+
+data class DebugInfo(
+    val page:Int,
+    val page_count:Int,
+    val item_per_page:Int
 )
 
 data class ItemList(

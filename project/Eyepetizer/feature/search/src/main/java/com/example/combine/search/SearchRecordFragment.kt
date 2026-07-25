@@ -1,3 +1,10 @@
+/**
+ * description: 搜索页面
+ * author:Manticore
+ * email:3100776336@qq.com
+ * date:2026/7/17
+ */
+
 package com.example.combine.search
 
 import android.os.Bundle
@@ -11,9 +18,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.data.store.SPUtils
 import com.example.combine.search.adapter.SearchLabelRvAdapter
-import com.example.combine.ranking.adapter.RankRvAdapter
 import com.example.combine.search.adapter.RankPreviewAdapter
 import com.example.search.databinding.FragmentSearchRecordBinding
+import com.therouter.TheRouter
 
 class SearchRecordFragment: Fragment() {
 
@@ -137,6 +144,23 @@ class SearchRecordFragment: Fragment() {
     fun clickRankPreview(){
         binding.cdSearchRk.setOnClickListener {
             rankClickCallBack?.rankPreviewClick()
+        }
+        rankAdapter.onItemClick = {pos,item->
+            Log.d("TAG", "RecordFragment:toVideoDetail:点击了$pos,正在执行跳转 ")
+            TheRouter
+                .build("/feature/video/VideoActivity")
+                .withInt("id",item.id)
+                .withString("title",item.title)
+                .withString("icon",item.author.icon)
+                .withString("name",item.author.name)
+                .withString("category",item.category)
+                .withString("description",item.description)
+                .withString("playUrl",item.playUrl)
+                .withInt("collectionCount",item.consumption.collectionCount)
+                .withInt("shareCount",item.consumption.shareCount)
+                .withInt("replyCount",item.consumption.replyCount)
+                .navigation()
+
         }
     }
 

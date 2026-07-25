@@ -1,3 +1,11 @@
+/**
+ * description: 网络请求客户端
+ * author:Manticore
+ * email:3100776336@qq.com
+ * date:2026/7/17
+ */
+
+
 package com.example.api
 
 import android.util.Log
@@ -10,6 +18,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+//配置全局唯一
 object SearchRetrofitClient {
 
 
@@ -33,7 +42,7 @@ object SearchRetrofitClient {
         .addConverterFactory(
             GsonConverterFactory.create()
         )
-        //转换响应接口为rxjava类型从而可以调用rxjava方法
+        //转换响应接口为rxjava类型，返回observable或flowable类型，从而可以调用rxjava方法，如线程切换
         .addCallAdapterFactory(
             RxJava3CallAdapterFactory.create()
         )

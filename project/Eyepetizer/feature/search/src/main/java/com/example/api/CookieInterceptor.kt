@@ -1,3 +1,10 @@
+/**
+ * description: 拦截器
+ * author:Manticore
+ * email:3100776336@qq.com
+ * date:2026/7/21
+ */
+
 package com.example.api
 
 import okhttp3.Interceptor

@@ -10,6 +10,13 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    resolutionStrategy{
+        eachPlugin {
+            if (requested.id.id == "therouter"){
+                useModule("cn.therouter:plugin:${requested.version}")
+            }
+        }
+    }
 }
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
@@ -42,6 +49,6 @@ include(":core:router") //路由
     include(":feature:notify")
 
     include(":build-logic")
+    include(":feature:login")
 
 }
-include(":feature:login")

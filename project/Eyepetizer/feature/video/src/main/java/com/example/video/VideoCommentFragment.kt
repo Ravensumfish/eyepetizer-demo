@@ -14,6 +14,7 @@ class VideoCommentFragment: Fragment() {
     lateinit var binding: FragmentVideoCommentsBinding
     private val viewModel : VideoViewModel by activityViewModels()
     private val adapter= CommentRvAdapter()
+    private var hot = true
 
 
     override fun onCreateView(
@@ -29,6 +30,7 @@ class VideoCommentFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
         initData()
+        changeOrder()
     }
 
     fun init(){
@@ -42,5 +44,22 @@ class VideoCommentFragment: Fragment() {
             adapter.submitList(l)
         }
         viewModel.loadComments()
+        viewModel.sortBy(true)
+    }
+    fun changeOrder(){
+        binding.commentsOrder.setOnClickListener {
+            hot = !hot
+
+            if (hot){
+                binding.tvCommentsOrder.text = "按热度"
+                binding.tvCommentsType.text = "最热评论"
+            }else{
+                binding.tvCommentsOrder.text = "按时间"
+                binding.tvCommentsType.text = "最新评论"
+            }
+
+            viewModel.sortBy(hot)
+
+        }
     }
 }

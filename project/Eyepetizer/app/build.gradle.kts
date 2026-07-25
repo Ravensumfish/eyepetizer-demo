@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    id("therouter")
+    id("com.google.devtools.ksp")
+
 
 }
 
@@ -22,11 +25,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        javaCompileOptions{
-            annotationProcessorOptions{
-                arguments["AROUTER_MODULE_NAME"]= project.name
-            }
-        }
     }
 
     buildTypes {
@@ -43,17 +41,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    buildFeatures {
-        compose = true
-    }
 }
 
-
+ksp {
+    arg("AROUTER_MODULE_NAME", project.name)
+}
 
 dependencies {
-    implementation("com.alibaba:arouter-api:1.5.2")
     implementation(libs.appcompat)
-    annotationProcessor("com.alibaba:arouter-compiler:1.5.2")
+    implementation("cn.therouter:router:1.3.2")
+    ksp("cn.therouter:apt:1.3.2")
 
     implementation(project(":core:ui"))
     implementation(project(":core:data_store"))
@@ -61,12 +58,15 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:video"))
     implementation(project(":feature:search"))
+    implementation(project(":feature:login"))
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.9.8")
     implementation("androidx.navigation:navigation-ui-ktx:2.9.8")
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.7")
     implementation("androidx.fragment:fragment-ktx:1.5.5")
     implementation("androidx.appcompat:appcompat:1.6.1")
+
+    implementation("com.google.android.material:material:1.14.0")
 
 
 

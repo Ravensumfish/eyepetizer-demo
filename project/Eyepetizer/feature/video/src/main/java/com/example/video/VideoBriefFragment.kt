@@ -88,7 +88,7 @@ class VideoBriefFragment : Fragment(){
     }
 
     fun openVideoDetail(){
-        adapter.onItemClick = onItemClick@{ pos,item ->
+        adapter.onItemClick = { pos,item ->
             Log.d("TAG", "clickItem: 点击video${item.id}")
             videoClickCallBack?.onVideoClick(item.id)
 

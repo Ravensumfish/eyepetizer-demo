@@ -46,6 +46,18 @@ object SPUtils {
         return sp.getStringSet(key,emptySet())?:emptySet()
     }
 
+    fun putBool(key: String,value: Boolean){
+        sp.edit{
+            putBoolean(key,value)
+        }
+    }
+
+    fun getBool(key : String) : Boolean{
+
+        return sp.getBoolean(key,false)
+    }
+
+
 
 
 }

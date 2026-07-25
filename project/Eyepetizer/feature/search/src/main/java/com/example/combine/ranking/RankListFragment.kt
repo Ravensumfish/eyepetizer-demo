@@ -1,3 +1,10 @@
+/**
+ * description: 排行榜页面容器
+ * author:Manticore
+ * email:3100776336@qq.com
+ * date:2026/7/19
+ */
+
 package com.example.combine.ranking
 
 import android.os.Bundle

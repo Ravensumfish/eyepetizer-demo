@@ -1,5 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
+//    alias(libs.plugins.kotlin.compose)
+
+    //id("therouter")
+    id("com.google.devtools.ksp")
 
 }
 
@@ -21,11 +25,6 @@ android {
 
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        javaCompileOptions{
-            annotationProcessorOptions{
-                arguments["AROUTER_MODULE_NAME"]= project.name
-            }
-        }
     }
 
     buildTypes {
@@ -40,12 +39,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-
+ksp {
+    arg("AROUTER_MODULE_NAME", project.name)
+}
 
     dependencies {
-        implementation("com.alibaba:arouter-api:1.5.2")
-        annotationProcessor("com.alibaba:arouter-compiler:1.5.2")
-
+        implementation("cn.therouter:router:1.3.2")
+        ksp("cn.therouter:apt:1.3.2")
 
         implementation(libs.androidx.appcompat)
         implementation(libs.androidx.core.ktx)
@@ -58,11 +58,11 @@ android {
 
         implementation("androidx.appcompat:appcompat:1.6.1")
 
-        implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+        implementation("com.squareup.retrofit2:converter-gson:2.11.0")
 
         implementation("io.reactivex.rxjava3:rxjava:3.1.8")
         implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
-        implementation("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
+        implementation("com.squareup.retrofit2:adapter-rxjava3:2.11.0")
 
         implementation("androidx.recyclerview:recyclerview:1.3.2")
 

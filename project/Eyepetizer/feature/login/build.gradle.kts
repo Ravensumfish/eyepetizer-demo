@@ -1,6 +1,9 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.android.library)
+    //alias(libs.plugins.kotlin.compose)
+
+    //id("therouter")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -12,18 +15,13 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.login"
-        minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+       // applicationId = "com.example.login"
+       minSdk = 24
+       // targetSdk = 36
+      //  versionCode = 1
+        //versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        javaCompileOptions{
-            annotationProcessorOptions{
-                arguments["AROUTER_MODULE_NAME"]= project.name
-            }
-        }
     }
 
     buildTypes {
@@ -38,14 +36,17 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
-        compose = true
         viewBinding = true
     }
 }
 
+ksp {
+    arg("AROUTER_MODULE_NAME", project.name)
+}
+
 dependencies {
-    implementation("com.alibaba:arouter-api:1.5.2")
-    annotationProcessor("com.alibaba:arouter-compiler:1.5.2")
+    implementation("cn.therouter:router:1.3.2")
+    ksp("cn.therouter:apt:1.3.2")
 
     implementation(project(":core:ui"))
     implementation(project(":core:data_store"))
@@ -70,19 +71,10 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.8.9")
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.material)
     testImplementation(libs.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
-    debugImplementation(libs.androidx.compose.ui.tooling)
 }

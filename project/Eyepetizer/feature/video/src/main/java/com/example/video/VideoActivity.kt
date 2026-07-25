@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.alibaba.android.arouter.facade.annotation.Autowired
-import com.alibaba.android.arouter.facade.annotation.Route
-import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.example.video.adapter.VideoVp2Adapter
 import com.example.video.databinding.ActivityVideoLayoutBinding
@@ -17,6 +14,9 @@ import com.example.video.model.RelatedItem
 import com.example.video.model.Tag
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shuyu.gsyvideoplayer.GSYVideoManager
+import com.therouter.TheRouter
+import com.therouter.router.Autowired
+import com.therouter.router.Route
 
 @Route(path = "/feature/video/VideoActivity")
 class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack {
@@ -24,31 +24,31 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
     lateinit var pageAdapter : VideoVp2Adapter
     private val viewModel : VideoViewModel by viewModels()
     @Autowired
-    private var id :Int = 0
+     var id :Int = 0
     @Autowired
-    private var title : String = ""
+     var title : String = ""
     @Autowired
-    private var icon:String=""
+     var icon:String=""
     @Autowired
-    private var name:String=""
+     var name:String=""
     @Autowired
-    private var category:String=""
+     var category:String=""
     @Autowired
-    private var description:String=""
+     var description:String=""
     @Autowired
-    private var playUrl:String=""
+     var playUrl:String=""
     @Autowired
-    private var collectionCount:Int=0
+     var collectionCount:Int=0
     @Autowired
-    private var shareCount:Int=0
+     var shareCount:Int=0
     @Autowired
-    private var replyCount:Int=0
+     var replyCount:Int=0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVideoLayoutBinding.inflate(layoutInflater)
-        ARouter.getInstance().inject(this)
+        TheRouter.inject(this)
         setContentView(binding.root)
         init()
 

@@ -2,18 +2,13 @@ package com.example.eyepetizer
 
 import android.app.Application
 import android.util.Log
-import com.alibaba.android.arouter.BuildConfig
-import com.alibaba.android.arouter.launcher.ARouter
+import com.therouter.TheRouter
 
 class MyApp : Application(){
     override fun onCreate() {
         super.onCreate()
-        if (BuildConfig.DEBUG){
-            ARouter.openLog()
-            ARouter.openDebug()
-        }
 
-        ARouter.init(this)
+        TheRouter.init(this)
         Log.d("Application", "ARouter 初始化完成")
     }
 }

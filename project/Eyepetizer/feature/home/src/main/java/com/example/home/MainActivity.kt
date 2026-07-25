@@ -6,11 +6,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.home.databinding.ActivityMainBinding
 import androidx.navigation.findNavController
 import androidx.core.view.updatePadding
+import com.therouter.router.Route
 
 @Route(path = "/feature/home/MainActivity")
 class MainActivity :  AppCompatActivity() {

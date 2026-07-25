@@ -1,3 +1,10 @@
+/**
+ * description: 排行榜数据存储与获取
+ * author:Manticore
+ * email:3100776336@qq.com
+ * date:2026/7/18
+ */
+
 package com.example.combine.ranking
 
 import androidx.lifecycle.LiveData
