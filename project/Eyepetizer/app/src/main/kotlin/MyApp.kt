@@ -1,6 +1,7 @@
 package com.example.eyepetizer
 
 import android.app.Application
+import android.util.Log
 import com.alibaba.android.arouter.BuildConfig
 import com.alibaba.android.arouter.launcher.ARouter
 
@@ -13,5 +14,6 @@ class MyApp : Application(){
         }
 
         ARouter.init(this)
+        Log.d("Application", "ARouter 初始化完成")
     }
 }

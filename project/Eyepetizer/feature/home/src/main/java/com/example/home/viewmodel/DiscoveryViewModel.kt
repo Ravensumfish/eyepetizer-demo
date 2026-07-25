@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.home.discoverymodel.DiscoveryCategoryDataItem
+import com.example.home.playlistmodel.TopicData
+import com.example.home.playlistmodel.TopicItemData
 import com.example.home.repository.NetRepository
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -15,6 +17,10 @@ class DiscoveryViewModel: ViewModel() {
     private val _categoryList = MutableLiveData<MutableList<DiscoveryCategoryDataItem>>(mutableListOf())
     val categoryList: LiveData<MutableList<DiscoveryCategoryDataItem>>
         get() = _categoryList
+
+    private val _topicList = MutableLiveData<MutableList<TopicItemData>>(mutableListOf())
+    val topicList: LiveData<MutableList<TopicItemData>>
+        get() = _topicList
 
     private val _isRefreshing = MutableLiveData(false)
     val isRefreshing: LiveData<Boolean>
@@ -40,6 +46,25 @@ class DiscoveryViewModel: ViewModel() {
 
                 override fun onNext(dataList: MutableList<DiscoveryCategoryDataItem>) {
                     _categoryList.postValue(dataList)
+                    _isRefreshing.value = false
+                }
+            })
+    }
+
+    fun getDiscoveryTopics() {
+        _isRefreshing.value = true
+        repository.getDiscoveryTopics()
+            .subscribe(object : Observer<MutableList<TopicItemData>> {
+                override fun onSubscribe(d: Disposable) {}
+
+                override fun onError(e: Throwable) {
+                    Log.d("DiscoveryViewModel", "错误：${e.message}")
+                }
+
+                override fun onComplete() {}
+
+                override fun onNext(topicList: MutableList<TopicItemData>) {
+                    _topicList.postValue(topicList)
                     _isRefreshing.value = false
                 }
             })

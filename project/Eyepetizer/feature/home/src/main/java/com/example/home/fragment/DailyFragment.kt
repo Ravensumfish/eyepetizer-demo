@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
+import com.alibaba.android.arouter.launcher.ARouter
 import com.example.home.dailymodel.Data
 
 class DailyFragment : Fragment() {
@@ -53,6 +54,9 @@ class DailyFragment : Fragment() {
         adapter.onLoadMore = {
             vm.loadMore()
         }
+
+
+
 
         //分享功能
         adapter.onShareClick = { Data ->

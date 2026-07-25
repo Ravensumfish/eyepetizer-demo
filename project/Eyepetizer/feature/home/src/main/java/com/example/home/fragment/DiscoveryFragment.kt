@@ -14,6 +14,7 @@ import androidx.core.os.bundleOf
 import com.example.home.R
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.home.databinding.FragmentDiscoveryBinding
 
@@ -22,7 +23,6 @@ class DiscoveryFragment : Fragment() {
     private var _binding: FragmentDiscoveryBinding? = null
     private val binding
         get() = _binding!!
-
 
     private lateinit var vm: DiscoveryViewModel
     private val categoryAdapter = DiscoveryCategoryAdapter()
@@ -40,6 +40,8 @@ class DiscoveryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vm = ViewModelProvider(this)[DiscoveryViewModel::class.java]
+
+
         vm.categoryList.observe(viewLifecycleOwner){
             categoryAdapter.submitList(it)
         }
@@ -48,7 +50,17 @@ class DiscoveryFragment : Fragment() {
             override fun canScrollVertically(): Boolean = false
             override fun canScrollHorizontally(): Boolean = false
         }
-        binding.rvCategory.adapter = categoryAdapter
+        binding.rvCategory.adapter =categoryAdapter
+
+
+        vm.topicList.observe(viewLifecycleOwner){
+            playListAdapter.submitList(it)
+        }
+
+        binding.rvPlaylist.layoutManager = object : LinearLayoutManager(context,
+            LinearLayoutManager.HORIZONTAL,false){}
+        binding.rvPlaylist.adapter = playListAdapter
+
         // 下拉刷新
         binding.swipeRefresh.setOnRefreshListener {
             vm.refresh()
@@ -60,6 +72,7 @@ class DiscoveryFragment : Fragment() {
         }
 
         vm.getDiscoveryCategories()
+        vm.getDiscoveryTopics()
 
         categoryAdapter.itemClick={_,item->
             val bundle= bundleOf(
@@ -71,6 +84,16 @@ class DiscoveryFragment : Fragment() {
             )
 
             findNavController().navigate(R.id.categoryDetailFragment,bundle)
+        }
+
+        playListAdapter.itemClick={_,item->
+            val bundle= bundleOf(
+                "id" to item.id,
+                "headerImage" to item.image,
+                "description" to item.description,
+            )
+
+            findNavController().navigate(R.id.playListFragment,bundle)
         }
     }
 

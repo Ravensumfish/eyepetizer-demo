@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.android.library)
+
 }
 
 android {
@@ -17,11 +17,8 @@ android {
 
 
     defaultConfig {
-        applicationId = "com.example.home"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions{
@@ -55,6 +52,11 @@ android {
         implementation(libs.material)
         implementation("androidx.navigation:navigation-fragment-ktx:2.9.8")
         implementation("androidx.navigation:navigation-ui-ktx:2.9.8")
+        implementation("androidx.navigation:navigation-runtime-ktx:2.7.7")
+
+        implementation("androidx.fragment:fragment-ktx:1.5.5")
+
+        implementation("androidx.appcompat:appcompat:1.6.1")
 
         implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 

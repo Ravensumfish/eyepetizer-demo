@@ -17,6 +17,8 @@ import com.example.home.dailymodel.DailyData
 import com.example.home.discoverymodel.DiscoveryCategoryDataItem
 import com.example.home.api.DiscoveryApi
 import com.example.home.discoverymodel.CategoryData
+import com.example.home.playlistmodel.TopicDetailData
+import com.example.home.playlistmodel.TopicItemData
 
 class NetRepository {
     private val homeApi: HomeApi= RetrofitClient.create(HomeApi::class.java)
@@ -60,8 +62,22 @@ class NetRepository {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+
     fun getMoreCategoryVideos(nextPageUrl: String): Observable<DailyData>{
         return dailyApi.getMoreDailyVideos(nextPageUrl)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+
+    fun getDiscoveryTopics(): Observable<MutableList<TopicItemData>>{
+        return  discoveryApi.getTopicList()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getTopicDetail(id: Int): Observable<TopicDetailData>{
+        return discoveryApi. getTopicDetail(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

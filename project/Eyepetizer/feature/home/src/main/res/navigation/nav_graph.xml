@@ -38,5 +38,23 @@
             app:argType="string"/>
     </fragment>
 
+    <fragment
+        android:id="@+id/playListFragment"
+        android:name="com.example.home.fragment.PlayListFragment"
+        android:label="主题播单">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="img"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string"/>
+    </fragment>
+
 
 </navigation>

@@ -48,6 +48,7 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVideoLayoutBinding.inflate(layoutInflater)
+        ARouter.getInstance().inject(this)
         setContentView(binding.root)
         init()
 
@@ -70,8 +71,8 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
 
     fun init(){
         //通过ARouter与注解拿到所需数据
-        ARouter.getInstance().inject(this)
-        Log.d("TAG", "videoActivity:跳转成功 ")
+
+        Log.d("跳转", "videoActivity:跳转成功 ")
         Log.d("TAG", "videoActivity 目前视频的id: $id")
         viewModel.setVideoId(id)
         initVp2()
