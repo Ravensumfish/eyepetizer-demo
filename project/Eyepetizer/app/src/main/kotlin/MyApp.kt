@@ -14,5 +14,6 @@ class MyApp : Application(){
         }
 
         ARouter.init(this)
+        Log.d("Application", "ARouter 初始化完成")
     }
 }

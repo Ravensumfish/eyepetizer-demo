@@ -13,7 +13,9 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
+import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
+import com.alibaba.android.arouter.facade.callback.NavigationCallback
 
 class HomeFragment : Fragment() {
 
@@ -66,7 +68,25 @@ class HomeFragment : Fragment() {
                 .withInt("collectionCount",Data.consumption.collectionCount)
                 .withInt("shareCount",Data.consumption.shareCount)
                 .withInt("replyCount",Data.consumption.replyCount)
-                .navigation()
+                .navigation (requireContext() ,object : NavigationCallback {
+                    override fun onFound(postcard: Postcard?) {
+                        Log.d("HomeFragment", "✅ 路由找到: ${postcard?.path}")
+                    }
+
+                    override fun onLost(postcard: Postcard?) {
+                        Log.e("HomeFragment", "❌ 路由丢失: ${postcard?.path}")
+                        Log.e("HomeFragment", "请检查路径是否正确: /feature/video/VideoActivity")
+                    }
+
+                    override fun onArrival(postcard: Postcard?) {
+                        Log.d("HomeFragment", "✅ 路由到达: ${postcard?.path}")
+                    }
+
+                    override fun onInterrupt(postcard: Postcard?) {
+                        Log.e("HomeFragment", "⛔ 路由中断: ${postcard?.path}")
+                    }
+                })
+            Log.d("HomeFragment", "跳转指令已发送")
         }
 
         adapter.onShareClick = { Data ->
