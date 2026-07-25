@@ -44,3 +44,4 @@ include(":core:router") //路由
     include(":build-logic")
 
 }
+include(":feature:login")

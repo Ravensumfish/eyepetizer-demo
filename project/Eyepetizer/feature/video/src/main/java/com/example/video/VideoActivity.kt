@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.example.video.adapter.VideoVp2Adapter
 import com.example.video.databinding.ActivityVideoLayoutBinding
@@ -21,43 +23,32 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
     lateinit var binding: ActivityVideoLayoutBinding
     lateinit var pageAdapter : VideoVp2Adapter
     private val viewModel : VideoViewModel by viewModels()
-    private var id :Int = 277859
+    @Autowired
+    private var id :Int = 0
+    @Autowired
+    private var title : String = ""
+    @Autowired
+    private var icon:String=""
+    @Autowired
+    private var name:String=""
+    @Autowired
+    private var category:String=""
+    @Autowired
+    private var description:String=""
+    @Autowired
+    private var playUrl:String=""
+    @Autowired
+    private var collectionCount:Int=0
+    @Autowired
+    private var shareCount:Int=0
+    @Autowired
+    private var replyCount:Int=0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVideoLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        if (savedInstanceState == null){
-//            val vid = intent.getIntExtra("video_id",277859)
-//            val title = intent.getStringExtra("video_title")?:""
-//            val description = intent.getStringExtra("video_description")
-//            val playUrl = intent.getStringExtra("video_url")!!
-//            val tags = intent.getStringExtra("tags")
-//            val likes = intent.getIntExtra("video_likes",0)
-//            val comments = intent.getIntExtra("video_comments",0)
-//            val shares = intent.getIntExtra("video_shares",0)
-//            //author
-//            val id = intent.getIntExtra("author_id",0)
-//            val name = intent.getStringExtra("author_name")?:"未知"
-//            val icon = intent.getStringExtra("author_avatar")?:""
-//
-//            val a = Author(id,icon,name)
-//            val c = Consumption(likes,shares,comments)
-//
-//            val tl : List<Tag>? = tags?.split(" ")
-//                ?.map { tag-> Tag(tag) }?.toList()
-//
-//            val brief = RelatedItem(
-//                title,"",vid,a,
-//                0, Cover(""),description,
-//                playUrl,c,tl)
-//
-//            this.id = vid
-//            viewModel.init(brief)
-//        }
-
-
         init()
 
     }
@@ -78,11 +69,16 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
     }
 
     fun init(){
+        //通过ARouter与注解拿到所需数据
+        ARouter.getInstance().inject(this)
+        Log.d("TAG", "videoActivity:跳转成功 ")
         Log.d("TAG", "videoActivity 目前视频的id: $id")
         viewModel.setVideoId(id)
         initVp2()
+        viewModel.init(getBrief())
         refreshBrief()
     }
+
 
     fun refreshBrief(){
         viewModel.currentBrief.observe(this){
@@ -121,6 +117,27 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
         viewModel.toVideo(videoId)
         id = videoId
 
+    }
+
+    fun getBrief(): RelatedItem{
+        val a = Author(0, icon, name)
+        val c= Consumption(
+            collectionCount,
+            shareCount,
+            replyCount,
+        )
+        return RelatedItem(
+            title,
+            "videoSmallCard",
+            id,
+            a,
+            104,
+            Cover(""),
+            description,
+            playUrl,
+            c,
+            listOf(Tag(category))
+        )
     }
 
 }
