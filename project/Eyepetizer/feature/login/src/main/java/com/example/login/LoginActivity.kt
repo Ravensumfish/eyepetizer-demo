@@ -6,9 +6,11 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.example.data.store.SPUtils
 import com.example.login.databinding.ActivityLoginBinding
+import com.therouter.TheRouter
 
 class LoginActivity : ComponentActivity() {
     lateinit var binding: ActivityLoginBinding
+    private var account = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,9 @@ class LoginActivity : ComponentActivity() {
     }
 
     fun login(){
-        //ARouter.getInstance().build("/feature/home/MainActivity").navigation()
+        TheRouter.build("/feature/home/MainActivity")
+            .withString("account",account)
+            .navigation()
     }
 
     fun initClick(){
@@ -89,6 +93,7 @@ class LoginActivity : ComponentActivity() {
         if (safe){
             SPUtils.putString("last_account",account)
             SPUtils.putString("last_password",password)
+            this.account = account
         }
 
         return safe
