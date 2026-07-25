@@ -1,24 +1,24 @@
 package com.example.home
 
 import android.os.Bundle
-import android.view.View
-import android.view.WindowInsets
-import com.example.home.R
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import com.example.home.databinding.ActivityMainBinding
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import com.example.home.BottomNavigationBarView
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.example.home.databinding.ActivityMainBinding
+import androidx.navigation.findNavController
+import androidx.core.view.updatePadding
 
 @Route(path = "/feature/home/MainActivity")
 class MainActivity :  AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private var navIds=intArrayOf(
+
+    private val navIds = intArrayOf(
         R.id.fragment_home,
         R.id.fragment_daily,
         R.id.fragment_discovery,
@@ -27,31 +27,30 @@ class MainActivity :  AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window,false)
+
+        // 设置窗口
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        // 绑定布局
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val rootLayout=findViewById<View>(android.R.id.content)
-        ViewCompat.setOnApplyWindowInsetsListener(rootLayout){
-            view,insets->
-            val systemBars=insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(
-                0,
-                systemBars.top,
-                0,
-                systemBars.bottom
-            )
-            insets}
 
 
-        navController = findNavController(R.id.nav_host_fragment)
+        binding.navHostFragment.post {
+            navController = binding.navHostFragment.findNavController()
 
-        val bottomBar = binding.bottomBar
-        bottomBar.setDefaultPage()
-        bottomBar.setSelectListener { pos ->
-            navController.navigate(navIds[pos])
+            // 设置底部导航监听
+            binding.bottomBar.setSelectListener { position ->
+                when (position) {
+                    0 -> navController.navigate(R.id.fragment_home)
+                    1 -> navController.navigate(R.id.fragment_daily)
+                    2 -> navController.navigate(R.id.fragment_discovery)
+                    3 -> navController.navigate(R.id.fragment_mine)
+                }
+            }
+
+            // 设置默认选中首页
+            binding.bottomBar.setDefaultPage()
         }
-
-
-
     }
 }
