@@ -78,6 +78,9 @@ data class Cover(
 //最外层
 data class SearchResultResponse(
     val result : ItemList,
+)
+
+data class DebugResponse(
     val debug:DebugInfo
 )
 
@@ -89,7 +92,9 @@ data class DebugInfo(
 
 data class ItemList(
     @SerializedName("item_list")
-    val itemList: List<MetroData>
+    val itemList: List<MetroData>,
+    val last_item_id:Int
+
 )
 
 data class MetroData(

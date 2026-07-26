@@ -42,6 +42,7 @@ class ResultVideoAdapter : BaseRvAdapter<VideoItem>() {
 
         Glide.with(holder.itemView.context)
             .load(item.cover.url)
+            .placeholder(R.color.gray)
             .centerCrop()
             .into(holder.img)
     }

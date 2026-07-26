@@ -28,25 +28,28 @@ class CombinedRepository(
         return api.getQueryHot()
     }
 
-    fun getResultPage(query :String, type: String, page:Int, udid: String): Observable<DebugInfo>{
-        return api.getResultPage(query,type,page,udid)
+    fun getNextPage(query :String,page:Int, type: String, udid: String): Observable<Int>{
+        return api.getSearchResult(query,page,type,udid)
             .doOnError { e->
-                Log.d("TAG", "getPage:错误:${e.message} ")
+                Log.d("TAG", "getNextPage:错误:${e.message} ")
             }
             .map { response->
-                response.debug
+                val nextPage = response.result.last_item_id
+                Log.d("TAG", "$type:下一页是第${nextPage}页 ")
+                nextPage
             }
 
     }
 
+
     //返回数据过于复杂(层层嵌套)，在api中得到resultResponse之后，使用map解包更为清晰明了且简洁
     fun getSearchResult(  query :String,
-                          num:Int,
+                          page:Int,
                           type: String,
                           udid: String)
             : Observable<List<SRItem>> {
         Log.d("TAG", "getSearchResult: api请求$query")
-        return api.getSearchResult(query,num,type,udid)
+        return api.getSearchResult(query,page,type,udid)
             .doOnError { e->
                 Log.d("TAG", "repository:loadSearchResult: 错误:${e.message}")
             }
@@ -56,12 +59,12 @@ class CombinedRepository(
                 val graphic = response.result.itemList.filter { it.type =="image" }
                 val ugc = response.result.itemList.filter { it.type =="user" }
                 val topic = response.result.itemList.filter { it.type =="topic" }
-                Log.d("TAG", "getSearchResult:ALL response:$response ")
+               // Log.d("TAG", "getSearchResult:ALL response:$response ")
                 //Log.d("TAG", "getSearchResult:response响应pgc:${pgc} ")
                 //Log.d("TAG", "getSearchResult:response响应video:${video} ")
                 //Log.d("TAG", "getSearchResult:response响应graphic:${graphic} ")
                 //Log.d("TAG", "getSearchResult:response响应user:${ugc} ")
-                Log.d("TAG", "getSearchResult:response响应topic:${topic} ")
+               // Log.d("TAG", "getSearchResult:response响应topic:${topic} ")
                 response.result.itemList.mapNotNull { i->
                     val gson = Gson()
 
@@ -83,7 +86,7 @@ class CombinedRepository(
                         }
                         "topic"->{
                             val topic = gson.fromJson(i.metroData, TopicItem::class.java)
-                            Log.d("TAG", "getSearchResult:Topic: $topic")
+                            //Log.d("TAG", "getSearchResult:Topic: $topic")
                             topic
                         }
 

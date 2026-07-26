@@ -40,6 +40,7 @@ class ResultUserAdapter : BaseRvAdapter<UserItem>() {
 
         Glide.with(holder.itemView.context)
             .load(item.avatar.url)
+            .placeholder(R.color.gray)
             .centerCrop()
             .into(holder.img)
     }
