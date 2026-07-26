@@ -1,23 +1,23 @@
-package com.example.home.playlistmodel
+package com.example.home.playlistlistmodel
 
-data class TopicData(
+data class TopicListData(
     val adExist: Boolean,
     val count: Int,
-    val itemList: MutableList<TopicItemModel>,
+    val itemList: List<ListItem>,
     val nextPageUrl: String,
     val total: Int
 )
 
-data class TopicItemModel(
+data class ListItem(
     val adIndex: Int,
-    val `data`: TopicItemData,
+    val `data`: Data,
     val id: Int,
     val tag: Any,
     val trackingData: Any,
     val type: String
 )
 
-data class TopicItemData(
+data class Data(
     val actionUrl: String,
     val adTrack: List<Any>,
     val autoPlay: Boolean,

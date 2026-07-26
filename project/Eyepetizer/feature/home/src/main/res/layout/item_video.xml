@@ -26,20 +26,7 @@
             android:layout_gravity="center"
             android:src="@drawable/stop"
             android:padding="12dp"/>
-
-        <!-- 时长标签 -->
-        <TextView
-            android:id="@+id/tv_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="12dp"
-            android:background="#80000000"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:paddingHorizontal="6dp"
-            android:paddingVertical="2dp"/>
-    </FrameLayout>
+</FrameLayout>
 
 
     <!-- 底部信息区域 -->

@@ -12,16 +12,14 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
-import com.example.home.dailymodel.Data
+import com.therouter.TheRouter
+
 
 class DailyFragment : Fragment() {
     // 视图绑定
     private var _binding: FragmentDailyBinding? = null
     private val binding
         get() = _binding!!
-
-    val Data.videoplayUrl: String?
-        get() = content?.data?.playUrl
 
     private lateinit var vm: DailyViewModel
     private val adapter = DailyVideoAdapter()
@@ -49,12 +47,33 @@ class DailyFragment : Fragment() {
             vm.refresh()
         }
 
+        binding.ivSearch.setOnClickListener {
+            Log.d("TAG", "ivSearch 被点击了！！！")
+            TheRouter
+                .build("/feature/search/CombinedActivity")
+                .navigation()
+        }
+
         // 上拉加载
         adapter.onLoadMore = {
             vm.loadMore()
         }
 
-
+        adapter.onVideoClick={ Data->
+            TheRouter
+                .build("/feature/video/VideoActivity")
+                .withInt("id",Data.content.data.id)
+                .withString("title",Data.content.data.title)
+                .withString("name",Data.content.data.author.name)
+                .withString("icon",Data.content.data.author.icon)
+                .withString("category",Data. content.data.category)
+                .withString("description",Data.header.description)
+                .withString("playUrl",Data.content.data.playUrl)
+                .withInt("collectionCount",Data.content.data.consumption.collectionCount)
+                .withInt("shareCount",Data.content.data.consumption.shareCount)
+                .withInt("replyCount",Data.content.data.consumption.replyCount)
+                .navigation()
+        }
 
 
         //分享功能
@@ -63,7 +82,7 @@ class DailyFragment : Fragment() {
                 type = "text/plain"
                 putExtra(
                     Intent.EXTRA_TEXT,
-                    "${Data.videoplayUrl}"
+                    "${Data.content.data.playUrl}"
                 )
             }
             startActivity(

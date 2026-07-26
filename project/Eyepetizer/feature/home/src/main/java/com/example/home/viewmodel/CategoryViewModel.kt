@@ -75,7 +75,7 @@ class CategoryViewModel : ViewModel() {
             })
     }
 
-    fun loadMoreVideos() {
+    fun loadMoreVideos(url: String) {
         if (_isLoadMore.value == true) {
             Log.e("LoadMore", "正在加载中，跳过")
             return
@@ -145,6 +145,6 @@ class CategoryViewModel : ViewModel() {
             return
         }
         _isLoadMore.value = true
-        loadMoreVideos()
+        loadMoreVideos(nextPageUrl)
     }
 }

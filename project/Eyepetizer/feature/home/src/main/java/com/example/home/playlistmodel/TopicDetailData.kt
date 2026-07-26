@@ -1,5 +1,6 @@
 package com.example.home.playlistmodel
 
+
 data class TopicDetailData(
     val adTrack: Any,
     val brief: String,

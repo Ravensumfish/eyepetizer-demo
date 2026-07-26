@@ -8,9 +8,8 @@ package com.example.home.api
 
 import com.example.home.discoverymodel.CategoryData
 import com.example.home.discoverymodel.DiscoveryCategoryDataItem
-import com.example.home.homemodel.HomeData
-import com.example.home.playlistmodel.TopicItemData
 import com.example.home.playlistmodel.TopicDetailData
+import com.example.home.playlistlistmodel.TopicListData
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -26,7 +25,10 @@ interface DiscoveryApi {
     fun getCategoryDetailVideos(@Url url: String): Observable<CategoryData>
 
     @GET("v3/specialTopics")
-    fun getTopicList(): Observable<MutableList<TopicItemData>>
+    fun getTopicList(): Observable<TopicListData>
+
+    @GET("v3/specialTopics")
+    fun getMoreTopics(@Url url: String): Observable<TopicListData>
 
 
     @GET("v3/lightTopics/internal/{id}")

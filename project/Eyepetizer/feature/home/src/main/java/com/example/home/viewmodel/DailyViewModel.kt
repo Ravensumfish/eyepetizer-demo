@@ -60,7 +60,6 @@ class DailyViewModel : ViewModel() {
                         .filter { outerData ->
                             val targetType = outerData.content?.data?.dataType
                             val isVideo = targetType == "VideoBeanForClient"
-                            Log.d("日志", "过滤: dataType=$targetType, 是否保留=$isVideo")
                             isVideo
                         }
                         .toMutableList()

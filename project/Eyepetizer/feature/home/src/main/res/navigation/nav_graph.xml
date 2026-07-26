@@ -40,7 +40,7 @@
 
     <fragment
         android:id="@+id/playListFragment"
-        android:name="com.example.home.fragment.PlayListFragment"
+        android:name="com.example.home.fragment.PlayListDetailFragment"
         android:label="主题播单">
         <argument
             android:name="id"

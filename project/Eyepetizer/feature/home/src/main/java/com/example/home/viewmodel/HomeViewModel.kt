@@ -98,7 +98,6 @@ class HomeViewModel : ViewModel() {
                         .map { it.data }
                         .filter { it.dataType=="VideoBeanForClient" })
                     _videoTotalList.postValue(currentList)
-
                     _isLoadMore.value = false
                 }
             })

@@ -8,11 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.home.adapter.CategoryDetailAdapter
 import com.example.home.databinding.FragmentCategorydetailBinding
 import com.example.home.viewmodel.CategoryViewModel
 import com.bumptech.glide.Glide
+import com.example.home.dailymodel.Data
+import com.therouter.TheRouter
 
 
 class CategoryDetailFragment: Fragment() {
@@ -75,6 +79,7 @@ class CategoryDetailFragment: Fragment() {
                     .into(binding.ivPicture)
                 binding.tvSecondcategory.text=it.name
                 binding.tvDescription.text=it.description
+                binding.tvCategory.text=it.name
             }
         }
 
@@ -84,9 +89,37 @@ class CategoryDetailFragment: Fragment() {
             vm.refresh()
         }
 
+        //返回键
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+
+
+
         // 上拉加载
         adapter.onLoadMore = {
             vm.loadMore()
+        }
+
+
+        adapter.onVideoClick={ Data->
+            TheRouter
+                .build("/feature/video/VideoActivity")
+                .withInt("id",Data.id)
+                .withString("title",Data.title)
+                .withString("name",Data.author.name)
+                .withString("icon",Data.author.icon)
+                .withString("category",Data.category)
+                .withString("description",Data.description)
+                .withString("playUrl",Data.playUrl)
+                .withInt("collectionCount",Data.consumption.collectionCount)
+                .withInt("shareCount",Data.consumption.shareCount)
+                .withInt("replyCount",Data.consumption.replyCount)
+                .navigation()
+            Log.d("HomeFragment", "跳转指令已发送")
+
+
         }
 
         adapter.onShareClick = { Data ->
@@ -105,6 +138,7 @@ class CategoryDetailFragment: Fragment() {
             )
         }
 
+
         // 监听总数据列表
         vm.videoTotalList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
@@ -116,7 +150,7 @@ class CategoryDetailFragment: Fragment() {
             binding.swipeRefresh.isRefreshing = it
         }
 
-
+       //加载更多
         vm.isLoadMore.observe(viewLifecycleOwner) { isLoading ->
             if (!isLoading) {
                 adapter.setLoadingMore(false)

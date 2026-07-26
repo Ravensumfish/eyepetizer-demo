@@ -17,6 +17,7 @@ class CategoryDetailAdapter : BaseRvAdapter<Data>() {
     var onShareClick: ((Data) -> Unit)? = null
 
 
+
     inner class VideoViewHolder(itemView: View) : BaseRvViewHolder(itemView) {
         private val binding = ItemVideoBinding.bind(itemView)
 
@@ -58,7 +59,6 @@ class CategoryDetailAdapter : BaseRvAdapter<Data>() {
 
             // 6. 时长格式化
             val durationStr = formatDuration(videoData.duration)
-            binding.tvDuration.text = durationStr
             binding.tvInfoDuration.text = durationStr
         }
     }

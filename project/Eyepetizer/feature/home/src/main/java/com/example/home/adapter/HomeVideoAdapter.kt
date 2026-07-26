@@ -65,7 +65,6 @@ class HomeVideoAdapter : BaseRvAdapter<Data>() {
 
             // 6. 时长格式化
             val durationStr = formatDuration(videoData.duration)
-            binding.tvDuration.text = durationStr
             binding.tvInfoDuration.text = durationStr
         }
     }

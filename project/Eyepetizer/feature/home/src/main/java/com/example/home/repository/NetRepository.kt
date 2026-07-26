@@ -18,7 +18,9 @@ import com.example.home.discoverymodel.DiscoveryCategoryDataItem
 import com.example.home.api.DiscoveryApi
 import com.example.home.discoverymodel.CategoryData
 import com.example.home.playlistmodel.TopicDetailData
-import com.example.home.playlistmodel.TopicItemData
+import com.example.home.playlistlistmodel.Data
+import com.example.home.playlistlistmodel.TopicListData
+
 
 class NetRepository {
     private val homeApi: HomeApi= RetrofitClient.create(HomeApi::class.java)
@@ -70,7 +72,7 @@ class NetRepository {
     }
 
 
-    fun getDiscoveryTopics(): Observable<MutableList<TopicItemData>>{
+    fun getDiscoveryTopics(): Observable<TopicListData>{
         return  discoveryApi.getTopicList()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -78,6 +80,12 @@ class NetRepository {
 
     fun getTopicDetail(id: Int): Observable<TopicDetailData>{
         return discoveryApi. getTopicDetail(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getMoreTopics(nextPageUrl: String): Observable<TopicListData>{
+        return discoveryApi.getMoreTopics(nextPageUrl)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

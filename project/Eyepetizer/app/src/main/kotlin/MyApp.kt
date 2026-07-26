@@ -9,6 +9,7 @@ class MyApp : Application(){
         super.onCreate()
 
         TheRouter.init(this)
+
         Log.d("Application", "ARouter 初始化完成")
     }
 }

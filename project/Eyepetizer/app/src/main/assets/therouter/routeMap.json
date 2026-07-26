@@ -1,0 +1,23 @@
+[
+  {
+    "path": "/feature/video/VideoActivity",
+    "className": "com.example.video.VideoActivity",
+    "action": "",
+    "description": "",
+    "params": {}
+  },
+  {
+    "path": "/feature/home/MainActivity",
+    "className": "com.example.home.MainActivity",
+    "action": "",
+    "description": "",
+    "params": {}
+  },
+  {
+    "path": "/feature/search/CombinedActivity",
+    "className": "com.example.combine.CombinedActivity",
+    "action": "",
+    "description": "",
+    "params": {}
+  }
+]

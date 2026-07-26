@@ -8,17 +8,38 @@
     android:padding="10dp">
 
 
-    <SearchView
-        android:iconifiedByDefault="false"
-        android:id="@+id/search_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_search_bar"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:queryHint="搜索视频、作者、用户及标签"
-        style="@style/SearchViewStyle"
-        android:background="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/iv_notify"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="56dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/iv_notify">
+
+        <ImageView
+            android:id="@+id/iv_search_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="搜索视频、作者、用..."
+            android:textSize="16sp"
+            android:textColor="#999999"
+            app:layout_constraintStart_toEndOf="@id/iv_search_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="10dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     <ImageView
@@ -30,20 +51,14 @@
         android:src="@drawable/notify"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintLeft_toRightOf="@id/search_view"
+        app:layout_constraintLeft_toRightOf="@id/layout_search_bar"
         tools:layout_editor_absoluteY="10dp"
         tools:ignore="MissingConstraints" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/search_view"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:touchscreenBlocksFocus="false"
-        android:clickable="false">
+
 
         <LinearLayout
+            app:layout_constraintTop_toBottomOf="@id/layout_search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -99,9 +114,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_playlist"
                     android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_play" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -109,6 +123,5 @@
         </LinearLayout>
 
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
