@@ -64,7 +64,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/MineFragment"
+        android:id="@+id/fragment_mine"
         android:name="com.example.home.fragment.MineFragment"
         android:label="个人主页">
     </fragment>

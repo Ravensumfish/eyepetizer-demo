@@ -2,14 +2,10 @@ package com.example.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import com.example.home.databinding.ActivityMainBinding
 import androidx.navigation.findNavController
-import androidx.core.view.updatePadding
-import com.example.data.store.SPUtils
 import com.therouter.router.Route
 
 @Route(path = "/feature/home/MainActivity")
@@ -22,7 +18,7 @@ class MainActivity :  AppCompatActivity() {
         R.id.fragment_home,
         R.id.fragment_daily,
         R.id.fragment_discovery,
-        R.id.MineFragment
+        R.id.fragment_mine
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +41,7 @@ class MainActivity :  AppCompatActivity() {
                     0 -> navController.navigate(R.id.fragment_home)
                     1 -> navController.navigate(R.id.fragment_daily)
                     2 -> navController.navigate(R.id.fragment_discovery)
-                    3 -> navController.navigate(R.id.MineFragment)
+                    3 -> navController.navigate(R.id.fragment_mine)
                 }
             }
 

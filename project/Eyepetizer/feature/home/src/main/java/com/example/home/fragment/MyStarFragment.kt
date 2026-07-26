@@ -13,7 +13,6 @@ import com.example.data.store.SPUtils
 import com.example.home.R
 import com.example.home.adapter.MyStarAdapter
 import com.example.home.databinding.FragmentMyStarBinding
-import com.example.home.homemodel.Data
 import com.example.home.mineModel.VideoItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -54,7 +53,7 @@ class MyStarFragment : Fragment(){
 
     fun clickBack(){
         binding.imgStarBack.setOnClickListener {
-            findNavController().popBackStack(R.id.MineFragment,false)
+            findNavController().popBackStack(R.id.fragment_mine,false)
         }
     }
 

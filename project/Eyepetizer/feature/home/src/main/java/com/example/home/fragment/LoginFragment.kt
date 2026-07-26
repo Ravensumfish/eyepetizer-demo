@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.data.store.SPUtils
 import com.example.home.R
 import com.example.home.databinding.FragmentLoginBinding
-import com.therouter.TheRouter
 
 class LoginFragment : Fragment(){
     lateinit var binding: FragmentLoginBinding
@@ -36,7 +34,7 @@ class LoginFragment : Fragment(){
 
     fun login(){
         SPUtils.putBool("isLogin",true)
-        findNavController().navigate(R.id.MineFragment)
+        findNavController().navigate(R.id.fragment_mine)
     }
 
     fun initClick(){
@@ -68,7 +66,6 @@ class LoginFragment : Fragment(){
 
         if (!checkAccount(account)){
             SPUtils.putString("account_$account",password)
-            safe = true
         }
 
         if (SPUtils.getString("account_$account")==password){
