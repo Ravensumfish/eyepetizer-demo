@@ -1,6 +1,6 @@
 package com.example.video
 
-import android.text.BoringLayout
+
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,10 +28,65 @@ class VideoViewModel: ViewModel() {
     private val _currentBrief = MutableLiveData<RelatedItem?>()
     val currentBrief : LiveData<RelatedItem?> = _currentBrief
     private var id : String = "0"
+    private var url : String? = null
+    private var _isLoading = MutableLiveData<Boolean>(false)
+    val isLoading : LiveData<Boolean> = _isLoading
+
+    private var _isRefreshing = MutableLiveData<Boolean>(false)
+    val isRefreshing : LiveData<Boolean> = _isRefreshing
 
     fun init(brief: RelatedItem){
         _currentBrief.value = brief
     }
+
+    fun refreshComments(){
+        if (_isRefreshing.value == true)return
+        _isRefreshing.value = true
+        disposable.clear()
+        loadComments()
+    }
+
+    fun loadMoreComments(){
+        if (_isLoading.value == true)return
+        if (url == null)return
+
+        _isLoading.value = true
+        val l = repository.getNextComments(url!!)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { response->
+                   val new = response.itemList.filter {
+                       it.type == "reply"
+                   }.map {
+                        it.data
+                    }.toMutableList()
+
+                    if (_isLoading.value == true){
+                        val current = _commentList.value
+                        val l = current?.plus(new)
+                        _commentList.value = l
+                    }else{
+                        _commentList.value = new
+                    }
+                    url = response.nextPageUrl
+                    _isLoading.value = false
+
+                    Log.d("TAG", "loadMoreComments: 得到列表${_commentList.value}")
+                    Log.d("TAG", "loadMoreComments: 得到列表大小${_commentList.value?.size}")
+                    Log.d("TAG", "loadComments: 下一页的url是：$url")
+
+                },
+                {
+                    _isLoading.value = false
+
+                    Log.d("TAG", "loadMoreComments: 加载更多失败")
+                }
+            )
+        disposable.add(l)
+
+    }
+
 
     fun sortBy(hot: Boolean){
        val l = if (hot){
@@ -45,6 +100,9 @@ class VideoViewModel: ViewModel() {
     fun setVideoId(i:Int){
         id = i.toString()
     }
+    fun getVideoId():Int{
+        return id.toInt()
+    }
 
     fun loadRelated(){
         val rl = repository.getRelated(id)
@@ -54,6 +112,9 @@ class VideoViewModel: ViewModel() {
                 {l->
 
                     _relatedList.value = l.toMutableList()
+                },
+                {
+                    Log.d("TAG", "loadRelated:id:$id ")
                 }
             )
 
@@ -65,10 +126,22 @@ class VideoViewModel: ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {l->
-                    _commentList.value = l.toMutableList()
+                {response->
+                   val l = response.itemList.filter {
+                             it.type == "reply"
+                     }.map {
+                        it.data
+                    }.toMutableList()
+                    url = response.nextPageUrl
+                    Log.d("TAG", "loadComments: 下一页的url是：$url")
+                    _commentList.value = l
+                    Log.d("TAG", "loadComments: 得到列表${_commentList.value}")
+                    sortBy(false)
+                    _isRefreshing.value = false
+
                 },
                 {e->
+                    _isRefreshing.value = false
                     Log.d("TAG", "loadComments: $e")
                 }
             )
