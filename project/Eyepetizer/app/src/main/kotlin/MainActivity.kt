@@ -15,8 +15,7 @@ class MainActivity : ComponentActivity() {
     }
 
     fun init(){
-        //在主模块中初始化一次，任意模块可使用
-        SPUtils.init(this)
+
         //配置初始页面
         TheRouter.build("/feature/home/MainActivity").navigation()
 

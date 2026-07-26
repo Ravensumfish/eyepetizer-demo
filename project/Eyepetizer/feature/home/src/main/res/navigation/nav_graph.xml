@@ -16,9 +16,7 @@
         android:id="@+id/fragment_discovery"
         android:name="com.example.home.fragment.DiscoveryFragment"/>
 
-    <fragment
-        android:id="@+id/fragment_mine"
-        android:name="com.example.home.fragment.MineFragment"/>
+
 
     <fragment
         android:id="@+id/categoryDetailFragment"
@@ -54,6 +52,27 @@
         <argument
             android:name="description"
             app:argType="string"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/myStarFragment"
+        android:name="com.example.home.fragment.MyStarFragment"
+        android:label="收藏列表">
+        <argument
+            android:name="account"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/MineFragment"
+        android:name="com.example.home.fragment.MineFragment"
+        android:label="个人主页">
+    </fragment>
+
+    <fragment
+        android:id="@+id/LoginFragment"
+        android:name="com.example.home.fragment.LoginFragment"
+        android:label="登录页面">
     </fragment>
 
 

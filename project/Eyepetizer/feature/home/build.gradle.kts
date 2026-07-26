@@ -73,6 +73,8 @@ ksp {
 
         implementation(project(":core:ui"))
         implementation(project(":core:net"))
+        implementation(project(":core:data_store"))
+        implementation(project(":core:utils"))
 
         testImplementation(libs.junit)
         androidTestImplementation(libs.androidx.espresso.core)

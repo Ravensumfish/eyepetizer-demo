@@ -23,6 +23,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.code.gson:gson:2.14.0")
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
