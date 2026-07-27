@@ -62,14 +62,16 @@ class LoginFragment : Fragment(){
         val password = binding.ivLoginPassword.text.toString()
         Log.d("TAG", "account:$account ")
         Log.d("TAG", "password:$password ")
-        if (!checkWord(password)){
-            Toast.makeText(requireContext(),"密码不合法！", Toast.LENGTH_SHORT).show()
-            Log.d("TAG", "checkPassword:密码不合法！ ")
-            return false
-        }
 
         if (account.isEmpty()){
             Toast.makeText(requireContext(),"账号不能为空!", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+
+        if (!checkWord(password)){
+            Toast.makeText(requireContext(),"密码不合法！", Toast.LENGTH_SHORT).show()
+            Log.d("TAG", "checkPassword:密码不合法！ ")
             return false
         }
 
