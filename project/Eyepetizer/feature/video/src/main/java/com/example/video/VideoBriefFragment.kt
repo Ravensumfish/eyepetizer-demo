@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ class VideoBriefFragment : Fragment(){
     private var videoClickCallBack : VideoClickCallBack? = null
     private var id = 0
     lateinit var brief : RelatedItem
+    private var account :String? = null
 
 
     override fun onCreateView(
@@ -40,6 +42,7 @@ class VideoBriefFragment : Fragment(){
     }
 
     fun init(){
+        account = SPUtils.getString("last_account")
         initRv()
         initData()
     }
@@ -134,53 +137,68 @@ class VideoBriefFragment : Fragment(){
 
     fun clickLike(){
         binding.imgVideoGood.setOnClickListener {
+            if (SPUtils.getString("last_account").isNullOrEmpty()) {
+                Toast.makeText(requireContext(), "还未登陆哦!", Toast.LENGTH_SHORT).show()
+            } else {
 
-            if (SPUtils.getBool("like_$id")){
-                binding.imgVideoGood.setImageResource(R.drawable.icon_good)
-                SPUtils.putBool("like_$id",false)
-                val s = binding.tvVideoGoodCount.text.toString()
-                val count = (s.toInt() - 1).toString()
-                binding.tvVideoGoodCount.text = count
-            }else{
-                binding.imgVideoGood.setImageResource(R.drawable.icon_like_solid)
-                SPUtils.putBool("like_$id",true)
-                val s = binding.tvVideoGoodCount.text.toString()
-                val count = (s.toInt() + 1).toString()
-                binding.tvVideoGoodCount.text = count
+                if (SPUtils.getBool("like_$id")) {
+                    binding.imgVideoGood.setImageResource(R.drawable.icon_good)
+                    SPUtils.putBool("like_$id", false)
+                    val s = binding.tvVideoGoodCount.text.toString()
+                    val count = (s.toInt() - 1).toString()
+                    binding.tvVideoGoodCount.text = count
+                } else {
+                    binding.imgVideoGood.setImageResource(R.drawable.icon_like_solid)
+                    SPUtils.putBool("like_$id", true)
+                    val s = binding.tvVideoGoodCount.text.toString()
+                    val count = (s.toInt() + 1).toString()
+                    binding.tvVideoGoodCount.text = count
+                }
+
             }
-
         }
     }
 
     fun clickStar(){
         binding.imgVideoStar.setOnClickListener {
-            if (SPUtils.getBool("star_$id")){
-                binding.imgVideoStar.setImageResource(R.drawable.icon_star)
-                SPUtils.putBool("star_$id",false)
-                binding.tvVideoStar.text = "收藏"
 
-                SPUtils.deleteDataItem(brief,brief.id)
-                Log.d("TAG", "clickStar: 取消收藏")
+            if (SPUtils.getString("last_account").isNullOrEmpty()) {
+                Toast.makeText(requireContext(), "还未登陆哦!", Toast.LENGTH_SHORT).show()
+            } else {
+                if (SPUtils.getBool("star_${id}_$account")) {
+                    binding.imgVideoStar.setImageResource(R.drawable.icon_star)
+                    SPUtils.putBool("star_${id}_$account", false)
+                    binding.tvVideoStar.text = "收藏"
+
+                    SPUtils.deleteDataItem(brief, brief.id)
+                    Log.d("TAG", "clickStar: 取消收藏")
 
 
+                } else {
+                    binding.imgVideoStar.setImageResource(R.drawable.icon_star_solid)
+                    SPUtils.putBool("star_${id}_$account", true)
+                    binding.tvVideoStar.text = "已收藏"
 
-            }else{
-                binding.imgVideoStar.setImageResource(R.drawable.icon_star_solid)
-                SPUtils.putBool("star_$id",true)
-                binding.tvVideoStar.text = "已收藏"
+                    SPUtils.saveDataItem(brief, brief.id)
+                    Log.d("TAG", "clickStar: 收藏成功")
 
-                SPUtils.saveDataItem(brief,brief.id)
-                Log.d("TAG", "clickStar: 收藏成功")
-
+                }
             }
         }
     }
 
     fun likeAndStar(){
-        val like = SPUtils.getBool("like_$id")
-        val star = SPUtils.getBool("star_$id")
 
+        var like = SPUtils.getBool("like_${id}_$account")
+        var star = SPUtils.getBool("star_${id}_$account")
 
+        if (account==null){
+            like = false
+            star = false
+        }
+
+        Log.d("TAG", "likeAndStar: like:$like")
+        Log.d("TAG", "likeAndStar: star:$star")
 
         val imgGood = when(like){
             true-> R.drawable.icon_like_solid
