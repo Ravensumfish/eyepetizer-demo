@@ -20,12 +20,6 @@ data class VideoItem(
     val text: String
 ): SRItem()
 
-data class AuthorItem(
-    val avatar : String,
-    val name: String,
-    val description:String
-): SRItem()
-
 data class UserItem(
     val uid:Int,
     val avatar : Cover,

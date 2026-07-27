@@ -41,7 +41,7 @@ class RankRvAdapter: BaseRvAdapter<RankListItem>() {
         holder.name.text = item.author.name
         holder.duration.text = TimeUtils.formatDuration(item.duration)
 
-        Log.d("TAG", "RankAdapter:imgUrl=${item.cover.feed} ")
+       // Log.d("TAG", "RankAdapter:imgUrl=${item.cover.feed} ")
         Glide.with(holder.itemView.context)
             .load(item.cover.feed)
             .placeholder(R.color.gray)

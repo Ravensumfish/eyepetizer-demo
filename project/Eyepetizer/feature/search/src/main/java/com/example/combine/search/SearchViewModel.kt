@@ -16,7 +16,6 @@ import com.example.api.CombinedRepository
 import com.example.api.KyUdidStore
 import com.example.api.SearchRetrofitClient
 import com.example.combine.ranking.model.RankListItem
-import com.example.combine.search.model.AuthorItem
 import com.example.combine.search.model.ImageItem
 import com.example.combine.search.model.TopicItem
 import com.example.combine.search.model.UserItem
@@ -64,13 +63,15 @@ class SearchViewModel : ViewModel() {
     private val _weeklyRankList = MutableLiveData<List<RankListItem>>()
     val weeklyRankList : LiveData<List<RankListItem>> = _weeklyRankList
 
+    private var _error = MutableLiveData<String>()
+    val error : LiveData<String> = _error
+
     private var query : String?= null
     private var videoPage = 1
     private var authorPage = 1
     private var imagePage = 1
     private var topicPage = 1
     private var userPage = 1
-    private var totalPage = 1
     private var _isRefreshing = MutableLiveData(false)
     val isRefreshing  : LiveData<Boolean> = _isRefreshing
     private var _isLoading = MutableLiveData(false)
@@ -137,14 +138,14 @@ class SearchViewModel : ViewModel() {
     fun loadMoreGraphic(){
         if (_isLoading.value == true)return
         _isLoading.value = true
-        Log.d("TAG", "vm: 正在加载更多 author:第 $authorPage 页")
+        Log.d("TAG", "vm: 正在加载更多 graphic:第 $imagePage 页")
         loadPage("graphic")
     }
 
     fun loadMoreTopic(){
         if (_isLoading.value == true)return
         _isLoading.value = true
-        Log.d("TAG", "vm: 正在加载更多 author:第 $authorPage 页")
+        Log.d("TAG", "vm: 正在加载更多 topic:第 $topicPage 页")
         loadPage("topic")
 
     }
@@ -152,12 +153,10 @@ class SearchViewModel : ViewModel() {
     fun loadMoreUser(){
         if (_isLoading.value == true)return
         _isLoading.value = true
-        Log.d("TAG", "vm: 正在加载更多 author:第 $authorPage 页")
+        Log.d("TAG", "vm: 正在加载更多 user:第 $userPage 页")
         loadPage("ugc")
 
     }
-
-
 
     fun loadRecord(){
         if (SPUtils.getSPContext() == null)return
@@ -180,7 +179,13 @@ class SearchViewModel : ViewModel() {
                 {
                     words ->
                     _recommendList.value = words.toMutableList()
+                },
+                {e->
+                    _error.value = e.message
+                    Log.d("TAG", "loadRecommend:加载搜索热词失败 ")
+                    Log.d("TAG", "loadRecommend:错误${e.message} ")
                 }
+
             )
 
         disposable.add(rl)
@@ -228,11 +233,12 @@ class SearchViewModel : ViewModel() {
                     }
                 },
                 {e->
+                    _error.value = e.message
                     Log.d("TAG", "loadPage: 加载$type 搜索页数失败")
                     Log.d("TAG", "loadPage: 错误类型${e.message}")
-                    throw IllegalArgumentException("$type 搜索页数获取错误")
                 }
             )
+        disposable.add(p)
     }
 
     fun loadVideoResult(){
@@ -257,7 +263,7 @@ class SearchViewModel : ViewModel() {
                        val current = _videoList.value
                        val l = current?.plus(new)
                        Log.d("TAG", "loadVideoResult: 追加后的列表数量${l?.size}")
-                       _videoList.value = l
+                       _videoList.value = l?:mutableListOf()
                    }else{
                        _videoList.value = items.filterIsInstance<VideoItem>().toMutableList()
                    }
@@ -269,9 +275,9 @@ class SearchViewModel : ViewModel() {
                {e->
                    _isRefreshing.value = false
                    _isLoading.value = false
+                   _error.value = e.message
                    Log.d("TAG", "loadVideoResult: 加载视频搜索结果失败")
                    Log.d("TAG", "loadVideoResult: 错误类型${e.message}")
-                   throw IllegalArgumentException("video搜索结果获取错误")
                }
 
            )
@@ -300,7 +306,7 @@ class SearchViewModel : ViewModel() {
                         val current = _authorList.value
                         val l = current?.plus(new)
                         Log.d("TAG", "loadAuthorResult: 追加后的列表数量${l?.size}")
-                        _authorList.value = l
+                        _authorList.value = l?:mutableListOf()
                     }else{
                         _authorList.value = items.filterIsInstance<UserItem>().toMutableList()
                     }
@@ -313,7 +319,7 @@ class SearchViewModel : ViewModel() {
                 {e->
                     _isRefreshing.value = false
                     _isLoading.value = false
-
+                    _error.value = e.message
                     Log.d("TAG", "loadAuthorResult: 加载作者搜索结果失败")
                     Log.d("TAG", "loadAuthorResult: 错误类型${e.message}")
                 }
@@ -346,7 +352,7 @@ class SearchViewModel : ViewModel() {
                         val current = _imageList.value
                         val l = current?.plus(new)
                         Log.d("TAG", "loadGraphicResult: 追加后的列表数量${l?.size}")
-                        _imageList.value = l
+                        _imageList.value = l?:mutableListOf()
                     }else{
                         _imageList.value = items.filterIsInstance<ImageItem>().toMutableList()
                     }
@@ -358,7 +364,7 @@ class SearchViewModel : ViewModel() {
                 {e->
                     _isRefreshing.value = false
                     _isLoading.value = false
-
+                    _error.value = e.message
                     Log.d("TAG", "loadGraphicResult: 加载搜索结果失败")
                     Log.d("TAG", "loadGraphicResult: 错误类型${e.message}")
                 }
@@ -389,7 +395,7 @@ class SearchViewModel : ViewModel() {
                         val current = _userList.value
                         val l = current?.plus(new)
                         Log.d("TAG", "loadUgcResult: 追加后的列表数量${l?.size}")
-                        _userList.value = l
+                        _userList.value = l?:mutableListOf()
                     }else{
                         _userList.value = items.filterIsInstance<UserItem>().toMutableList()
                     }
@@ -400,7 +406,7 @@ class SearchViewModel : ViewModel() {
                 {e->
                     _isRefreshing.value = false
                     _isLoading.value = false
-
+                    _error.value = e.message
                     Log.d("TAG", "loadUgcResult: 加载搜索结果失败")
                     Log.d("TAG", "loadUgcResult: 错误类型${e.message}")
                 }
@@ -433,7 +439,7 @@ class SearchViewModel : ViewModel() {
                         val current = _topicList.value
                         val l = current?.plus(new)
                         Log.d("TAG", "loadTopicResult: 追加后的列表数量${l?.size}")
-                        _topicList.value = l
+                        _topicList.value = l?:mutableListOf()
                     }else{
                         _topicList.value = items.filterIsInstance<TopicItem>().toMutableList()
                     }
@@ -444,7 +450,7 @@ class SearchViewModel : ViewModel() {
                 {e->
                     _isRefreshing.value = false
                     _isLoading.value = false
-
+                    _error.value = e.message
                     Log.d("TAG", "loadTopicResult: 加载搜索结果失败")
                     Log.d("TAG", "loadTopicResult: 错误类型${e.message}")
                 }
@@ -473,6 +479,12 @@ class SearchViewModel : ViewModel() {
                     }
 
                     Log.d("TAG", "loadWeeklyRankPreview: viewmodel拿到列表，数量${items.size}")
+                },
+                {e->
+                    _error.value = e.message
+                    Log.d("TAG", "loadWeeklyRankPreview:加载失败")
+                    Log.d("TAG", "loadWeeklyRankPreview:错误${e.message}")
+
                 }
             )
         disposable.add(wl)

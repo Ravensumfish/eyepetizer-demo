@@ -75,7 +75,7 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
 
         SPUtils.init(this)
 
-        Log.d("跳转", "videoActivity:跳转成功 ")
+        Log.d("TAG", "videoActivity:跳转成功 ")
         Log.d("TAG", "videoActivity 目前视频的id: $id")
         viewModel.setVideoId(id)
         initVp2()

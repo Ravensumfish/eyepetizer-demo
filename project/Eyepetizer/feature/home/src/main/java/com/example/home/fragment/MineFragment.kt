@@ -117,6 +117,8 @@ class MineFragment: Fragment() {
                 .setMessage("确定要退出登录吗？")
                 .setPositiveButton("确定"){_,_->
                     SPUtils.putBool("isLogin",false)
+                    SPUtils.putString("last_account","")
+                    SPUtils.putString("last_password","")
                     findNavController().popBackStack(R.id.fragment_home,false)
                 }
                 .setNegativeButton("取消",null)

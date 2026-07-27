@@ -40,6 +40,7 @@ class ResultUserPage: Fragment() {
         initData()
         refresh()
         loadMore()
+        onError()
     }
 
     fun init(){
@@ -96,4 +97,11 @@ class ResultUserPage: Fragment() {
             }
         })
     }
+    fun onError(){
+        viewModel.error.observe(viewLifecycleOwner){
+            binding.srSearchResult.visibility = View.GONE
+            binding.noNet.visibility = View.VISIBLE
+        }
+    }
+
 }

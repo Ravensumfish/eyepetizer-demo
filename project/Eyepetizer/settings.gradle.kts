@@ -46,7 +46,6 @@ include(":core:router") //路由
     include(":feature:home") //首页
     include(":feature:video") //视频详情页
     include(":feature:search") //搜索页
-    include(":feature:notify")
 
     include(":build-logic")
 

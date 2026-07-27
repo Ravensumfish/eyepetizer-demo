@@ -46,6 +46,7 @@ class ResultVideoPage : Fragment() {
     fun init(){
         binding.rvSearchResult.adapter = resultAdapter
         binding.rvSearchResult.layoutManager = LinearLayoutManager(requireContext())
+        onError()
 
     }
 
@@ -115,5 +116,12 @@ class ResultVideoPage : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
+    }
+
+    fun onError(){
+        viewModel.error.observe(viewLifecycleOwner){
+            binding.srSearchResult.visibility = View.GONE
+            binding.noNet.visibility = View.VISIBLE
+        }
     }
 }

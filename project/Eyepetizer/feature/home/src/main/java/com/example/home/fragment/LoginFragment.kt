@@ -46,9 +46,13 @@ class LoginFragment : Fragment(){
                 login()
             }
         }
+        binding.btnLoginBack.setOnClickListener {
+            findNavController().popBackStack(R.id.fragment_home,false)
+        }
     }
 
     fun checkAccount(a:String): Boolean{
+        //如果有账号则返回true
         return (SPUtils.getString("account_$a")!=null)
     }
 
@@ -64,6 +68,12 @@ class LoginFragment : Fragment(){
             return false
         }
 
+        if (account.isEmpty()){
+            Toast.makeText(requireContext(),"账号不能为空!", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        //如果没有账号自动注册
         if (!checkAccount(account)){
             SPUtils.putString("account_$account",password)
         }
