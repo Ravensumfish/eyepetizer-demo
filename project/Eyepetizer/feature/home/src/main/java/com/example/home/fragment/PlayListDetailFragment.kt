@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.home.adapter.PlayListDetailAdapter
-import com.example.home.databinding.FragmentPlaylistdetailBinding
+import com.example.home.databinding.FragmentPlaylistDetailBinding
 import com.example.home.viewmodel.PlayListViewModel
 import com.therouter.TheRouter
 
@@ -20,9 +20,7 @@ class PlayListDetailFragment : Fragment(){
 
     private var mId=0
 
-    private var mHeaderImage=""
-    private var mDescription=""
-    private var _binding: FragmentPlaylistdetailBinding? = null
+    private var _binding: FragmentPlaylistDetailBinding? = null
     private val binding
         get() = _binding!!
 
@@ -30,23 +28,21 @@ class PlayListDetailFragment : Fragment(){
     private val adapter = PlayListDetailAdapter()
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPlaylistdetailBinding.inflate(inflater, container, false)
+        _binding = FragmentPlaylistDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
-            Log.e("CrashHandler","崩溃",throwable)
-        }
-        binding.ivHeader
-        binding.tvDes
-        binding.btnBrief
+        //binding.ivHeader
+        //binding.tvDes
+        //binding.btnBrief
         binding.rvPlaylist.layoutManager = LinearLayoutManager(context)
         binding.rvPlaylist.adapter = adapter
         binding.rvPlaylist.isNestedScrollingEnabled=false
@@ -54,8 +50,6 @@ class PlayListDetailFragment : Fragment(){
 
         arguments?.let {
             mId=it.getInt("id")
-            mHeaderImage=it.getString("headerImage","")
-            mDescription=it.getString("description","")
         }
         vm = ViewModelProvider(this)[PlayListViewModel::class.java]
 
@@ -122,15 +116,6 @@ class PlayListDetailFragment : Fragment(){
         // 监听总数据列表
         vm.videoTotalList.observe(viewLifecycleOwner) {
             adapter.setData(it)
-            Log.e("适配", "=== submitList ===")
-            Log.e("适配", "新列表是否为空: ${it == null}")
-            Log.e("适配", "新列表数量: ${it?.size}")
-            Log.e(
-                "zhangpl",
-                "观察结果: size=${it.size}, viewModel=${System.identityHashCode(vm)}"
-            )
-
-
         }
 
         // 监听刷新状态

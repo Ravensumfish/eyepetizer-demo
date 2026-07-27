@@ -18,13 +18,6 @@ class CategoryViewModel : ViewModel() {
     private val _topMessage = MutableLiveData<MutableList<DiscoveryCategoryDataItem>>(mutableListOf())
     val topMessage: LiveData<MutableList<DiscoveryCategoryDataItem>>
         get() = _topMessage
-    private val _categoryVideos = MutableLiveData<CategoryData>()
-    val categoryVideos: LiveData<CategoryData>
-        get() = _categoryVideos
-
-    private val _moreCategoryVideos = MutableLiveData<CategoryData>()
-    val moreVideos: LiveData<CategoryData>
-        get() = _moreCategoryVideos
 
     private val _videoTotalList = MutableLiveData<MutableList<Data>>(mutableListOf())
     val videoTotalList: LiveData<MutableList<Data>>
@@ -46,8 +39,9 @@ class CategoryViewModel : ViewModel() {
         this.categoryId=id
     }
 
-    fun loadCategoryVideos(categoryId: Int) {
+    fun getCategoryVideos(categoryId: Int) {
         _isRefreshing.value = true
+        _isLoadMore.value = false
         val url = "${BASE_URL}v4/categories/videoList?id=${categoryId}${URL_END}"
 
         repository.getCategoryDetailVideos(url)
@@ -71,22 +65,15 @@ class CategoryViewModel : ViewModel() {
                     nextPageUrl = t.nextPageUrl ?: ""
                     Log.d("CategoryViewModel", "首次加载成功，nextPageUrl=$nextPageUrl")
                     _isRefreshing.value = false
+                    _isLoadMore.value=false
+
                 }
             })
     }
 
-    fun loadMoreVideos(url: String) {
-        if (_isLoadMore.value == true) {
-            Log.e("LoadMore", "正在加载中，跳过")
-            return
-        }
-        if (nextPageUrl.isNullOrBlank()) {
-            Log.e("LoadMore", "没有更多数据了")
-            return
-        }
+    fun getMoreCategoryVideos(url: String) {
 
-        _isLoadMore.value = true
-        val url = "${nextPageUrl}${URL_END}"
+       val url = "${nextPageUrl}${URL_END}"
         Log.e("LoadMore", "请求加载更多: $url")
 
         repository.getCategoryDetailVideos(url)
@@ -106,7 +93,7 @@ class CategoryViewModel : ViewModel() {
                         .filter { it.dataType == "VideoBeanForClient" }
                     currentList.addAll(newItems)
                     _videoTotalList.postValue(currentList)
-                    nextPageUrl = t.nextPageUrl ?: ""
+                    nextPageUrl = t.nextPageUrl
                     Log.d("CategoryViewModel", "加载更多成功，nextPageUrl=$nextPageUrl")
                     _isLoadMore.value = false
                 }
@@ -133,18 +120,17 @@ class CategoryViewModel : ViewModel() {
 
     fun refresh() {
         _isRefreshing.value = true
-        loadCategoryVideos(categoryId)
+        getCategoryVideos(categoryId)
     }
 
     //加载更多
     fun loadMore() {
-        Log.e("分页地址", nextPageUrl)
         if (_isLoadMore.value == true) return
         if (nextPageUrl.isNullOrBlank()) {
             Log.e("loadMore", "没有更多数据了")
             return
         }
         _isLoadMore.value = true
-        loadMoreVideos(nextPageUrl)
+        getMoreCategoryVideos(nextPageUrl)
     }
 }

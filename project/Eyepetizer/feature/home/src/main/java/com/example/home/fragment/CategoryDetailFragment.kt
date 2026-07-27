@@ -9,29 +9,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.home.adapter.CategoryDetailAdapter
-import com.example.home.databinding.FragmentCategorydetailBinding
+import com.example.home.databinding.FragmentCategoryDetailBinding
 import com.example.home.viewmodel.CategoryViewModel
-import com.bumptech.glide.Glide
-import com.example.home.dailymodel.Data
+import com.example.home.adapter.CategoryHeaderAdapter
+import com.example.home.discoverymodel.DiscoveryCategoryDataItem
 import com.therouter.TheRouter
 
 
 class CategoryDetailFragment: Fragment() {
     private var mId=0
-    private var mName=""
-    private var mHeaderImage=""
-    private var mDescription=""
-    private var mBgpicture=""
 
-    private var _binding: FragmentCategorydetailBinding? = null
+    private var _binding: FragmentCategoryDetailBinding? = null
     private val binding
         get() = _binding!!
 
     private lateinit var vm: CategoryViewModel
-    private val adapter = CategoryDetailAdapter()
+    private val videoAdapter = CategoryDetailAdapter()
+    private val headerAdapter = CategoryHeaderAdapter()
+
+    val concatAdapter = ConcatAdapter(headerAdapter, videoAdapter)
 
 
     override fun onCreateView(
@@ -39,47 +38,45 @@ class CategoryDetailFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCategorydetailBinding.inflate(inflater, container, false)
+        _binding = FragmentCategoryDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
-            Log.e("CrashHandler","崩溃",throwable)
+        binding.rvCategory.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = concatAdapter
+            setHasFixedSize(false)
+            itemAnimator = null
         }
-        binding.ivPicture
-        binding.tvDescription
-        binding.tvSecondcategory
-        binding.rvCategory.layoutManager = LinearLayoutManager(context)
-        binding.rvCategory.adapter = adapter
-        binding.rvCategory.isNestedScrollingEnabled=false
         binding.swipeRefresh.setDistanceToTriggerSync(140)
 
-        arguments?.let {
-            mId=it.getInt("id")
-            mName=it.getString("name","")
-            mHeaderImage=it.getString("headerImage","")
-            mDescription=it.getString("description","")
-            mBgpicture=it.getString("bgPicture","")
-        }
+        arguments?.let { mId=it.getInt("id") }
+
         vm = ViewModelProvider(this)[CategoryViewModel::class.java]
 
         vm.setCategoryId(mId)
 
-        vm.loadCategoryVideos(mId)
+        vm.getCategoryVideos(mId)
+
         vm.getTopMessage(mId)
-        vm.topMessage.observe(viewLifecycleOwner){
-            categoryList ->
-            val targetData=categoryList.firstOrNull{item -> item.id==mId
-            }
+
+        vm.topMessage.observe(viewLifecycleOwner) { categoryList ->
+            val targetData = categoryList.firstOrNull { it.id == mId }
+
             targetData?.let {
-                Glide.with(requireContext())
-                    .load(it.bgPicture)
-                    .into(binding.ivPicture)
-                binding.tvSecondcategory.text=it.name
-                binding.tvDescription.text=it.description
-                binding.tvCategory.text=it.name
+                headerAdapter.submitList(
+                    listOf(
+                        DiscoveryCategoryDataItem(
+                            headerImage = it.headerImage,
+                            name = it.name,
+                            description = it.description
+                        )
+                    )
+                )
+
+                binding.tvCategory.text = it.name
             }
         }
 
@@ -95,15 +92,13 @@ class CategoryDetailFragment: Fragment() {
         }
 
 
-
-
         // 上拉加载
-        adapter.onLoadMore = {
+        videoAdapter.onLoadMore = {
             vm.loadMore()
         }
 
 
-        adapter.onVideoClick={ Data->
+        videoAdapter.onVideoClick={ Data->
             TheRouter
                 .build("/feature/video/VideoActivity")
                 .withInt("id",Data.id)
@@ -122,7 +117,7 @@ class CategoryDetailFragment: Fragment() {
 
         }
 
-        adapter.onShareClick = { Data ->
+        videoAdapter.onShareClick = { Data ->
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
                 putExtra(
@@ -141,7 +136,7 @@ class CategoryDetailFragment: Fragment() {
 
         // 监听总数据列表
         vm.videoTotalList.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
+            videoAdapter.submitList(it)
 
         }
 
@@ -153,7 +148,7 @@ class CategoryDetailFragment: Fragment() {
        //加载更多
         vm.isLoadMore.observe(viewLifecycleOwner) { isLoading ->
             if (!isLoading) {
-                adapter.setLoadingMore(false)
+                videoAdapter.setLoadingMore(false)
             }
         }
     }

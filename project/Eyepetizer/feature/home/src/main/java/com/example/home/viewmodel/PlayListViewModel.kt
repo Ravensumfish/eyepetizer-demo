@@ -16,14 +16,17 @@ class PlayListViewModel: ViewModel(){
     private val _topMessage = MutableLiveData<TopicDetailData>()
     val topMessage: LiveData<TopicDetailData>
         get() = _topMessage
+
     private val _playListVideos = MutableLiveData<TopicDetailData>()
     val playListVideos: LiveData<TopicDetailData>
         get() =_playListVideos
+
 
     private val _videoTotalList = MutableLiveData<MutableList<Data>>(mutableListOf())
     val videoTotalList: LiveData<MutableList<Data>>
         get() = _videoTotalList
 
+    //下拉刷新
     private val _isRefreshing = MutableLiveData(false)
     val isRefreshing: LiveData<Boolean>
         get() = _isRefreshing
@@ -36,28 +39,25 @@ class PlayListViewModel: ViewModel(){
 
 
     fun getPlayListVideos(playListId: Int) {
-        Log.e("gpl", "整个方法用了, id: $playListId")
         _isRefreshing.value = true
 
         repository.getTopicDetail(playListId)
             .subscribe(object : Observer<TopicDetailData> {
-                override fun onSubscribe(d: Disposable) { Log.e("gpl","走了")}
+                override fun onSubscribe(d: Disposable) { }
 
                 override fun onError(e: Throwable) {
-                    Log.e("CategoryViewModel", "首次加载失败", e)
+                    Log.e("PlayListViewModel", "首次加载失败", e)
                     _isRefreshing.value = false
                 }
                 override fun onComplete() {}
 
                 override fun onNext(t: TopicDetailData) {
-                    Log.e("zhangpl", "onNext 走了")
 
                     val filteredList = t.itemList
                         .map { it.data }
                         .filter { outerData ->
                             val targetType = outerData.content.data.dataType
                             val isVideo = targetType == "VideoBeanForClient"
-                            Log.d("日志", "过滤: dataType=$targetType, 是否保留=$isVideo")
                             isVideo
                         }
                         .toMutableList()
@@ -65,11 +65,6 @@ class PlayListViewModel: ViewModel(){
                     _videoTotalList.value = filteredList
                     _topMessage.value = t
                     _isRefreshing.value = false
-
-                    Log.e("zhangpl", "postValue 完成")
-
-                    Log.e("zhangpl", "LiveData 当前值: ${_videoTotalList.value?.size}")
-
                 }
 
             })

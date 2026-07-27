@@ -7,6 +7,7 @@ package com.example.home.adapter
  */
 
 import com.example.ui.BaseRvAdapter
+import com.example.utils.TimeUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +23,6 @@ class HomeVideoAdapter : BaseRvAdapter<Data>() {
     var isLoading = false
     var onShareClick: ((Data) -> Unit)? = null
 
-
-    // ViewHolder 类
     inner class VideoViewHolder(itemView: View) : BaseRvViewHolder(itemView) {
         private val binding = ItemVideoBinding.bind(itemView)
 
@@ -64,7 +63,7 @@ class HomeVideoAdapter : BaseRvAdapter<Data>() {
             binding.tvTag.text = "#${videoData.category}"
 
             // 6. 时长格式化
-            val durationStr = formatDuration(videoData.duration)
+            val durationStr = TimeUtils.formatDuration(videoData.duration)
             binding.tvInfoDuration.text = durationStr
         }
     }
@@ -92,7 +91,7 @@ class HomeVideoAdapter : BaseRvAdapter<Data>() {
             holder.bind(data[position])
         }
 
-        // 触发加载更多：当滚动到倒数第二个 item 时
+        // 加载更多
         if (!isLoading && position >= itemCount - 2) {
             isLoading = true
             onLoadMore?.invoke()
@@ -100,10 +99,10 @@ class HomeVideoAdapter : BaseRvAdapter<Data>() {
     }
 
     // 秒转 00:00 格式
-    private fun formatDuration(seconds: Int): String {
+   /** private fun formatDuration(seconds: Int): String {
         val minutes = seconds / 60
         val secs = seconds % 60
         return String.format("%02d:%02d", minutes, secs)
-    }
+    }*/
 }
 

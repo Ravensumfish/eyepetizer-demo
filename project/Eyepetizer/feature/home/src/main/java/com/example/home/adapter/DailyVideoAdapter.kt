@@ -1,14 +1,13 @@
 package com.example.home.adapter
 
 import com.example.ui.BaseRvAdapter
+import com.example.utils.TimeUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.home.databinding.ItemVideoBinding
 import com.example.home.dailymodel.Data
-import com.example.home.dailymodel.Author
-import com.example.home.dailymodel.Cover
 import androidx.recyclerview.widget.RecyclerView
 
 class DailyVideoAdapter : BaseRvAdapter<Data>() {
@@ -18,22 +17,6 @@ class DailyVideoAdapter : BaseRvAdapter<Data>() {
     var isLoading = false
     var onShareClick: ((Data) -> Unit)? = null
 
-
-    // 扩展属性：为了适配数据类字段混乱的问题
-    val Data.videoTitle: String
-        get() = content?.data?.title ?: ""
-
-    val Data.videoAuthor: Author?
-        get() = content?.data?.author
-
-    val Data.videoCategory: String
-        get() = content?.data?.category ?: ""
-
-    val Data.videoDuration: Int
-        get() = content?.data?.duration ?: 0
-
-    val Data.videoCover: Cover?
-        get() = content?.data?.cover
 
 
     inner class VideoViewHolder(itemView: View) : BaseRvViewHolder(itemView) {
@@ -58,26 +41,26 @@ class DailyVideoAdapter : BaseRvAdapter<Data>() {
         fun bind(videoData: Data) {
             // 1. 加载封面
             Glide.with(binding.root.context)
-                .load(videoData.videoCover?.feed)
+                .load(videoData.content?.data?.cover?.feed)
                 .into(binding.ivCover)
 
             // 2. 视频标题
-            binding.tvTitle.text = videoData.videoTitle
+            binding.tvTitle.text = videoData.content?.data?.title
 
             // 3. 作者头像
             Glide.with(binding.root.context)
-                .load(videoData.videoAuthor?.icon)
+                .load(videoData.content?.data?.author?.icon)
                 .circleCrop()
                 .into(binding.ivAuthor)
 
             // 4. 作者名称
-            binding.tvAuthorName.text = videoData.videoAuthor?.name
+            binding.tvAuthorName.text = videoData.content?.data?.author?.name
 
             // 5. 标签
-            binding.tvTag.text = "#${videoData.videoCategory}"
+            binding.tvTag.text = "#${videoData.content?.data?.category}"
 
             // 6. 时长格式化
-            val durationStr = formatDuration(videoData.videoDuration)
+            val durationStr = TimeUtils.formatDuration(videoData.content.data.duration )
             binding.tvInfoDuration.text = durationStr
         }
     }
@@ -112,10 +95,5 @@ class DailyVideoAdapter : BaseRvAdapter<Data>() {
         }
     }
 
-    // 秒转 00:00 格式
-    private fun formatDuration(seconds: Int): String {
-        val minutes = seconds / 60
-        val secs = seconds % 60
-        return String.format("%02d:%02d", minutes, secs)
-    }
+
 }

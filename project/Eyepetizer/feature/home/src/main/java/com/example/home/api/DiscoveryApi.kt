@@ -27,7 +27,7 @@ interface DiscoveryApi {
     @GET("v3/specialTopics")
     fun getTopicList(): Observable<TopicListData>
 
-    @GET("v3/specialTopics")
+    @GET
     fun getMoreTopics(@Url url: String): Observable<TopicListData>
 
 

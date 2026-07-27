@@ -82,14 +82,7 @@ class HomeViewModel : ViewModel() {
 
                 override fun onNext(t: HomeData) {
                     _moreVideos.postValue(t)
-                    val rawNextUrl=t.nextPageUrl
-                    Log.d("HomeViewModel","接口返回的，$rawNextUrl")
-                    if(rawNextUrl==url)
-                    {
-                        Log.d("HomeViewModel","错误")}
-                    else{
-                        Log.d("HomeViewModel","正确")}
-                    nextPageUrl=rawNextUrl
+                    nextPageUrl=t.nextPageUrl
                     Log.d("HomeViewModel","加载更多成功，$nextPageUrl")
 
                     //合并列表

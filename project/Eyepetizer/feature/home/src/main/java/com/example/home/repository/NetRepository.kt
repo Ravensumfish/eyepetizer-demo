@@ -1,10 +1,6 @@
 package com.example.home.repository
 
-/**
- * @Desc : 首页视频数据类
- * @Author : zjl
- * @Date : 2026/7/17 21:26
- */
+
 
 import com.example.home.api.HomeApi
 import com.example.home.api.DailyApi
@@ -18,7 +14,6 @@ import com.example.home.discoverymodel.DiscoveryCategoryDataItem
 import com.example.home.api.DiscoveryApi
 import com.example.home.discoverymodel.CategoryData
 import com.example.home.playlistmodel.TopicDetailData
-import com.example.home.playlistlistmodel.Data
 import com.example.home.playlistlistmodel.TopicListData
 
 
@@ -64,12 +59,6 @@ class NetRepository {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-
-    fun getMoreCategoryVideos(nextPageUrl: String): Observable<DailyData>{
-        return dailyApi.getMoreDailyVideos(nextPageUrl)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
 
 
     fun getDiscoveryTopics(): Observable<TopicListData>{
