@@ -6,21 +6,21 @@
 
     <fragment
         android:id="@+id/fragment_home"
-        android:name="com.example.home.fragment.HomeFragment"/>
+        android:name="com.example.home.home.ui.HomeFragment"/>
 
     <fragment
         android:id="@+id/fragment_daily"
-        android:name="com.example.home.fragment.DailyFragment"/>
+        android:name="com.example.home.daily.ui.DailyFragment"/>
 
     <fragment
         android:id="@+id/fragment_discovery"
-        android:name="com.example.home.fragment.DiscoveryFragment"/>
+        android:name="com.example.home.discovery.DiscoveryFragment"/>
 
 
 
     <fragment
         android:id="@+id/categoryDetailFragment"
-        android:name="com.example.home.fragment.CategoryDetailFragment"
+        android:name="com.example.home.discovery.category.ui.CategoryDetailFragment"
         android:label="分类详情">
         <argument
             android:name="id"
@@ -38,7 +38,7 @@
 
     <fragment
         android:id="@+id/playListFragment"
-        android:name="com.example.home.fragment.PlayListDetailFragment"
+        android:name="com.example.home.discovery.playlist.ui.PlayListDetailFragment"
         android:label="主题播单">
         <argument
             android:name="id"
@@ -56,7 +56,7 @@
 
     <fragment
         android:id="@+id/myStarFragment"
-        android:name="com.example.home.fragment.MyStarFragment"
+        android:name="com.example.home.mine.fragment.MyStarFragment"
         android:label="收藏列表">
         <argument
             android:name="account"
@@ -65,13 +65,13 @@
 
     <fragment
         android:id="@+id/fragment_mine"
-        android:name="com.example.home.fragment.MineFragment"
+        android:name="com.example.home.mine.fragment.MineFragment"
         android:label="个人主页">
     </fragment>
 
     <fragment
         android:id="@+id/LoginFragment"
-        android:name="com.example.home.fragment.LoginFragment"
+        android:name="com.example.home.mine.fragment.LoginFragment"
         android:label="登录页面">
     </fragment>
 
