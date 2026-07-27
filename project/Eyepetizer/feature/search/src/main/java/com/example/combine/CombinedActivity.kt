@@ -130,10 +130,11 @@ class CombinedActivity : AppCompatActivity() {
     }
 
     fun addRecord(s :String){
-        val set = SPUtils.getStringSet("record")
+        val account = SPUtils.getString("last_account")
+        val set = SPUtils.getStringSet("record_$account")
         recordList = set.toMutableList()
         recordList.add(s)
-        SPUtils.putStringSet("record",recordList)
+        SPUtils.putStringSet("record_$account",recordList)
         searchViewModel.loadRecord()
     }
 
