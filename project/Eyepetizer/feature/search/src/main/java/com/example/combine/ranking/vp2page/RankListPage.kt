@@ -54,7 +54,9 @@ class RankListPage: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
         initData()
+        refresh()
         toVideoDetail()
+        onError()
     }
 
     fun init(){
@@ -65,6 +67,7 @@ class RankListPage: Fragment() {
     }
 
     fun initData(){
+        binding.srRankList.isRefreshing = true
         loadData(index)
     }
 
@@ -74,18 +77,21 @@ class RankListPage: Fragment() {
             0->{
                 viewModel.weeklyList.observe(viewLifecycleOwner){l->
                     rankAdapter.submitList(l)
+                    binding.srRankList.isRefreshing = false
                 }
                 viewModel.loadWeeklyList()
             }
             1->{
                 viewModel.monthlyList.observe(viewLifecycleOwner){l->
                     rankAdapter.submitList(l)
+                    binding.srRankList.isRefreshing = false
                 }
                 viewModel.loadMonthlyList()
             }
             2->{
                 viewModel.historicalList.observe(viewLifecycleOwner){l->
                     rankAdapter.submitList(l)
+                    binding.srRankList.isRefreshing = false
                 }
                 viewModel.loadHistoricalList()
             }
@@ -111,4 +117,28 @@ class RankListPage: Fragment() {
                 .navigation()
         }
     }
+
+    fun onError(){
+        viewModel.error.observe(viewLifecycleOwner){e->
+            if (e!=null){
+                binding.srRankList.visibility = View.GONE
+                binding.noNet.visibility = View.VISIBLE
+                binding.srRankList.isRefreshing = false
+            }else{
+                binding.srRankList.visibility = View.VISIBLE
+                binding.noNet.visibility = View.GONE
+                binding.srRankList.isRefreshing = false
+            }
+        }
+    }
+
+    fun refresh(){
+        binding.srRankList.setOnRefreshListener {
+
+                binding.srRankList.isRefreshing = false
+
+        }
+    }
+
+
 }

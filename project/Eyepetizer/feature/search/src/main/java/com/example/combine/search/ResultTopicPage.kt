@@ -40,6 +40,7 @@ class ResultTopicPage: Fragment() {
         initData()
         refresh()
         loadMore()
+        onError()
     }
 
     fun init(){
@@ -95,4 +96,11 @@ class ResultTopicPage: Fragment() {
             }
         })
     }
+    fun onError(){
+        viewModel.error.observe(viewLifecycleOwner){
+            binding.srSearchResult.visibility = View.GONE
+            binding.noNet.visibility = View.VISIBLE
+        }
+    }
+
 }

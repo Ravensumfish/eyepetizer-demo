@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.example.combine.search.model.AuthorItem
 import com.example.combine.search.model.UserItem
 import com.example.search.R
 import com.example.ui.BaseRvAdapter

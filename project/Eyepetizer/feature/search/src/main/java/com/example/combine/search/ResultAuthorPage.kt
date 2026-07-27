@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.combine.search.adapter.ResultAuthorAdapter
 import com.example.combine.search.adapter.ResultUserAdapter
 import com.example.search.databinding.PageSearchResultBinding
 
@@ -40,6 +39,7 @@ class ResultAuthorPage: Fragment() {
         initData()
         refresh()
         loadMore()
+        onError()
     }
 
     fun init(){
@@ -94,5 +94,12 @@ class ResultAuthorPage: Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
+    }
+
+    fun onError(){
+        viewModel.error.observe(viewLifecycleOwner){
+            binding.srSearchResult.visibility = View.GONE
+            binding.noNet.visibility = View.VISIBLE
+        }
     }
 }

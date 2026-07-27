@@ -93,7 +93,6 @@ class SearchRecordFragment: Fragment() {
         viewModel.weeklyRankList.observe(viewLifecycleOwner){
             l->
             rankAdapter.submitList(l)
-
         }
         viewModel.loadWeeklyRankPreview()
     }
@@ -163,5 +162,6 @@ class SearchRecordFragment: Fragment() {
 
         }
     }
+
 
 }

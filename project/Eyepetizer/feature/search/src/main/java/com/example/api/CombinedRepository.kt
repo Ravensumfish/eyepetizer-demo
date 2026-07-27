@@ -10,8 +10,6 @@ package com.example.api
 
 import android.util.Log
 import com.example.combine.ranking.model.RankListItem
-import com.example.combine.search.model.AuthorItem
-import com.example.combine.search.model.DebugInfo
 import com.example.combine.search.model.ImageItem
 import com.example.combine.search.model.SRItem
 import com.example.combine.search.model.TopicItem
@@ -102,11 +100,15 @@ class CombinedRepository(
 
 
     fun getWeeklyRank(): Observable<List<RankListItem>> {
-        return api.getWeeklyRank().map { response ->
+        return api.getWeeklyRank()
+            .map { response ->
             Log.d("TAG", "getWeeklyRank:response响应$response ")
             response.itemList?.mapNotNull {
                 it.data
             }?.toList()?:emptyList()
+        }
+            .doOnError {e->
+                Log.d("TAG", "getWeeklyRank: 错误$e")
         }
     }
 
@@ -117,6 +119,9 @@ class CombinedRepository(
                 it.data
             }?.toList()?:emptyList()
         }
+            .doOnError {e->
+                Log.d("TAG", "getMonthlyRank: 错误$e")
+            }
     }
 
     fun getHistoricalRank(): Observable<List<RankListItem>> {
@@ -126,5 +131,8 @@ class CombinedRepository(
                 it.data
             }?.toList()?:emptyList()
         }
+            .doOnError {e->
+                Log.d("TAG", "getHistoricalRank: 错误$e")
+            }
     }
 }

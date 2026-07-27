@@ -40,6 +40,7 @@ class ResultImagePage : Fragment() {
         initData()
         refresh()
         loadMore()
+        onError()
     }
 
     fun init(){
@@ -94,5 +95,12 @@ class ResultImagePage : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
+    }
+
+    fun onError(){
+        viewModel.error.observe(viewLifecycleOwner){
+            binding.srSearchResult.visibility = View.GONE
+            binding.noNet.visibility = View.VISIBLE
+        }
     }
 }
