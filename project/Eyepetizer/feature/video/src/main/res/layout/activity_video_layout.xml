@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
+        android:id="@+id/l_video_top"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
@@ -48,7 +50,8 @@
     <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
         android:id="@+id/gsy_video_player"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:background="@color/black"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_video"

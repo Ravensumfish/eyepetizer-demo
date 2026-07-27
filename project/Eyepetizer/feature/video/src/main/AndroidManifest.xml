@@ -12,7 +12,9 @@
             android:name=".VideoActivity"
             android:exported="true"
             android:theme="@style/Theme.Eyepetizer"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:screenOrientation="fullSensor">
 
 
 

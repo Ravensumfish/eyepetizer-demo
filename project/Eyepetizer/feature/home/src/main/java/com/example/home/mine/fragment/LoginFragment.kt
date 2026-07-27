@@ -13,15 +13,16 @@ import com.example.home.R
 import com.example.home.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment(){
-    lateinit var binding: FragmentLoginBinding
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
     private var account = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentLoginBinding.inflate(layoutInflater)
+    ): View {
+        _binding = FragmentLoginBinding.inflate(layoutInflater)
         return binding.root
 
     }
@@ -30,6 +31,11 @@ class LoginFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         Log.d("TAG", "LoginFragment: 跳转登录页")
         initClick()
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 
     fun login(){

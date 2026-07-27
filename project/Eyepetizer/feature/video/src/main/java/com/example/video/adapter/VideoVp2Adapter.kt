@@ -20,6 +20,8 @@ class VideoVp2Adapter(activity: VideoActivity) : FragmentStateAdapter(activity){
         }
     }
 
+
+
     override fun getItemCount(): Int = 2
 
 

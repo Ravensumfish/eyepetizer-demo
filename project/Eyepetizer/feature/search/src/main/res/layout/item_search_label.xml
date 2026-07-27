@@ -15,7 +15,7 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:textColor="@color/black"
-        android:textSize="10dp"
+        android:textSize="12sp"
         app:cornerRadius="50dp" />
 
 

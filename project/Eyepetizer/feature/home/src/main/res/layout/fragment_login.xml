@@ -28,72 +28,69 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.85">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/img_login_btn"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:clickable="true"
-                android:src="@color/gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.15"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="登 录"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/img_login_btn"
-                app:layout_constraintStart_toStartOf="@+id/img_login_btn"
-                app:layout_constraintTop_toTopOf="@+id/img_login_btn" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/iv_login_account"
-                android:layout_width="0dp"
+                android:gravity="center_horizontal"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
                 android:hint="输入账号登录/注册"
-                android:textColorHint="@color/gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.65" />
+                android:textColorHint="@color/gray" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/iv_login_password"
-                android:layout_width="0dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
                 android:hint="输入密码"
-                android:textColorHint="@color/gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_login_account"
-                app:layout_constraintWidth_percent="0.65" />
+                android:textColorHint="@color/gray" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="新用户将自动注册\n密码字符数大于6小于16\n仅限a~z,A~Z,0~9"
+                android:text="新用户将自动注册\n密码字符数大于6小于16,仅限a~z,A~Z,0~9"
                 android:textColor="@color/gray"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/img_login_btn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_login_password"
-                app:layout_constraintVertical_bias="0.891" />
+                android:textSize="12sp" />
 
+            <FrameLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/img_login_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:src="@color/gray" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="登 录"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/img_login_btn"
+                    app:layout_constraintStart_toStartOf="@+id/img_login_btn"
+                    app:layout_constraintTop_toTopOf="@+id/img_login_btn" />
+            </FrameLayout>
+
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 

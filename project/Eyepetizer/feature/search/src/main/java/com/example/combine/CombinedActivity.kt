@@ -32,11 +32,12 @@ import com.therouter.router.Route
 @Route(path = "/feature/search/CombinedActivity")
 class CombinedActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityCombinedBinding
+    private var _binding: ActivityCombinedBinding? = null
+    private val binding get() = _binding!!
     private val searchViewModel: SearchViewModel by viewModels()
-    lateinit var recordFragment: SearchRecordFragment
-    lateinit var resultFragment: SearchResultFragment
-    lateinit var rankFragment : RankListFragment
+    private var recordFragment: SearchRecordFragment? =null
+    private var resultFragment: SearchResultFragment? =null
+    private var rankFragment : RankListFragment? =null
     lateinit var fragmentManager : FragmentManager
 
     private var recordList = mutableListOf<String>()
@@ -44,7 +45,7 @@ class CombinedActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCombinedBinding.inflate(layoutInflater)
+        _binding = ActivityCombinedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         Log.d("TAG", "onCreate: 初始化开始")
@@ -57,6 +58,7 @@ class CombinedActivity : AppCompatActivity() {
         toSearch()
         toRanking()
         backToRecord()
+        listener()
         quit()
 
     }
@@ -66,7 +68,7 @@ class CombinedActivity : AppCompatActivity() {
         resultFragment = SearchResultFragment()
         rankFragment = RankListFragment()
         fragmentManager = supportFragmentManager
-        showFragment(recordFragment,"record")
+        recordFragment?.let { showFragment(it,"record") }
 
     }
 
@@ -76,26 +78,30 @@ class CombinedActivity : AppCompatActivity() {
     }
 
     fun showFragment(f: Fragment,name:String){
+        val current = fragmentManager.findFragmentById(R.id.fragment_container_view)
+        Log.d("TAG", "showFragment: 目前:$current")
+
         fragmentManager.commit {
-            //跳转前将目标同名页面一并跳出
-            fragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            setReorderingAllowed(true)
-            replace(R.id.fragment_container_view,f)
-            addToBackStack(name)
+
+                //跳转前将目标同名页面一并跳出
+              //  fragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+               // setReorderingAllowed(true)
+                replace(R.id.fragment_container_view,f,name)
+               // addToBackStack(name)
         }
     }
 
     fun toSearch(){
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextChange(p0: String?): Boolean {
-                showFragment(recordFragment,"record")
+                recordFragment?.let { showFragment(it,"record") }
                 return false
             }
 
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (p0!=null) {
                     searchViewModel.setQuery(p0)
-                    showFragment(resultFragment,"result")
+                    resultFragment?.let { showFragment(it,"result") }
                     addRecord(p0)
                 }
                 return false
@@ -105,20 +111,20 @@ class CombinedActivity : AppCompatActivity() {
     }
 
     fun toRanking(){
-       recordFragment.setRankClickCallBack(object : RankClickCallBack {
+       recordFragment?.setRankClickCallBack(object : RankClickCallBack {
            override fun rankPreviewClick() {
                Log.d("TAG", "rankPreviewClick: 点击了周排行预览！")
                binding.searchBar.visibility = View.GONE
-               showFragment(rankFragment,"ranking")
+               rankFragment?.let { showFragment(it,"ranking") }
            }
        })
     }
 
     fun backToRecord(){
-        rankFragment.setBackClickCallBack(object : BackClickCallBack {
+        rankFragment?.setBackClickCallBack(object : BackClickCallBack {
             override fun clickArrowBack() {
                 binding.searchBar.visibility = View.VISIBLE
-                showFragment(recordFragment,"record")
+                recordFragment?.let { showFragment(it,"record") }
             }
         })
     }
@@ -132,7 +138,7 @@ class CombinedActivity : AppCompatActivity() {
     }
 
     fun getQueryFromFragment(){
-        recordFragment.setLabelClickCallBack(object : LabelClickCallBack {
+        recordFragment?.setLabelClickCallBack(object : LabelClickCallBack {
             override fun getQueryFromLabel(s: String) {
                 binding.searchView.setQuery(s,true)
             }
@@ -143,6 +149,26 @@ class CombinedActivity : AppCompatActivity() {
         binding.tvSearchQuit.setOnClickListener {
             finish()
         }
+    }
+
+    fun listener(){
+        fragmentManager.addOnBackStackChangedListener {
+            val currentFragment = fragmentManager.findFragmentById(R.id.fragment_container_view)
+            binding.searchBar.visibility = when (currentFragment) {
+                is RankListFragment -> View.GONE
+                else -> View.VISIBLE
+            }
+        }
+    }
+
+
+    override fun onDestroy() {
+
+        recordFragment = null
+        rankFragment = null
+        resultFragment = null
+        _binding = null
+        super.onDestroy()
     }
 
 }

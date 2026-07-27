@@ -20,26 +20,28 @@ import com.example.home.R
 import com.example.home.databinding.FragmentMineBinding
 import java.io.File
 
-class MineFragment: Fragment() {
+class MineFragment : Fragment() {
 
-    lateinit var binding: FragmentMineBinding
+    private var _binding: FragmentMineBinding? = null
+    private val binding get()= _binding!!
 
     var account: String? = null
 
     private var name: String? = null
     private var description: String? = null
-    //注册图片选择启动器，用户选择完图片后触发回调
-    private var pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){
-        uri ->
-        if (uri!=null){
-            binding.imgMineAvatar.setImageURI(uri)
-            saveAvatar(uri)
-        }else{
-            Log.d("TAG", "媒体选择回调: 未选择图片")
-        }
-    }
 
-    lateinit var resolver : ContentResolver
+    //注册图片选择启动器，用户选择完图片后触发回调
+    private var pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                binding.imgMineAvatar.setImageURI(uri)
+                saveAvatar(uri)
+            } else {
+                Log.d("TAG", "媒体选择回调: 未选择图片")
+            }
+        }
+
+    lateinit var resolver: ContentResolver
 
 
     override fun onCreateView(
@@ -47,7 +49,7 @@ class MineFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMineBinding.inflate(inflater, container, false)
+        _binding = FragmentMineBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -57,25 +59,34 @@ class MineFragment: Fragment() {
         initClick()
     }
 
+    override fun onDestroyView() {
+        _binding =null
+        super.onDestroyView()
+    }
+
     fun init() {
         checkLogin()
-        binding.tvMineName.text = "null"
+        binding.tvMineName.text = "开眼用户"
+        binding.tvMineDescription.text = "个人签名"
         account = SPUtils.getString("last_account")
         Log.d("TAG", "initmine:拿到account$account ")
 
         name = SPUtils.getString("name_$account")
         description = SPUtils.getString("des_$account")
-        binding.tvMineName.text = name
-        binding.tvMineDescription.text = description
+        if (name != null && description != null){
+            binding.tvMineName.text = name
+            binding.tvMineDescription.text = description
+        }
+
         loadAvatar()
     }
 
 
-    fun checkLogin(){
+    fun checkLogin() {
         val b = SPUtils.getBool("isLogin")
         Log.d("TAG", "checkLogin: 是否已经登录：$b")
         if (!b) {
-           findNavController().navigate(R.id.LoginFragment)
+            findNavController().navigate(R.id.LoginFragment)
         }
     }
 
@@ -105,23 +116,23 @@ class MineFragment: Fragment() {
         }
 
         binding.tvMineStar.setOnClickListener {
-            val bundle= bundleOf(
+            val bundle = bundleOf(
                 "account" to account
             )
-            findNavController().navigate(R.id.myStarFragment,bundle)
+            findNavController().navigate(R.id.myStarFragment, bundle)
         }
 
         binding.tvQuitLogin.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("提示")
                 .setMessage("确定要退出登录吗？")
-                .setPositiveButton("确定"){_,_->
-                    SPUtils.putBool("isLogin",false)
-                    SPUtils.putString("last_account","")
-                    SPUtils.putString("last_password","")
-                    findNavController().popBackStack(R.id.fragment_home,false)
+                .setPositiveButton("确定") { _, _ ->
+                    SPUtils.putBool("isLogin", false)
+                    SPUtils.putString("last_account", "")
+                    SPUtils.putString("last_password", "")
+                    findNavController().popBackStack(R.id.fragment_home, false)
                 }
-                .setNegativeButton("取消",null)
+                .setNegativeButton("取消", null)
                 .show()
         }
 
@@ -133,7 +144,6 @@ class MineFragment: Fragment() {
     }
 
 
-
     fun save(name: String, des: String) {
         SPUtils.putString("name_$account", name)
         SPUtils.putString("des_$account", des)
@@ -143,33 +153,35 @@ class MineFragment: Fragment() {
         Log.d("TAG", "save des:${SPUtils.getString("des_$account")} ")
     }
 
-    fun saveAvatar(uri: Uri){
+    fun saveAvatar(uri: Uri) {
+
+
         resolver = requireContext().contentResolver
 
         try {
-             resolver.openInputStream(uri)?.use {input->
-                 //本地存入路径
-                val file = File(requireContext().filesDir,"avatar_$account.jpg")
-                file.outputStream().use {output->
+            resolver.openInputStream(uri)?.use { input ->
+                //本地存入路径
+                val file = File(requireContext().filesDir, "avatar_$account.jpg")
+                file.outputStream().use { output ->
                     input.copyTo(output)
                 }
-                 SPUtils.putString("avatar_$account",file.absolutePath)
+                SPUtils.putString("avatar_$account", file.absolutePath)
             }
 
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    fun loadAvatar(){
+    fun loadAvatar() {
         val path = SPUtils.getString("avatar_$account")
-        if (path!=null && File(path).exists()){
+        if (path != null && File(path).exists()) {
             //使用glide加载图片
             Glide.with(requireContext())
                 .load(File(path))
                 .placeholder(com.example.ui.R.color.gray)
                 .into(binding.imgMineAvatar)
-        }else{
+        } else {
             binding.imgMineAvatar.setImageResource(com.example.ui.R.color.gray)
         }
     }

@@ -14,9 +14,10 @@ import com.example.video.adapter.CommentRvAdapter
 import com.example.video.databinding.FragmentVideoCommentsBinding
 
 class VideoCommentFragment: Fragment() {
-    lateinit var binding: FragmentVideoCommentsBinding
+    private var _binding: FragmentVideoCommentsBinding? = null
+    private val binding get() = _binding!!
     private val viewModel : VideoViewModel by activityViewModels()
-    private val adapter= CommentRvAdapter()
+    private var adapter : CommentRvAdapter?= CommentRvAdapter()
     private var hot = true
 
 
@@ -25,7 +26,7 @@ class VideoCommentFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentVideoCommentsBinding.inflate(inflater,container,false)
+        _binding = FragmentVideoCommentsBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -38,6 +39,14 @@ class VideoCommentFragment: Fragment() {
         loadMore()
     }
 
+    override fun onDestroyView() {
+        binding.rvVideoComments.adapter = null
+        adapter = null
+        _binding = null
+        super.onDestroyView()
+    }
+
+
     fun init(){
         binding.rvVideoComments.adapter = adapter
         binding.rvVideoComments.layoutManager = LinearLayoutManager(requireContext())
@@ -46,7 +55,7 @@ class VideoCommentFragment: Fragment() {
     fun initData(){
         viewModel.commentList.observe(viewLifecycleOwner){
             l->
-            adapter.submitList(l)
+            adapter?.submitList(l)
         }
         viewModel.loadComments()
         viewModel.sortBy(true)

@@ -17,13 +17,15 @@ import com.example.video.databinding.FragmentVideoBriefBinding
 import com.example.video.model.RelatedItem
 
 class VideoBriefFragment : Fragment(){
-    lateinit var binding : FragmentVideoBriefBinding
-    private var adapter = BriefRvAdapter()
+    private var _binding : FragmentVideoBriefBinding? =null
+    private val binding get() = _binding!!
+    private var adapter : BriefRvAdapter? = BriefRvAdapter()
     private val viewModel : VideoViewModel by activityViewModels()
     private var videoClickCallBack : VideoClickCallBack? = null
     private var id = 0
     lateinit var brief : RelatedItem
     private var account :String? = null
+    private var commentClickCallBack: CommentClickCallBack?=null
 
 
     override fun onCreateView(
@@ -31,7 +33,7 @@ class VideoBriefFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentVideoBriefBinding.inflate(inflater,container,false)
+        _binding = FragmentVideoBriefBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -39,6 +41,13 @@ class VideoBriefFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         init()
         initEvent()
+    }
+
+    override fun onDestroyView() {
+        binding.rvVideoRelated.adapter = null
+        adapter = null
+        _binding = null
+        super.onDestroyView()
     }
 
     fun init(){
@@ -76,7 +85,7 @@ class VideoBriefFragment : Fragment(){
     fun rvData(){
         viewModel.relatedList.observe(viewLifecycleOwner){
                 l->
-            adapter.submitList(l)
+            adapter?.submitList(l)
             binding.nestedVideoBrief.scrollTo(0,0)
 
         }
@@ -93,6 +102,7 @@ class VideoBriefFragment : Fragment(){
     override fun onAttach(context: Context) {
         super.onAttach(context)
         videoClickCallBack = context as VideoClickCallBack
+        commentClickCallBack = context as CommentClickCallBack
         Log.d("TAG", "onAttach: $context")
         Log.d("TAG", "onAttach:callback set: $videoClickCallBack")
     }
@@ -103,7 +113,7 @@ class VideoBriefFragment : Fragment(){
     }
 
     fun openVideoDetail(){
-        adapter.onItemClick = { pos,item ->
+        adapter?.onItemClick = { pos,item ->
             Log.d("TAG", "clickItem: 点击video${item.id}")
             videoClickCallBack?.onVideoClick(item.id)
 
@@ -118,6 +128,16 @@ class VideoBriefFragment : Fragment(){
         clickLike()
         clickStar()
         clickShare()
+        clickComment()
+    }
+
+    interface CommentClickCallBack{
+        fun toComment()
+    }
+    fun clickComment(){
+        binding.imgVideoComment.setOnClickListener {
+            commentClickCallBack?.toComment()
+        }
     }
 
     fun clickShare(){
@@ -232,6 +252,8 @@ class VideoBriefFragment : Fragment(){
         binding.tvVideoGoodCount.text = tvGood
         binding.tvVideoStar.text = tvStar
     }
+
+
 
 
 }

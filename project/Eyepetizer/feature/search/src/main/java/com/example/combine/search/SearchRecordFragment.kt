@@ -24,10 +24,12 @@ import com.therouter.TheRouter
 
 class SearchRecordFragment: Fragment() {
 
-    lateinit var binding: FragmentSearchRecordBinding
-    private  val recordAdapter : SearchLabelRvAdapter = SearchLabelRvAdapter()
-    private  val recommendAdapter : SearchLabelRvAdapter = SearchLabelRvAdapter()
-    private val rankAdapter : RankPreviewAdapter = RankPreviewAdapter()
+    private var _binding: FragmentSearchRecordBinding? = null
+    private val binding get() = _binding!!
+    //声明为var且可空，防止引用一直持有无法被自动回收
+    private var recordAdapter : SearchLabelRvAdapter? = null
+    private  var recommendAdapter : SearchLabelRvAdapter? = null
+    private var rankAdapter : RankPreviewAdapter? = null
     private val viewModel : SearchViewModel by activityViewModels()
 
     private var labelClickCallBack : LabelClickCallBack? =null
@@ -41,7 +43,7 @@ class SearchRecordFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchRecordBinding.inflate(inflater,container,false)
+        _binding = FragmentSearchRecordBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -51,6 +53,7 @@ class SearchRecordFragment: Fragment() {
         init()
         initData()
         initEvent()
+
     }
 
     fun initData(){
@@ -68,7 +71,7 @@ class SearchRecordFragment: Fragment() {
 
     fun loadRecommendLabels(){
         viewModel.recommendList.observe(viewLifecycleOwner){ list->
-            recommendAdapter.submitList(list)
+            recommendAdapter?.submitList(list)
         }
 
         viewModel.loadRecommend()
@@ -83,7 +86,7 @@ class SearchRecordFragment: Fragment() {
                 binding.searchRecord.visibility = View.VISIBLE
             }
 
-            recordAdapter.submitList(list)
+            recordAdapter?.submitList(list)
         }
         viewModel.loadRecord()
 
@@ -92,7 +95,7 @@ class SearchRecordFragment: Fragment() {
     fun loadWeeklyRank(){
         viewModel.weeklyRankList.observe(viewLifecycleOwner){
             l->
-            rankAdapter.submitList(l)
+            rankAdapter?.submitList(l)
         }
         viewModel.loadWeeklyRankPreview()
     }
@@ -102,6 +105,9 @@ class SearchRecordFragment: Fragment() {
     }
 
     fun initRv(){
+        recordAdapter = SearchLabelRvAdapter()
+        recommendAdapter = SearchLabelRvAdapter()
+        rankAdapter = RankPreviewAdapter()
         binding.rvRecord.adapter = recordAdapter
         binding.rvRecommend.adapter = recommendAdapter
         binding.rvRk.adapter = rankAdapter
@@ -113,12 +119,12 @@ class SearchRecordFragment: Fragment() {
 
     fun clickItem(){
 
-        recordAdapter.onItemClick = onItemClick@{ pos,item ->
+        recordAdapter?.onItemClick = onItemClick@{ pos,item ->
             labelClickCallBack?.getQueryFromLabel(item)
             Log.d("TAG", "clickItem: 点击record$item")
         }
 
-        recommendAdapter.onItemClick = onItemClick@{ pos,item ->
+        recommendAdapter?.onItemClick = onItemClick@{ pos,item ->
             labelClickCallBack?.getQueryFromLabel(item)
             Log.d("TAG", "clickItem: 点击recommend$item")
         }
@@ -135,7 +141,7 @@ class SearchRecordFragment: Fragment() {
 
     fun clickDeleteRecord(){
         binding.tvSearchRecordDelete.setOnClickListener {
-            recordAdapter.submitList(emptyList())
+            recordAdapter?.submitList(emptyList())
             SPUtils.putStringSet("record",emptyList())
         }
     }
@@ -144,7 +150,7 @@ class SearchRecordFragment: Fragment() {
         binding.cdSearchRk.setOnClickListener {
             rankClickCallBack?.rankPreviewClick()
         }
-        rankAdapter.onItemClick = {pos,item->
+        rankAdapter?.onItemClick = {pos,item->
             Log.d("TAG", "RecordFragment:toVideoDetail:点击了$pos,正在执行跳转 ")
             TheRouter
                 .build("/feature/video/VideoActivity")
@@ -161,6 +167,21 @@ class SearchRecordFragment: Fragment() {
                 .navigation()
 
         }
+    }
+
+    //处理内存泄漏：rv未正常回收
+    override fun onDestroyView() {
+        //先清空adapter对rv的引用
+        binding.rvRecord.adapter = null
+        binding.rvRecommend.adapter = null
+        binding.rvRk.adapter = null
+        //置空adapter
+        recordAdapter = null
+        rankAdapter = null
+        recommendAdapter = null
+        _binding = null
+        super.onDestroyView()
+
     }
 
 

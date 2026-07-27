@@ -133,6 +133,7 @@
                         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:nestedScrollingEnabled="false"
                         android:id="@+id/rv_rk"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

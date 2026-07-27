@@ -134,9 +134,7 @@ class RankListPage: Fragment() {
 
     fun refresh(){
         binding.srRankList.setOnRefreshListener {
-
                 binding.srRankList.isRefreshing = false
-
         }
     }
 

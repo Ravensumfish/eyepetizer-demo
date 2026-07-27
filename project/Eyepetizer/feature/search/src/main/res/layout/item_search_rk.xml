@@ -4,15 +4,15 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:padding="10dp"
+    android:layout_marginTop="10dp"
     android:layout_marginBottom="5dp">
 
 
 
     <androidx.cardview.widget.CardView
-        app:cardCornerRadius="10dp"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        app:cardCornerRadius="8dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:outlineSpotShadowColor="@color/trans">
     <ImageView
         android:id="@+id/img_search_rk"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:text="预览"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:layout_marginStart="15dp"/>
 
 </LinearLayout>

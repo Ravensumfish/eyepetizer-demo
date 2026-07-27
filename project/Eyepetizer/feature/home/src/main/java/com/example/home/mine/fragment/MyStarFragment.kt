@@ -19,17 +19,18 @@ import com.google.gson.reflect.TypeToken
 import com.therouter.TheRouter
 
 class MyStarFragment : Fragment(){
-    lateinit var binding: FragmentMyStarBinding
-    private var adapter =  MyStarAdapter()
+    private var _binding: FragmentMyStarBinding? = null
+    private val binding get() = _binding!!
+    private var adapter : MyStarAdapter?=  MyStarAdapter()
     private var account :String? = null
-    lateinit var sp: SharedPreferences
+    private var sp: SharedPreferences? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMyStarBinding.inflate(inflater,container,false)
+        _binding = FragmentMyStarBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -41,6 +42,13 @@ class MyStarFragment : Fragment(){
         refresh()
     }
 
+    override fun onDestroyView() {
+        binding.rvStarList.adapter = null
+        adapter = null
+        _binding = null
+        super.onDestroyView()
+    }
+
     fun init(){
         sp = SPUtils.getSP()
         binding.rvStarList.adapter = adapter
@@ -48,7 +56,7 @@ class MyStarFragment : Fragment(){
         arguments?.let {
             account = it.getString("account")
         }
-        adapter.submitList(getDataItemList())
+        adapter?.submitList(getDataItemList())
     }
 
     fun clickBack(){
@@ -58,7 +66,7 @@ class MyStarFragment : Fragment(){
     }
 
     fun clickItem(){
-        adapter.onItemClick = {pos,item->
+        adapter?.onItemClick = {pos,item->
             TheRouter
                 .build("/feature/video/VideoActivity")
                 .withInt("id",item.id)
@@ -79,14 +87,14 @@ class MyStarFragment : Fragment(){
     fun getDataItemList(): List<VideoItem>{
         val gson = Gson()
         val NAME = "${account}_VIDEO_ID_LIST"
-        val json = sp.getString(NAME, "[]")
+        val json = sp?.getString(NAME, "[]")
         Log.d("TAG", "getDataItemList:访问id库:$NAME ")
         val type = object : TypeToken<List<Int>>() {}.type
         val idList: MutableList<Int> = gson.fromJson(json, type)
 
         val videoList = mutableListOf<VideoItem>()
         for (id in idList) {
-            val json = sp.getString("video_$id", "")
+            val json = sp?.getString("video_$id", "")
             if (!json.isNullOrEmpty()) {
                 val item = gson.fromJson(json, VideoItem::class.java)
                 videoList.add(item)
@@ -99,7 +107,7 @@ class MyStarFragment : Fragment(){
 
     fun refresh(){
         binding.srMyStar.setOnRefreshListener {
-            adapter.submitList(getDataItemList())
+            adapter?.submitList(getDataItemList())
             binding.srMyStar.isRefreshing = false
         }
     }

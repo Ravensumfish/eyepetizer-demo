@@ -20,15 +20,16 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class SearchResultFragment : Fragment(){
 
-    lateinit var pageAdapter : ResultVp2Adapter
-    lateinit var binding : FragmentSearchResultBinding
+    private var pageAdapter : ResultVp2Adapter? = null
+    private var _binding : FragmentSearchResultBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchResultBinding.inflate(inflater,container,false)
+        _binding = FragmentSearchResultBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -52,5 +53,12 @@ class SearchResultFragment : Fragment(){
                 else -> ""
             }
         }.attach()
+    }
+
+    override fun onDestroyView() {
+        binding.vp2SearchResult.adapter = null
+        pageAdapter = null
+        _binding = null
+        super.onDestroyView()
     }
 }
