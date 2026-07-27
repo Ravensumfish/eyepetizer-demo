@@ -58,7 +58,6 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:video"))
     implementation(project(":feature:search"))
-    implementation(project(":feature:login"))
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.9.8")
     implementation("androidx.navigation:navigation-ui-ktx:2.9.8")

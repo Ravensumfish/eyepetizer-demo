@@ -39,6 +39,7 @@ class ResultAuthorAdapter: BaseRvAdapter<AuthorItem>() {
 
         Glide.with(holder.itemView.context)
             .load(item.avatar)
+            .placeholder(R.color.gray)
             .centerCrop()
             .into(holder.img)
     }

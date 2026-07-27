@@ -8,12 +8,14 @@
 package com.example.combine.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.combine.search.adapter.ResultAuthorAdapter
 import com.example.combine.search.adapter.ResultUserAdapter
 import com.example.search.databinding.PageSearchResultBinding
@@ -36,6 +38,8 @@ class ResultAuthorPage: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
         initData()
+        refresh()
+        loadMore()
     }
 
     fun init(){
@@ -50,5 +54,45 @@ class ResultAuthorPage: Fragment() {
             adapter.submitList(l)
         }
         viewModel.loadAuthorResult()
+    }
+
+    fun refresh(){
+
+        viewModel.isRefreshing.observe(viewLifecycleOwner){
+                b->
+            binding.srSearchResult.isRefreshing = b
+        }
+
+        binding.srSearchResult.setOnRefreshListener {
+            if (binding.srSearchResult.verticalScrollbarPosition == 0
+                && viewModel.isRefreshing.value == false){
+                viewModel.refreshAuthor()
+            }
+        }
+
+        Log.d("TAG", "refresh:${viewModel.isRefreshing.value} ")
+    }
+
+    fun loadMore(){
+        if (viewModel.isLoading.value==true)return
+
+        binding.rvSearchResult.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val lastItem = layoutManager.findLastVisibleItemPosition()
+                val totalCount = layoutManager.itemCount
+
+                //防重复加载  预加载  只支持向下滑动
+                if (viewModel.isLoading.value!=true && lastItem >=totalCount-4 && dy>0){
+                    Log.d("TAG", "onScrolledVideo: 正在加载更多")
+                    viewModel.loadMoreAuthor()
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
     }
 }

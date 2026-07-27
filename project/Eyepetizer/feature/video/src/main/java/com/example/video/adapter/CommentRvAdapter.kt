@@ -28,12 +28,13 @@ class CommentRvAdapter: BaseRvAdapter<CommentItem>() {
 
         val item = data[position]
 
-        holder.name.text = item.user.nickname
+        holder.name.text = item.user?.nickname?:""
         holder.content.text = item.message
         holder.createTime.text = TimeUtils.transToDate(item.createTime)
         holder.likeCount.text = item.likeCount.toString()
         Glide.with(holder.itemView.context)
-            .load(item.user.avatar)
+            .load(item.user?.avatar?:"")
+            .placeholder(com.example.ui.R.color.gray)
             .into(holder.avatar)
     }
 

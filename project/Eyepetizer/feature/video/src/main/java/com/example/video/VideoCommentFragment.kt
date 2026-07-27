@@ -1,12 +1,15 @@
 package com.example.video
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.video.adapter.CommentRvAdapter
 import com.example.video.databinding.FragmentVideoCommentsBinding
 
@@ -31,6 +34,8 @@ class VideoCommentFragment: Fragment() {
         init()
         initData()
         changeOrder()
+        refresh()
+        loadMore()
     }
 
     fun init(){
@@ -61,5 +66,43 @@ class VideoCommentFragment: Fragment() {
             viewModel.sortBy(hot)
 
         }
+    }
+
+    fun refresh(){
+        viewModel.isRefreshing.observe(viewLifecycleOwner){
+            b->
+            binding.srComment.isRefreshing = b
+        }
+
+        binding.srComment.setOnRefreshListener {
+            if (binding.srComment.verticalScrollbarPosition == 0
+                && viewModel.isRefreshing.value !=true){
+                hot = false
+                binding.tvCommentsOrder.text = "按时间"
+                binding.tvCommentsType.text = "最新评论"
+
+                viewModel.refreshComments()
+            }
+        }
+    }
+
+    fun loadMore(){
+        if (viewModel.isLoading.value==true)return
+
+
+        binding.nestedVideoComment.viewTreeObserver.addOnScrollChangedListener(object : ViewTreeObserver.OnScrollChangedListener {
+            override fun onScrollChanged() {
+                val scroll = binding.nestedVideoComment
+                val child = scroll.getChildAt(0)
+
+                //绝对高度>目前总高度-预加载高度时进行加载
+                //向下滚动时，y++，scrolly变大，加上屏幕可见高度后为已划过高度
+                if (viewModel.isLoading.value != true && scroll.scrollY + scroll.height>child.height-150){
+                    Log.d("TAG", "onScrollChanged: 正在加载更多评论")
+                    viewModel.loadMoreComments()
+                }
+            }
+
+        })
     }
 }

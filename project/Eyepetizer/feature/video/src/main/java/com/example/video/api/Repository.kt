@@ -23,17 +23,16 @@ class Repository(private val api: APIService) {
         }
     }
 
-    fun getComments(videoId:String): Observable<List<CommentItem>>{
-        return  api.getComments(videoId).map {
-            response ->
-            Log.d("TAG", "getComments: $response")
-            response.itemList.filter {
-                it.type == "reply"
-            }.map {
-                it.data
-            }.toList()
-        }.doOnError {
+
+    fun getComments(videoId:String): Observable<CommentResponse>{
+        return  api.getComments(videoId).doOnError {
             Log.d("TAG", "getComments:请求出错 ")
+        }
+    }
+
+    fun getNextComments(url:String): Observable<CommentResponse>{
+        return  api.getNextComments(url).doOnError {
+            Log.d("TAG", "getNextComments:请求出错 ")
         }
     }
 }

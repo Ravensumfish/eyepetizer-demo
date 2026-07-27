@@ -55,12 +55,13 @@ data class CommentItem(
 )
 data class User(
     val uid:Int,
-    val nickname:String,
-    val avatar : String
+    val nickname:String?,
+    val avatar : String?
 )
 
 data class CommentResponse(
-    val itemList:List<CommentData>
+    val itemList:List<CommentData>,
+    val nextPageUrl:String
 )
 data class CommentData(
     val type:String,

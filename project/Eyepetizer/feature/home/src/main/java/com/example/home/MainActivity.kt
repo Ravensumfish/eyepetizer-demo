@@ -2,13 +2,10 @@ package com.example.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import com.example.home.databinding.ActivityMainBinding
 import androidx.navigation.findNavController
-import androidx.core.view.updatePadding
 import com.therouter.router.Route
 
 @Route(path = "/feature/home/MainActivity")
@@ -52,4 +49,6 @@ class MainActivity :  AppCompatActivity() {
             binding.bottomBar.setDefaultPage()
         }
     }
+
+
 }

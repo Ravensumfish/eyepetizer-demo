@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.data.store.SPUtils
 import com.example.video.adapter.VideoVp2Adapter
 import com.example.video.databinding.ActivityVideoLayoutBinding
 import com.example.video.model.Author
@@ -24,7 +25,7 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
     lateinit var pageAdapter : VideoVp2Adapter
     private val viewModel : VideoViewModel by viewModels()
     @Autowired
-     var id :Int = 0
+     var id :Int = 7788
     @Autowired
      var title : String = ""
     @Autowired
@@ -48,10 +49,11 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVideoLayoutBinding.inflate(layoutInflater)
+        //通过TheRouter与注解拿到所需数据
         TheRouter.inject(this)
         setContentView(binding.root)
         init()
-
+        back()
     }
 
     override fun onPause() {
@@ -70,7 +72,8 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
     }
 
     fun init(){
-        //通过ARouter与注解拿到所需数据
+
+        SPUtils.init(this)
 
         Log.d("跳转", "videoActivity:跳转成功 ")
         Log.d("TAG", "videoActivity 目前视频的id: $id")
@@ -139,6 +142,12 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
             c,
             listOf(Tag(category))
         )
+    }
+
+    fun back(){
+        binding.imgVideoBack.setOnClickListener {
+            finish()
+        }
     }
 
 }
