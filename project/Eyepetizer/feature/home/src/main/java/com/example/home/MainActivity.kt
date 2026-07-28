@@ -24,9 +24,6 @@ class MainActivity :  AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 设置窗口
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
         // 绑定布局
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

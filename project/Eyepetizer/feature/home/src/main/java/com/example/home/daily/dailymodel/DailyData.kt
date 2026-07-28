@@ -10,7 +10,7 @@ data class DailyData(
     val adExist: Boolean,
     val count: Int,
     val itemList: List<Item>,
-    val nextPageUrl: String,
+    val nextPageUrl: String,  //下一页地址
     val total: Int
 )
 
@@ -27,7 +27,7 @@ data class Data(
     val actionUrl: String,
     val adTrack: List<Any?>,
     val content: Content,
-    val dataType: String,
+    val dataType: String,  //区分视频和其他类型信息
     val follow: Any,
     val header: Header,
     val id: Int,

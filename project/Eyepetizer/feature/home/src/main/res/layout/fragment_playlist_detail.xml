@@ -107,6 +107,16 @@
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="The End"
+                    android:textStyle="bold|italic"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="50dp"
+                    android:layout_marginTop="50dp"/>
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

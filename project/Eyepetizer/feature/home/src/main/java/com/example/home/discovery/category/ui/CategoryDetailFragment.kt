@@ -28,6 +28,8 @@ class CategoryDetailFragment: Fragment() {
     private val videoAdapter = CategoryDetailAdapter()
     private val headerAdapter = CategoryHeaderAdapter()
 
+
+    //适配RV，防止加载更多时卡顿
     val concatAdapter = ConcatAdapter(headerAdapter, videoAdapter)
 
 
@@ -152,7 +154,8 @@ class CategoryDetailFragment: Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        binding.rvCategory.adapter=null
         _binding = null
+        super.onDestroyView()
     }
 }
