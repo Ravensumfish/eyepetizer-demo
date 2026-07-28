@@ -142,7 +142,8 @@ class SearchRecordFragment: Fragment() {
     fun clickDeleteRecord(){
         binding.tvSearchRecordDelete.setOnClickListener {
             recordAdapter?.submitList(emptyList())
-            SPUtils.putStringSet("record",emptyList())
+            val account = SPUtils.getString("last_account")
+            SPUtils.putStringSet("record_$account",emptyList())
         }
     }
 
