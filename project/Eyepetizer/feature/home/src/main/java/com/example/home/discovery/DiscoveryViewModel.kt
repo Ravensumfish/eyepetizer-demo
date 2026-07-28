@@ -40,9 +40,6 @@ class DiscoveryViewModel: ViewModel() {
     val isRefreshing: LiveData<Boolean>
         get() = _isRefreshing
 
-    fun setPlayListId(id: Int) {
-        this.playListId = id
-    }
 
     fun refresh() {
         _isRefreshing.value = true

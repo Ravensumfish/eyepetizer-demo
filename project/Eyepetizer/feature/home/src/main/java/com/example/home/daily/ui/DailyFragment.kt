@@ -46,7 +46,6 @@ class DailyFragment : Fragment() {
         }
 
         binding.ivSearch.setOnClickListener {
-            Log.d("TAG", "ivSearch 被点击了！！！")
             TheRouter
                 .build("/feature/search/CombinedActivity")
                 .navigation()
@@ -114,6 +113,7 @@ class DailyFragment : Fragment() {
         }
     }
 
+    //防止内存泄漏
     override fun onDestroyView() {
         binding.rvDaily.adapter=null
         _binding = null

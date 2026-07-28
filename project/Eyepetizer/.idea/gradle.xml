@@ -13,9 +13,7 @@
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/data_store" />
-            <option value="$PROJECT_DIR$/core/image_loader" />
             <option value="$PROJECT_DIR$/core/net" />
-            <option value="$PROJECT_DIR$/core/router" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/core/utils" />
             <option value="$PROJECT_DIR$/feature" />

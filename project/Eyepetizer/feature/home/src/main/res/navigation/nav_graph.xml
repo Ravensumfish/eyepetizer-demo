@@ -25,15 +25,6 @@
         <argument
             android:name="id"
             app:argType="integer" />
-        <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="img"
-            app:argType="string" />
-        <argument
-            android:name="description"
-            app:argType="string"/>
     </fragment>
 
     <fragment
@@ -43,15 +34,6 @@
         <argument
             android:name="id"
             app:argType="integer" />
-        <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="img"
-            app:argType="string" />
-        <argument
-            android:name="description"
-            app:argType="string"/>
     </fragment>
 
     <fragment
