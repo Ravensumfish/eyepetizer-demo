@@ -161,7 +161,8 @@ class SearchViewModel : ViewModel() {
     fun loadRecord(){
         if (SPUtils.getSPContext() == null)return
 
-        val set = SPUtils.getStringSet("record")
+        val account = SPUtils.getString("last_account")
+        val set = SPUtils.getStringSet("record_$account")
         _recordList.value = set.toList()
     }
 
@@ -494,4 +495,8 @@ class SearchViewModel : ViewModel() {
         query = s
     }
 
+    override fun onCleared() {
+        disposable.clear()
+        super.onCleared()
+    }
 }

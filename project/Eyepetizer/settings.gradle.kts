@@ -39,8 +39,6 @@ include(":core:utils") //工具
 include(":core:net") //网络
 include(":core:data_store")//数据存储 如SharedPreference
 include(":core:ui") // 高复用率的ui组件
-include(":core:image_loader") //加载图片的工具
-include(":core:router") //路由
 
     include(":feature") //特性
     include(":feature:home") //首页

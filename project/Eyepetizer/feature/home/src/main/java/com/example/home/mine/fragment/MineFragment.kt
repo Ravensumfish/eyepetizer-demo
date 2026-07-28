@@ -13,11 +13,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.data.store.SPUtils
 import com.example.home.R
 import com.example.home.databinding.FragmentMineBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 class MineFragment : Fragment() {
@@ -36,6 +40,7 @@ class MineFragment : Fragment() {
             if (uri != null) {
                 binding.imgMineAvatar.setImageURI(uri)
                 saveAvatar(uri)
+
             } else {
                 Log.d("TAG", "媒体选择回调: 未选择图片")
             }
@@ -145,6 +150,8 @@ class MineFragment : Fragment() {
 
 
     fun save(name: String, des: String) {
+        this.name = name
+        this.description = des
         SPUtils.putString("name_$account", name)
         SPUtils.putString("des_$account", des)
         binding.tvMineName.text = name
@@ -154,14 +161,16 @@ class MineFragment : Fragment() {
     }
 
     fun saveAvatar(uri: Uri) {
-
-
         resolver = requireContext().contentResolver
 
         try {
             resolver.openInputStream(uri)?.use { input ->
                 //本地存入路径
-                val file = File(requireContext().filesDir, "avatar_$account.jpg")
+                val old = SPUtils.getString("avatar_$account")
+                old?.let {
+                    File(it).delete()
+                }
+                val file = File(requireContext().filesDir, "avatar_${account}.jpg")
                 file.outputStream().use { output ->
                     input.copyTo(output)
                 }
@@ -179,6 +188,9 @@ class MineFragment : Fragment() {
             //使用glide加载图片
             Glide.with(requireContext())
                 .load(File(path))
+                //禁用缓存
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .placeholder(com.example.ui.R.color.gray)
                 .into(binding.imgMineAvatar)
         } else {

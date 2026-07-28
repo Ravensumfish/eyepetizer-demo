@@ -85,6 +85,7 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
             orientationUtils.releaseListener()
         }
         binding.vp2Video.adapter = null
+        binding.gsyVideoPlayer.release()
         pageAdapter = null
         _binding = null
 
