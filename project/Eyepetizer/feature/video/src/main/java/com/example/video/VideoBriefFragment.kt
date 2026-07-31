@@ -190,7 +190,7 @@ class VideoBriefFragment : Fragment(){
                     SPUtils.putBool("star_${id}_$account", false)
                     binding.tvVideoStar.text = "收藏"
 
-                    SPUtils.deleteDataItem(brief, brief.id)
+                    SPUtils.deleteDataItem(brief.id)
                     Log.d("TAG", "clickStar: 取消收藏")
 
 

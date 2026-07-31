@@ -104,7 +104,6 @@ class VideoActivity : AppCompatActivity(), VideoBriefFragment.VideoClickCallBack
 
     fun init(){
 
-        SPUtils.init(this)
         Log.d("TAG", "videoActivity:跳转成功 ")
         Log.d("TAG", "videoActivity 目前视频的id: $id")
         viewModel.setVideoId(id)

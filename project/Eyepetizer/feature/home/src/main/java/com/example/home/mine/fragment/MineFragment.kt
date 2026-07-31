@@ -170,7 +170,7 @@ class MineFragment : Fragment() {
                 old?.let {
                     File(it).delete()
                 }
-                val file = File(requireContext().filesDir, "avatar_${account}.jpg")
+                val file = File(requireContext().filesDir, "avatar_$account.jpg")
                 file.outputStream().use { output ->
                     input.copyTo(output)
                 }

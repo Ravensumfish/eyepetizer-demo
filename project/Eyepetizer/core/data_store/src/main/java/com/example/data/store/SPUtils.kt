@@ -20,17 +20,11 @@ object SPUtils {
             SP_NAME, Context.MODE_PRIVATE
         )
     }
-    fun getSPContext() : Context?{
-        return appContext
-    }
 
     fun init(context: Context) {
         appContext = context.applicationContext
     }
 
-    fun getSP() : SharedPreferences{
-        return sp
-    }
 
     //将具体数据类对象转化为json存入sp，实现轻量级存储，可用于视频点赞收藏等等
     //目前定死为视频列表，可更改传参变得更泛用
@@ -60,7 +54,7 @@ object SPUtils {
         }
     }
 
-    fun <T> deleteDataItem(item:T,id: Int){
+    fun  deleteDataItem(id: Int){
         val account = getString("last_account")
         val gson = Gson()
 
@@ -91,6 +85,11 @@ object SPUtils {
     fun getString(key : String) : String?{
         val df = null
         return sp.getString(key,df)?:df
+    }
+
+
+    fun getStr(key : String,default:String) : String {
+        return sp.getString(key, default) ?: default
     }
 
     fun putStringSet(key : String, list : List<String>){

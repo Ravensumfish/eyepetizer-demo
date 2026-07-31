@@ -73,7 +73,6 @@ class CombinedActivity : AppCompatActivity() {
     }
 
     fun init(){
-        SPUtils.init(this)
         initFm()
     }
 

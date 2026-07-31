@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 //传入数据类型，rv布局 R.layout.xxx
-abstract  class BaseRvAdapter<T>()
+abstract  class BaseRvAdapter<T>
     : RecyclerView.Adapter<BaseRvAdapter<T>.BaseRvViewHolder>(){
 
     protected val data = mutableListOf<T>()

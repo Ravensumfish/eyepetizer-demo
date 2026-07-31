@@ -23,7 +23,6 @@ class MyStarFragment : Fragment(){
     private val binding get() = _binding!!
     private var adapter : MyStarAdapter?=  MyStarAdapter()
     private var account :String? = null
-    private var sp: SharedPreferences? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +49,6 @@ class MyStarFragment : Fragment(){
     }
 
     fun init(){
-        sp = SPUtils.getSP()
         binding.rvStarList.adapter = adapter
         binding.rvStarList.layoutManager = LinearLayoutManager(requireContext())
         arguments?.let {
@@ -87,14 +85,14 @@ class MyStarFragment : Fragment(){
     fun getDataItemList(): List<VideoItem>{
         val gson = Gson()
         val NAME = "${account}_VIDEO_ID_LIST"
-        val json = sp?.getString(NAME, "[]")
+        val json = SPUtils.getStr(NAME, "[]")
         Log.d("TAG", "getDataItemList:访问id库:$NAME ")
         val type = object : TypeToken<List<Int>>() {}.type
         val idList: MutableList<Int> = gson.fromJson(json, type)
 
         val videoList = mutableListOf<VideoItem>()
         for (id in idList) {
-            val json = sp?.getString("video_$id", "")
+            val json = SPUtils.getString("video_$id")
             if (!json.isNullOrEmpty()) {
                 val item = gson.fromJson(json, VideoItem::class.java)
                 videoList.add(item)
